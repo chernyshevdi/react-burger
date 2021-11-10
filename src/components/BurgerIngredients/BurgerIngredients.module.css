@@ -1,0 +1,17 @@
+.block {
+    max-width: 600px;
+    overflow: hidden;
+}
+.nav {
+    display: flex;
+}
+.item {
+    display: flex;
+    padding: 0;
+    flex-wrap: wrap;
+    
+}
+.mainMenu {
+    max-height: 700px;
+    overflow-y: scroll;
+}
