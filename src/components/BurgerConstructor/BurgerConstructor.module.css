@@ -13,13 +13,12 @@
 }
 .item {
     list-style-type: none;
-    max-width: 536px;
-    min-height: 80px;
+    min-width: 580px;
+    height: 80px;
     margin-right: 16px;
     display: flex;
     align-items: center;
-    object-fit: cover;
-    overflow: hidden;
+    margin: 0;
 }
 .total {
     margin-right: 16px;

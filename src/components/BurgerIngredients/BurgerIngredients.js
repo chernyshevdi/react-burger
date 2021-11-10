@@ -15,7 +15,7 @@ function BurgerIngredients(props) {
             <nav className={`${styleIngredients.nav} text text_type_main-default mb-10`}>
                 <Tab value="bun" active={current === 'bun'} onClick={setCurrent}> Булки </Tab>
                 <Tab value="sauces" active={current === 'sauces'} onClick={setCurrent}> Соусы </Tab>
-                <Tab value="toppings" active={current === 'toppings'} onClick={setCurrent}> Начинки </Tab>
+                <Tab value="main" active={current === 'main'} onClick={setCurrent}> Начинки </Tab>
             </nav>
             
                 <main className={styleIngredients.mainMenu}>
@@ -45,7 +45,7 @@ function BurgerIngredients(props) {
                         <h2 className='text text_type_main-medium mb-6'>{'Начинки'}</h2>
                         <ul className={styleIngredients.item}>
                             {props.data.map((item)=>{
-                                if(item.type === "topping") {
+                                if(item.type === "main") {
                                     return <ProductItem card={item} key={item._id}/>
                                 }
                             })}
