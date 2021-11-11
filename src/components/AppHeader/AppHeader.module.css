@@ -1,8 +1,9 @@
 .block {
     height: 90px;
     display: flex;
+    align-items: center;
     position: relative;
-    justify-content: space-between;
+    justify-content: center;
     background-color: #1C1C21;
 }
 .button {
@@ -27,4 +28,8 @@
     min-width: 340px;
     justify-content: space-between;
 }
-
+.container {
+    display: flex;
+    justify-content: space-between;
+    width: 1240px;
+}

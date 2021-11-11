@@ -3,9 +3,11 @@
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  max-width: 1240px;
+  
 }
 .menu  {
+  margin: 0 auto;
+  max-width: 1240px;
   display: flex;
   justify-content: space-between;
 }
