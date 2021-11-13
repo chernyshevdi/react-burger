@@ -5,9 +5,24 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ProductItem from "../ProductItem/ProductItem";
 import PropTypes from "prop-types";
 import { types } from "../../utils/types";
+import ModalOverlay from '../Modal/ModalOverlay';
+import Modal from '../Modal/Modal';
+import IngredientDetails from '../Modal/IngredientDetails/IngredientDetails';
 
 function BurgerIngredients(props) {
+
   const [current, setCurrent] = React.useState("bun");
+  /*const [open, setOpen] = React.useState(false);
+  const [ing, setIng] = React.useState();
+
+  function openModal(item) {
+    setIng(item)
+    setOpen(true)
+  }
+
+  function closeModal() {
+    setOpen(false)
+  }*/
 
   return (
     <section className={styleIngredients.block}>
@@ -37,7 +52,7 @@ function BurgerIngredients(props) {
           <ul className={styleIngredients.item}>
             {props.data.map((item) => {
               if (item.type === "bun") {
-                return <ProductItem card={item} key={item._id} />;
+                return <ProductItem card={item} key={item._id} onOpen={props.openModal} onClose={props.onClose} isOpen={props.isOpen}/>                        
               }
             })}
           </ul>
@@ -48,7 +63,7 @@ function BurgerIngredients(props) {
           <ul className={styleIngredients.item}>
             {props.data.map((item) => {
               if (item.type === "sauce") {
-                return <ProductItem card={item} key={item._id} />;
+                return <ProductItem card={item} key={item._id} onOpen={props.openModal}/>;
               }
             })}
           </ul>
@@ -59,14 +74,20 @@ function BurgerIngredients(props) {
           <ul className={styleIngredients.item}>
             {props.data.map((item) => {
               if (item.type === "main") {
-                return <ProductItem card={item} key={item._id} />;
+                return <ProductItem card={item} key={item._id} onOpen={props.openModal}/>;
               }
             })}
           </ul>
         </div>
       </section>
+    {
+      <Modal onClose={props.onClose} isOpen={props.isOpen}>
+        <IngredientDetails data={props.popup}/>
+        <ModalOverlay onClose={props.onClose} isOpen={props.isOpen}/>
+      </Modal>}
     </section>
   );
+  
 }
 
 BurgerIngredients.propTypes = {

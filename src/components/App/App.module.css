@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   margin: 0 auto;
-  
+  position: relative;
 }
 .menu  {
   margin: 0 auto;

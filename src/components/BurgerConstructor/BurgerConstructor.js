@@ -9,12 +9,21 @@ import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 import { types } from "../../utils/types";
+import ModalOverlay from '../Modal/ModalOverlay';
+import Modal from '../Modal/Modal';
+import OrderDetails from "../Modal/OrderDetails/OrderDetails"
 
 function BurgerConstructor(props) {
-  const [element, setElement] = useState([]);
-  useEffect(() => {
-    setElement(props.data);
-  });
+
+  /*const [open, setOpen] = React.useState(false);
+
+  function openModal() {
+    setOpen(true)
+  }
+  function closeModal() {
+    setOpen(false)
+  }
+*/
 
   return (
     <section className={`${styleConstructor.block} mt-25`}>
@@ -29,9 +38,9 @@ function BurgerConstructor(props) {
           />
         </li>
         <div className={styleConstructor.container}>
-          {element.map((item) => {
+          {props.data.map((item) => {
             if (item.type !== "bun") {
-              return (
+              return ((
                 <li className={styleConstructor.item} key={item._id}>
                   <DragIcon />
                   <ConstructorElement
@@ -40,7 +49,7 @@ function BurgerConstructor(props) {
                     thumbnail={item.image}
                   />
                 </li>
-              );
+              ));
             }
           })}
         </div>
@@ -64,10 +73,15 @@ function BurgerConstructor(props) {
           </p>
           <CurrencyIcon />
         </div>
-        <Button type="primary" size="large">
+        <Button type="primary" size="large" onClick={props.openModal}>
           Оформить заказ
         </Button>
       </div>
+      {
+      <Modal onClose={props.onClose} isOpen={props.isOpen}>
+        <OrderDetails />
+        <ModalOverlay onClose={props.onClose} isOpen={props.isOpen}/>
+      </Modal>}
     </section>
   );
 }

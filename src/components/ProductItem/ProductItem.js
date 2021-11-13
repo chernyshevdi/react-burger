@@ -4,8 +4,14 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
+import IngredientDetails from '../Modal/IngredientDetails/IngredientDetails';
 
 function ProductItem(props) {
+
+  function handleClick() {
+    props.onOpen(props.card);
+  }
+  
   return (
     <section className={`${styleCard.card} ml-4 mb-10`}>
       <div className={styleCard.count}>
@@ -14,6 +20,7 @@ function ProductItem(props) {
       <img
         className={`${styleCard.image} mb-1 ml-4 mr-4`}
         src={props.card.image}
+        onClick={handleClick}
       />
       <div className={`${styleCard.price} mb-1`}>
         <p className="text text_type_digits-default mr-2">{props.card.price}</p>
@@ -22,6 +29,7 @@ function ProductItem(props) {
       <p className={`${styleCard.name} text text_type_main-default`}>
         {props.card.name}
       </p>
+      
     </section>
   );
 }
