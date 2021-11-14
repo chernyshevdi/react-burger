@@ -1,8 +1,8 @@
 import React from 'react';
-import styleIngredient from "../IngredientDetails/IngredientDetails.module.css";
+import styleIngredient from "../ingredient-details/ingredient-details.module.css";
 import ReactDOM from 'react-dom';
 import PropTypes from "prop-types";
-import { types } from "../../../utils/types";
+import { ingredientType } from "../../utils/types";
 
 function IngredientDetails(props) {
 
@@ -10,7 +10,7 @@ function IngredientDetails(props) {
         <>
      <h2 className={`${styleIngredient.name}text text_type_main-large mt-10 ml-10`}>Детали ингредиента</h2>
      <div className={styleIngredient.description}>
-         <img className={styleIngredient.img} src={props.data.image_large}/>
+         <img className={styleIngredient.img} src={props.data.image_large} alt={props.data.name}/>
          <p className="text text_type_main-medium mt-4 mb-8">{props.data.name}</p>
          <ul className={`${styleIngredient.stat} mb-15`}>
              <div className={`${styleIngredient.list} mr-5`}>
@@ -39,7 +39,7 @@ function IngredientDetails(props) {
 }
 
 IngredientDetails.propTypes = {
-    data: PropTypes.shape(types)
+    data: PropTypes.shape(ingredientType).isRequired
   };
 
 export default IngredientDetails;

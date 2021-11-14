@@ -1,5 +1,5 @@
 import React from 'react';
-import styleOrder from "../OrderDetails/OrderDetails.module.css";
+import styleOrder from "../order-details/order-details.module.css";
 
 function OrderDetails() {
     return((

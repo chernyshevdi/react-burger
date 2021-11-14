@@ -1,26 +1,15 @@
 import React, { useEffect } from "react";
 import styleApp from "./App.module.css";
-import AppHeader from "../AppHeader/AppHeader";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import { data } from "../../utils/data";
+import AppHeader from "../app-header/app-header";
+import BurgerIngredients from "../burger-ingredients/burger-ingredients";
+import BurgerConstructor from "../burger-constructor/burger-constructor";
+import {getIngredients} from "../../utils/api";
 
 function App() {
 
-  const IngredientsData = 'https://norma.nomoreparties.space/api/ingredients';
-
   const [ingredients, setIngredients] = React.useState([]);
 
-  const getIngredients = () => {
-    return fetch(IngredientsData)
-    .then((res) => {
-      if (res.ok) {
-        return res.json();
-      } else {
-        return Promise.reject(`Ошибка: ${res.status}`);
-      }
-    });
-  }
+
   
   React.useEffect(() => {
     getIngredients()
@@ -32,33 +21,25 @@ function App() {
     })
   },[])
 
-  const [openIngredient, setOpenopenIngredient] = React.useState(false);
+  const [openIngredient, setOpenIngredient] = React.useState(false);
   const [ing, setIng] = React.useState();
-  const [openOrder, setopenOrder] = React.useState(false);
+  const [openOrder, setOpenOrder] = React.useState(false);
 
   function openModalOrder() {
-    setopenOrder(true)
+    setOpenOrder(true)
   }
 
   function openModalIgredients(item) {
     setIng(item)
-    setOpenopenIngredient(true)
+    setOpenIngredient(true)
   }
 
   function closeModal() {
-    setOpenopenIngredient(false)
-    setopenOrder(false)
+    setOpenIngredient(false)
+    setOpenOrder(false)
   }
 
-  function escClose(event){
-    if(event.keyCode === 27) {
-      closeModal()
-    }
-  }
 
-  useEffect(() => {
-    document.addEventListener("keydown", escClose);
-  })
 
   return (
     <div className={styleApp.page}>

@@ -1,28 +1,17 @@
 import React, { useEffect } from "react";
 import { render } from "@testing-library/react";
-import styleIngredients from "../BurgerIngredients/BurgerIngredients.module.css";
+import styleIngredients from "../burger-ingredients/burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import ProductItem from "../ProductItem/ProductItem";
+import ProductItem from "../product-item/product-item";
 import PropTypes from "prop-types";
-import { types } from "../../utils/types";
-import ModalOverlay from '../Modal/ModalOverlay';
-import Modal from '../Modal/Modal';
-import IngredientDetails from '../Modal/IngredientDetails/IngredientDetails';
+import { ingredientType } from "../../utils/types";
+import ModalOverlay from '../modal/modal-overlay';
+import Modal from '../modal/modal';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 function BurgerIngredients(props) {
 
   const [current, setCurrent] = React.useState("bun");
-  /*const [open, setOpen] = React.useState(false);
-  const [ing, setIng] = React.useState();
-
-  function openModal(item) {
-    setIng(item)
-    setOpen(true)
-  }
-
-  function closeModal() {
-    setOpen(false)
-  }*/
 
   return (
     <section className={styleIngredients.block}>
@@ -91,7 +80,11 @@ function BurgerIngredients(props) {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(types)).isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
+  openModal: PropTypes.func.isRequired,
+  onClose: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  popup: PropTypes.shape(ingredientType).isRequired
 };
 
 export default BurgerIngredients;

@@ -1,10 +1,10 @@
-import styleCard from "../ProductItem/ProductItem.module.css";
+import styleCard from "../product-item/product-item.module.css";
 import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import IngredientDetails from '../Modal/IngredientDetails/IngredientDetails';
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 function ProductItem(props) {
 
@@ -21,6 +21,7 @@ function ProductItem(props) {
         className={`${styleCard.image} mb-1 ml-4 mr-4`}
         src={props.card.image}
         onClick={handleClick}
+        alt={props.card.name}
       />
       <div className={`${styleCard.price} mb-1`}>
         <p className="text text_type_digits-default mr-2">{props.card.price}</p>
@@ -40,6 +41,7 @@ ProductItem.propTypes = {
     price: PropTypes.number.isRequired,
     name: PropTypes.string.isRequired,
   }),
+  onOpen: PropTypes.func.isRequired
 };
 
 export default ProductItem;

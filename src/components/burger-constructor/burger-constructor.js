@@ -1,4 +1,4 @@
-import styleConstructor from "../BurgerConstructor/BurgerConstructor.module.css";
+import styleConstructor from "../burger-constructor/burger-constructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
   CurrencyIcon,
@@ -8,22 +8,12 @@ import {
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
-import { types } from "../../utils/types";
-import ModalOverlay from '../Modal/ModalOverlay';
-import Modal from '../Modal/Modal';
-import OrderDetails from "../Modal/OrderDetails/OrderDetails"
+import { ingredientType } from "../../utils/types";
+import ModalOverlay from '../modal/modal-overlay';
+import Modal from '../modal/modal';
+import OrderDetails from "../order-details/order-details"
 
 function BurgerConstructor(props) {
-
-  /*const [open, setOpen] = React.useState(false);
-
-  function openModal() {
-    setOpen(true)
-  }
-  function closeModal() {
-    setOpen(false)
-  }
-*/
 
   return (
     <section className={`${styleConstructor.block} mt-25`}>
@@ -87,7 +77,11 @@ function BurgerConstructor(props) {
 }
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(types)).isRequired,
+  data: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
+  openModal: PropTypes.func.isRequired,
+  isOpen: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired
+  
 };
 
 export default BurgerConstructor;

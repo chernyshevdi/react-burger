@@ -1,4 +1,4 @@
-import styleHeader from "../AppHeader/AppHeader.module.css";
+import styleHeader from "../app-header/app-header.module.css";
 import { Logo } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
   BurgerIcon,
@@ -16,7 +16,7 @@ function AppHeader() {
             <p
               className={`${styleHeader.buttonName} text text_type_main-default ml-2`}
             >
-              {"Контруктор"}
+              Контруктор
             </p>
           </button>
 
@@ -25,7 +25,7 @@ function AppHeader() {
             <p
               className={`${styleHeader.buttonName} text text_type_main-default ml-2`}
             >
-              {"Лента заказов"}
+              Лента заказов
             </p>
           </button>
         </div>
@@ -39,7 +39,7 @@ function AppHeader() {
           <p
             className={`${styleHeader.buttonName} text text_type_main-default ml-2`}
           >
-            {"Личный кабинет"}
+            Личный кабинет
           </p>
         </button>
       </div>

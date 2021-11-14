@@ -5,7 +5,7 @@
     overflow: visible;
 }
 .done {
-    background-image: url('../../../images/done.gif');
+    background-image: url('../../images/done.gif');
     width: 120px;
     height: 120px;
 }

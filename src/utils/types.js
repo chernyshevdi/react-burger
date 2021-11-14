@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-export const types = {
+export const ingredientType = {
     _id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     type: PropTypes.string.isRequired,
