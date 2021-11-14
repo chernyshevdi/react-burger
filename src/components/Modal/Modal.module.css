@@ -1,0 +1,22 @@
+.popup {
+    width: 720px;
+    min-height: fit-content;
+    position: fixed;
+    margin: auto;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    border-radius: 40px;
+    background-color: #131316;
+    opacity: 1;
+    overflow: hidden;
+    z-index: 2;
+}
+
+.close {
+    position: absolute;
+    top: 50px;
+    right: 40px;
+    cursor: pointer;
+}

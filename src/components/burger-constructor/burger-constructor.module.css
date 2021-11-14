@@ -1,0 +1,36 @@
+.block {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 620px;
+}
+.item {
+    list-style-type: none;
+    min-width: 580px;
+    height: 80px;
+    margin-right: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.total {
+    margin-right: 16px;
+    display: flex;
+    align-items: center;
+}
+.sum {
+    display: flex;
+    align-items: center;
+}
+.container {
+    display: flex;
+    flex-direction: column;
+    overflow-y: scroll;
+    gap: 10px;
+}
