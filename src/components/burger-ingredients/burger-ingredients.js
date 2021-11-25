@@ -1,5 +1,4 @@
-import React, { useEffect } from "react";
-import { render } from "@testing-library/react";
+import React from "react";
 import styleIngredients from "../burger-ingredients/burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ProductItem from "../product-item/product-item";
@@ -22,16 +21,13 @@ function BurgerIngredients(props) {
         className={`${styleIngredients.nav} text text_type_main-default mb-10`}
       >
         <Tab value="bun" active={current === "bun"} onClick={setCurrent}>
-          {" "}
-          Булки{" "}
+          Булки
         </Tab>
         <Tab value="sauces" active={current === "sauces"} onClick={setCurrent}>
-          {" "}
-          Соусы{" "}
+          Соусы
         </Tab>
         <Tab value="main" active={current === "main"} onClick={setCurrent}>
-          {" "}
-          Начинки{" "}
+          Начинки
         </Tab>
       </nav>
 
@@ -41,7 +37,8 @@ function BurgerIngredients(props) {
           <ul className={styleIngredients.item}>
             {props.data.map((item) => {
               if (item.type === "bun") {
-                return <ProductItem card={item} key={item._id} onOpen={props.openModal} onClose={props.onClose} isOpen={props.isOpen}/>                        
+                return <ProductItem card={item} key={item._id} onOpen={props.openModal} 
+                onClose={props.onClose} isOpen={props.isOpen}/>                        
               }
             })}
           </ul>
@@ -84,7 +81,7 @@ BurgerIngredients.propTypes = {
   openModal: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  popup: PropTypes.shape(ingredientType).isRequired
+  popup: PropTypes.shape(ingredientType)
 };
 
 export default BurgerIngredients;

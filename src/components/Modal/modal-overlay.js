@@ -1,6 +1,5 @@
 import React from 'react';
 import overlayStyle from './modal-overlay.module.css';
-import Modal from './modal';
 import ReactDOM from 'react-dom';
 import PropTypes from "prop-types";
 import {modalRoot} from "../../utils/constants.js"

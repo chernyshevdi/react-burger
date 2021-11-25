@@ -4,7 +4,6 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import IngredientDetails from '../ingredient-details/ingredient-details';
 
 function ProductItem(props) {
 
