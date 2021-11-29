@@ -2,86 +2,107 @@ import styleConstructor from "../burger-constructor/burger-constructor.module.cs
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import {
   CurrencyIcon,
-  LockIcon,
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import PropTypes from "prop-types";
-import { ingredientType } from "../../utils/types";
-import ModalOverlay from '../modal/modal-overlay';
-import Modal from '../modal/modal';
-import OrderDetails from "../order-details/order-details"
+import ModalOverlay from "../modal/modal-overlay";
+import Modal from "../modal/modal";
+import OrderDetails from "../order-details/order-details";
+import { BurgerContext } from "../../contexts/burger-constructor-context";
 
 function BurgerConstructor(props) {
+
+  const { selectedIngredients } = React.useContext(BurgerContext);
+  const [price, setPrice] = React.useState(0);
+  
+  useEffect(()=> {
+   const sumResult = selectedIngredients.other.reduce((cur, item) => {
+      return item.price + cur
+    }, 0)
+    setPrice((selectedIngredients.bun.price * 2) + sumResult)
+  },[selectedIngredients])
+
+  function handleSubmit(e) {
+  e.preventDefault()
+
+    let selectedIngredients = selectedIngredients.other.map((item) => {
+        return item._id
+      })
+      selectedIngredients.push(selectedIngredients.bun._id)
+
+    props.onUpdateOrder(
+      selectedIngredients
+    )
+  }
 
   return (
     <section className={`${styleConstructor.block} mt-25`}>
       <ul className={`${styleConstructor.list}`}>
-        <li className={styleConstructor.item}>
+        
+          <li className={styleConstructor.item} >
           <ConstructorElement
-            type="top"
-            isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={200}
-            thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
+            text={`${selectedIngredients.bun.name ? selectedIngredients.bun.name : 'Булка'} (верх)`}
+            price={selectedIngredients.bun.price}
+            thumbnail={selectedIngredients.bun.image}
           />
         </li>
+        
+
         <div className={styleConstructor.container}>
-          {props.data.map((item) => {
-            if (item.type !== "bun") {
-              return ((
-                <li className={styleConstructor.item} key={item._id}>
-                  <DragIcon />
-                  <ConstructorElement
-                    text={item.name}
-                    price={item.price}
-                    thumbnail={item.image}
-                  />
-                </li>
-              ));
-            }
+          {selectedIngredients.other.map((item, index) => {
+            return (
+              <li className={styleConstructor.item} key={String(item._id) + index}>
+                <DragIcon />
+                <ConstructorElement
+                  text={item.name ? item.name : 'начинка булки'}
+                  price={item.price}
+                  thumbnail={item.image}
+                />
+              </li>
+            );
           })}
         </div>
 
-        <li className={styleConstructor.item}>
+        <li className={styleConstructor.item} >
           <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text="Краторная булка N-200i (низ)"
-            price={200}
-            thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
+            text={`${selectedIngredients.bun.name ? selectedIngredients.bun.name : 'Булка'} (низ)`}
+            price={selectedIngredients.bun.price}
+            thumbnail={selectedIngredients.bun.image}
           />
         </li>
+
       </ul>
+
       <div className={`${styleConstructor.total} mt-10`}>
         <div className={`${styleConstructor.sum} mr-10`}>
           <p
             className={`${styleConstructor.sumText} mr-2 text text_type_digits-medium`}
-          >
-            610
-          </p>
+          >{price ? price : 0}</p>
           <CurrencyIcon />
         </div>
-        <Button type="primary" size="large" onClick={props.openModal}>
-          Оформить заказ
-        </Button>
+        <form onSubmit={handleSubmit}>
+          <Button type="primary" size="large" onClick={props.openModal}>
+            Оформить заказ
+          </Button>
+        </form>
       </div>
       {
-      <Modal onClose={props.onClose} isOpen={props.isOpen}>
-        <OrderDetails />
-        <ModalOverlay onClose={props.onClose} isOpen={props.isOpen}/>
-      </Modal>}
+        <Modal onClose={props.onClose} isOpen={props.isOpen}>
+          <OrderDetails />
+          <ModalOverlay onClose={props.onClose} isOpen={props.isOpen} />
+        </Modal>
+      }
     </section>
   );
 }
 
 BurgerConstructor.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
   openModal: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired
-  
+  onClose: PropTypes.func.isRequired,
+  onUpdateOrder: PropTypes.func.isRequired
 };
 
 export default BurgerConstructor;
