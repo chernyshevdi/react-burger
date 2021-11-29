@@ -14,23 +14,23 @@ import { BurgerContext } from "../../contexts/burger-constructor-context";
 
 function BurgerConstructor(props) {
 
-  const { filtered } = React.useContext(BurgerContext);
+  const { selectedIngredients } = React.useContext(BurgerContext);
   const [price, setPrice] = React.useState(0);
   
   useEffect(()=> {
-   let q = filtered.other.reduce((cur, item) => {
+   const sumResult = selectedIngredients.other.reduce((cur, item) => {
       return item.price + cur
     }, 0)
-    setPrice((filtered.bun.price * 2) + q)
-  },[filtered])
+    setPrice((selectedIngredients.bun.price * 2) + sumResult)
+  },[selectedIngredients])
 
   function handleSubmit(e) {
   e.preventDefault()
 
-    let selectedIngredients = filtered.other.map((item) => {
+    let selectedIngredients = selectedIngredients.other.map((item) => {
         return item._id
       })
-      selectedIngredients.push(filtered.bun._id)
+      selectedIngredients.push(selectedIngredients.bun._id)
 
     props.onUpdateOrder(
       selectedIngredients
@@ -41,22 +41,22 @@ function BurgerConstructor(props) {
     <section className={`${styleConstructor.block} mt-25`}>
       <ul className={`${styleConstructor.list}`}>
         
-          <li className={styleConstructor.item} key={filtered.bun._id}>
+          <li className={styleConstructor.item} >
           <ConstructorElement
-            text={`${filtered.bun.name} (верх)`}
-            price={filtered.bun.price}
-            thumbnail={filtered.bun.image}
+            text={`${selectedIngredients.bun.name ? selectedIngredients.bun.name : 'Булка'} (верх)`}
+            price={selectedIngredients.bun.price}
+            thumbnail={selectedIngredients.bun.image}
           />
         </li>
         
 
         <div className={styleConstructor.container}>
-          {filtered.other.map((item) => {
+          {selectedIngredients.other.map((item, index) => {
             return (
-              <li className={styleConstructor.item} key={item._id}>
+              <li className={styleConstructor.item} key={String(item._id) + index}>
                 <DragIcon />
                 <ConstructorElement
-                  text={item.name}
+                  text={item.name ? item.name : 'начинка булки'}
                   price={item.price}
                   thumbnail={item.image}
                 />
@@ -65,11 +65,11 @@ function BurgerConstructor(props) {
           })}
         </div>
 
-        <li className={styleConstructor.item} key={filtered.bun._id}>
+        <li className={styleConstructor.item} >
           <ConstructorElement
-            text={`${filtered.bun.name} (низ)`}
-            price={filtered.bun.price}
-            thumbnail={filtered.bun.image}
+            text={`${selectedIngredients.bun.name ? selectedIngredients.bun.name : 'Булка'} (низ)`}
+            price={selectedIngredients.bun.price}
+            thumbnail={selectedIngredients.bun.image}
           />
         </li>
 
@@ -79,7 +79,7 @@ function BurgerConstructor(props) {
         <div className={`${styleConstructor.sum} mr-10`}>
           <p
             className={`${styleConstructor.sumText} mr-2 text text_type_digits-medium`}
-          >{price}</p>
+          >{price ? price : 0}</p>
           <CurrencyIcon />
         </div>
         <form onSubmit={handleSubmit}>
