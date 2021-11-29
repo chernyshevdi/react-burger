@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styleIngredients from "../burger-ingredients/burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ProductItem from "../product-item/product-item";
@@ -7,10 +7,23 @@ import { ingredientType } from "../../utils/types";
 import ModalOverlay from '../modal/modal-overlay';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import { useDispatch, useSelector } from 'react-redux';
+import { getItems } from '../../services/reducers/reducer';
 
 function BurgerIngredients(props) {
 
   const [current, setCurrent] = React.useState("bun");
+
+  const dispatch = useDispatch(); // ф-ия отправляет экшены
+
+  //данные ингредиентов из хранилища
+  const { ingredients, ingredientsRequest } = useSelector(state => state.ingredientsReducer); 
+
+  //отправляем запрос к апи
+  useEffect(() => {
+    dispatch(getItems())
+  },[dispatch])
+
 
   return (
     <section className={styleIngredients.block}>
@@ -35,7 +48,7 @@ function BurgerIngredients(props) {
         <div>
           <h2 className="text text_type_main-medium mb-6">{"Булки"}</h2>
           <ul className={styleIngredients.item}>
-            {props.data.map((item) => {
+            {ingredients.map((item) => {
               if (item.type === "bun") {
                 return <ProductItem card={item} key={item._id} onOpen={props.openModal} 
                 onClose={props.onClose} isOpen={props.isOpen}/>                        
@@ -47,7 +60,7 @@ function BurgerIngredients(props) {
         <div>
           <h2 className="text text_type_main-medium mb-6">{"Соусы"}</h2>
           <ul className={styleIngredients.item}>
-            {props.data.map((item) => {
+            {ingredients.map((item) => {
               if (item.type === "sauce") {
                 return <ProductItem card={item} key={item._id} onOpen={props.openModal}/>;
               }
@@ -58,7 +71,7 @@ function BurgerIngredients(props) {
         <div>
           <h2 className="text text_type_main-medium mb-6">{"Начинки"}</h2>
           <ul className={styleIngredients.item}>
-            {props.data.map((item) => {
+            {ingredients.map((item) => {
               if (item.type === "main") {
                 return <ProductItem card={item} key={item._id} onOpen={props.openModal}/>;
               }
@@ -77,7 +90,6 @@ function BurgerIngredients(props) {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.shape(ingredientType)).isRequired,
   openModal: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   isOpen: PropTypes.bool.isRequired,

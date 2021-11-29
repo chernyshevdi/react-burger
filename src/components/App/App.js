@@ -9,9 +9,9 @@ import { BurgerContext } from "../../contexts/burger-constructor-context";
 
 function App() {
 
-  const [ingredients, setIngredients] = React.useState([]); 
+  //const [ingredients, setIngredients] = React.useState([]); 
 
-  React.useEffect(() => {
+  /*React.useEffect(() => {
     getIngredients()
     .then((res) => {
       setIngredients(res.data)
@@ -19,7 +19,7 @@ function App() {
     .catch((err) =>{
       console.log(err)
     })
-  },[])
+  },[])*/
 
   const [selectedIngredients, setSelectedIngredients] = React.useState({bun:[""], other: [""]}); // сделать лучше
 
@@ -71,7 +71,7 @@ function App() {
       <BurgerContext.Provider value={{selectedIngredients, setSelectedIngredients , orderData, setOrderData}}>
         <AppHeader />
         <section className={styleApp.menu}>
-          <BurgerIngredients data={ingredients} onClose={closeModal} isOpen={openIngredient} popup={ingredientsDataForModal} openModal={openModalIgredients}/>
+          <BurgerIngredients  onClose={closeModal} isOpen={openIngredient} popup={ingredientsDataForModal} openModal={openModalIgredients}/>
           <BurgerConstructor onClose={closeModal} isOpen={openOrder} openModal={openModalOrder} onUpdateOrder={postOrder}/>
         </section>
       </BurgerContext.Provider>
