@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/changeappname/app.js';
+import App from './components/app/app.js';
 import reportWebVitals from './reportWebVitals';
 import './fonts/fonts.css';
 import { createStore, applyMiddleware, compose } from 'redux';
