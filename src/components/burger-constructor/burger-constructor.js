@@ -5,8 +5,8 @@ import {
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import ModalOverlay from "../changemodalname/modal-overlay";
-import Modal from "../changemodalname/modal";
+import ModalOverlay from "../modal/modal-overlay";
+import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { useDispatch, useSelector } from 'react-redux';
 import { 
