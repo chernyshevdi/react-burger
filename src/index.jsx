@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/App/changeappname.js';
+import App from './components/changeappname/app.js';
 import reportWebVitals from './reportWebVitals';
 import './fonts/fonts.css';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -24,7 +24,6 @@ ReactDOM.render(
     </Provider>
   </React.StrictMode>,
   document.getElementById('root'),
-  //document.getElementById('modals')
 );
 
 // If you want to start measuring performance in your app, pass a function
