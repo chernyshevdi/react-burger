@@ -9,6 +9,9 @@
     flex-direction: column;
     gap: 10px;
     max-height: 620px;
+    min-height: 620px;
+    border: 1px solid red;
+    min-width: 536px;
 }
 .item {
     list-style-type: none;

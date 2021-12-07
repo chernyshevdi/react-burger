@@ -1,71 +1,28 @@
+import {
+    GET_ORDER_REQUEST,
+    GET_ORDER_SUCCESS,
+    GET_ORDER_FAILED,
+    GET_BURGERCONSTRUCTOR_DATA, 
+    DELETE_BURGERCONSTRUCTOR_DATA, 
+    UPDATE_BURGERCONSTRUCTOR_DATA 
+} from '../actions/burger-constructor';
 
-
-
-
-
-
-
-/*
-//начальное состояние хранилища
 const initialState = {
-    ingredients: [], //список всех полученных ингредиентов
     ingredientsInBurgerConstructor: {bun:[], other:[]}, //список всех ингредиентов в текущем конструкторе бургера
-    currentIngredient: {}, //объект текущего просматриваемого ингредиента
     createdOrder: {}, //объект созданного заказа
-    ingredientsRequest: false, // состояние во время вызова
-    ingredientsFailed: false, // состояние при отказе
     orderRequest: false, // состояние во время вызова
     orderFailed: false, // состояние при отказе
 }
 
-//редьюсер ингредиентов
-export const ingredientsReducer = (state = initialState, action) => {
+export const constructorReducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_INGREDIENTS_REQUEST: {
-            return {
-                ...state,
-                ingredientsRequest: true
-            }
-        }
-
-        case GET_INGREDIENTS_SUCCESS: {
-            return {
-                ...state,
-                ingredientsFailed: false,
-                ingredientsRequest: false,
-                ingredients: action.ingredients
-            }
-        }
-
-        case GET_INGREDIENTS_FAILED: {
-            return {
-                ...state,
-                ingredientsFailed: true,
-                ingredientsRequest: false
-            }
-        }
-
-        case ADD_MODAL_DATA: {
-            return {
-                ...state,
-                currentIngredient: action.item,
-            }
-        }
-
-        case DELETE_MODAL_DATA: {
-            return {
-                ...state,
-                currentIngredient: {}
-            }
-        }
-
         case GET_ORDER_REQUEST: {
             return {
                 ...state,
                 orderRequest: true
             }
         }
-
+        
         case GET_ORDER_SUCCESS: {
             return {
                 ...state,
@@ -74,7 +31,7 @@ export const ingredientsReducer = (state = initialState, action) => {
                 createdOrder: action.createdOrder
             }
         }
-
+        
         case GET_ORDER_FAILED: {
             return {
                 ...state,
@@ -82,7 +39,7 @@ export const ingredientsReducer = (state = initialState, action) => {
                 orderFailed: true,
             }
         }
-        
+
         case  GET_BURGERCONSTRUCTOR_DATA: {
             return {
                 ...state,
@@ -122,5 +79,3 @@ export const ingredientsReducer = (state = initialState, action) => {
           }
     }
 }
-
-*/

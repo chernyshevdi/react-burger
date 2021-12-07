@@ -3,76 +3,52 @@ import styleApp from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-import {getIngredients, order} from "../../utils/api";
 import { BurgerContext } from "../../contexts/burger-constructor-context";
+import { useDispatch } from 'react-redux';
+import { ADD_MODAL_DATA } from '../../services/actions/app';
+import { DELETE_MODAL_DATA } from '../../services/actions/app';
 
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd'
 
 function App() {
 
-  //const [ingredients, setIngredients] = React.useState([]); 
-
-  /*React.useEffect(() => {
-    getIngredients()
-    .then((res) => {
-      setIngredients(res.data)
-    })
-    .catch((err) =>{
-      console.log(err)
-    })
-  },[])*/
-
-  const [selectedIngredients, setSelectedIngredients] = React.useState({bun:[""], other: [""]}); // сделать лучше
-
   const[orderData, setOrderData] = React.useState([]) 
 
-  React.useEffect(() => {
-    getIngredients()
-    .then((res) => {
-      setSelectedIngredients({
-        bun: res.data.find(item => item.type === "bun"),
-        other: res.data.filter(item => item.type !== "bun")
-      })
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  },[])
-
-  function postOrder(data) { //также не обрабатываешь, то, что промис в блок then может вобще не зайти
-    order(data)
-    .then((res) => {
-      setOrderData(res.order)
-    })
-    .catch((error) => {
-      console.log(error)
-    })
-  }
-
   const [openIngredient, setOpenIngredient] = React.useState(false);
-  const [ingredientsDataForModal, setIngredientsDataForModal] = React.useState(); //данные для модальных окон
   const [openOrder, setOpenOrder] = React.useState(false);
 
   function openModalOrder() {
     setOpenOrder(true)
   }
 
-  function openModalIgredients(item) {
-    setIngredientsDataForModal(item)
+  const dispatch = useDispatch();
+
+  const openModalIgredients = (item) => {
     setOpenIngredient(true)
+    dispatch({
+      type: ADD_MODAL_DATA,
+      item, //отправляем экшен с данными карточки
+    })
   }
 
   function closeModal() {
     setOpenIngredient(false)
     setOpenOrder(false)
+    dispatch({
+      type: DELETE_MODAL_DATA //при закрытии отправляю экшен с пустым обьектом на место данных карточки
+    })
   }
 
   return (
     <div className={styleApp.page}>
-      <BurgerContext.Provider value={{selectedIngredients, setSelectedIngredients , orderData, setOrderData}}>
+      <BurgerContext.Provider value={{ orderData, setOrderData}}>
         <AppHeader />
         <section className={styleApp.menu}>
-          <BurgerIngredients  onClose={closeModal} isOpen={openIngredient} popup={ingredientsDataForModal} openModal={openModalIgredients}/>
-          <BurgerConstructor onClose={closeModal} isOpen={openOrder} openModal={openModalOrder} onUpdateOrder={postOrder}/>
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients  onClose={closeModal} isOpen={openIngredient} openModal={openModalIgredients} />
+          <BurgerConstructor onClose={closeModal} isOpen={openOrder} openModal={openModalOrder}/>
+        </DndProvider>
         </section>
       </BurgerContext.Provider>
     </div>
