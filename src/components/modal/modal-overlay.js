@@ -6,7 +6,7 @@ import {modalRoot} from "../../utils/constants.js"
 
 function ModalOverlay(props) {
 
-    if(!props.isOpen) return null;
+    if(!props.onOpen) return null;
     return ReactDOM.createPortal (
         <div className={overlayStyle.overlay} onClick={props.onClose}>    
         </div>,
@@ -15,7 +15,7 @@ function ModalOverlay(props) {
 }
 
 ModalOverlay.propTypes = {
-    isOpen: PropTypes.bool.isRequired,
+    onOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired
   };
 

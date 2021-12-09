@@ -31,7 +31,7 @@ function BurgerConstructor(props) {
    const sumResult = ingredientsInBurgerConstructor.other.reduce((cur, item) => { 
       return item.price + cur
     }, 0)
-    setPrice((ingredientsInBurgerConstructor.bun[0] ? ingredientsInBurgerConstructor.bun[0].price * 2 : null) + sumResult )
+    setPrice((ingredientsInBurgerConstructor.bun[0] ? ingredientsInBurgerConstructor.bun[0].price * 2 : 0) + sumResult )
   },[ingredientsInBurgerConstructor]) 
 
 
@@ -91,37 +91,36 @@ function debounce(func, wait, immediate) {
 };
 
   const moveIngredientsItem = useCallback( (dragIndex, hoverIndex) => {
-    const dragItem = ingredientsInBurgerConstructor.other[dragIndex]; //перетаскиваемый элемент
-    ingredientsInBurgerConstructor.other.splice(dragIndex, 1)
-    ingredientsInBurgerConstructor.other.splice(hoverIndex, 0, dragItem)
+
     dispatch({
       type: UPDATE_BURGERCONSTRUCTOR_DATA,
-      item: ingredientsInBurgerConstructor.other
+      item: ingredientsInBurgerConstructor.other,
+      dragIndex, hoverIndex
     })
    
-},[ingredientsInBurgerConstructor.other, dispatch])
+  },[ingredientsInBurgerConstructor.other, dispatch])
 
-const moveIngredientsConstructor = debounce(moveIngredientsItem)
+  const moveIngredientsConstructor = debounce(moveIngredientsItem)
 
 
   return (
     <section className={`${styleConstructor.block} mt-25`}>
 
          <ul className={`${styleConstructor.list}`} style={{borderColor}} ref={Refdrop} >
-           {ingredientsInBurgerConstructor.bun ? ingredientsInBurgerConstructor.bun.map((item, index) => {
+           {ingredientsInBurgerConstructor.bun.map((item, index) => {
             return(
             <ProductConstructorItem 
               key={String(item._id) + index} 
               handleClose ={()=>{deleteIngredient(String(item._id) + index)}}
               type='top'
-              isLocked={true}
+              isLocked
               item={item}
             />
             )
-          }) : null }  
+          })}  
 
           <div className={styleConstructor.container} >
-            {ingredientsInBurgerConstructor.other ? ingredientsInBurgerConstructor.other.map((item, index) => {
+            {ingredientsInBurgerConstructor.other.map((item, index) => {
               return (
                 <ProductConstructorItem 
                 key={String(item._id) + index} 
@@ -131,19 +130,19 @@ const moveIngredientsConstructor = debounce(moveIngredientsItem)
                 item={item}
                 />
               )
-            }) : null }
+            })}
           </div>
 
-          {ingredientsInBurgerConstructor.bun? ingredientsInBurgerConstructor.bun.map((item, index) => {
+          {ingredientsInBurgerConstructor.bun.map((item, index) => {
             return(
               <ProductConstructorItem 
               key={String(item._id) + index} 
               handleClose ={()=>{deleteIngredient(String(item._id) + index)}}
               type='bottom'
-              isLocked={true}
+              isLocked
               item={item}
             />)
-        }) : null }         
+        })}         
         </ul> 
 
       <div className={`${styleConstructor.total} mt-10`}>
@@ -160,9 +159,9 @@ const moveIngredientsConstructor = debounce(moveIngredientsItem)
         </form>
       </div>
       {
-        <Modal onClose={props.onClose} isOpen={props.isOpen}>
+        <Modal onClose={props.onClose} onOpen={props.onOpen}>
           <OrderDetails />
-          <ModalOverlay onClose={props.onClose} isOpen={props.isOpen} />
+          <ModalOverlay onClose={props.onClose} onOpen={props.onOpen} />
         </Modal>
       }
     </section>
@@ -171,7 +170,7 @@ const moveIngredientsConstructor = debounce(moveIngredientsItem)
 
 BurgerConstructor.propTypes = {
   openModal: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired,
+  onOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };
 

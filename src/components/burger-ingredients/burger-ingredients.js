@@ -69,7 +69,7 @@ function BurgerIngredients(props) {
             {ingredients.map((item) => {
               if (item.type === "bun") { 
                 return  <ProductItem  item={item} key={item._id} onOpen={props.openModal}  
-                onClose={props.onClose} isOpen={props.isOpen} id={item._id} />                      
+                onClose={props.onClose} id={item._id} />                      
               }
             })}
           </ul>
@@ -98,9 +98,9 @@ function BurgerIngredients(props) {
         </div>
       </section>
     {
-      <Modal onClose={props.onClose} isOpen={props.isOpen}>
+      <Modal onClose={props.onClose} onOpen={props.onOpen}>
         <IngredientDetails data={props.popup}/>
-        <ModalOverlay onClose={props.onClose} isOpen={props.isOpen}/>
+        <ModalOverlay onClose={props.onClose} onOpen={props.onOpen}/>
       </Modal>}
     </section>
   );
@@ -110,7 +110,7 @@ function BurgerIngredients(props) {
 BurgerIngredients.propTypes = {
   openModal: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-  isOpen: PropTypes.bool.isRequired,
+  onOpen: PropTypes.bool.isRequired,
   popup: PropTypes.shape(ingredientType)
 };
 

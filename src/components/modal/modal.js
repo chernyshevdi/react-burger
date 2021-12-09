@@ -20,7 +20,7 @@ function Modal(props) {
         }
       },[escClose])
     
-    if(!props.isOpen) return null;
+    if(!props.onOpen) return null;
     return ReactDOM.createPortal (
         <div className={modalStyle.popup} >
             <div className={`${modalStyle.container}`}>    
@@ -35,7 +35,7 @@ function Modal(props) {
 }
 
 Modal.propTypes = {
-    isOpen: PropTypes.bool.isRequired,
+    onOpen: PropTypes.bool.isRequired,
     onClose: PropTypes.func.isRequired
   };
 

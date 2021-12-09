@@ -14,7 +14,7 @@ export function postOrder(id) {
         });
         order(id)
         .then((res) => {
-            if(res) {
+            if(res.success) {
                 dispatch({
                     type: GET_ORDER_SUCCESS,
                     createdOrder: res.order

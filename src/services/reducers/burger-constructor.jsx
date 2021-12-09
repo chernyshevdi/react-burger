@@ -6,6 +6,7 @@ import {
     DELETE_BURGERCONSTRUCTOR_DATA, 
     UPDATE_BURGERCONSTRUCTOR_DATA 
 } from '../actions/burger-constructor';
+import update from 'immutability-helper';
 
 const initialState = {
     ingredientsInBurgerConstructor: {bun:[], other:[]}, //список всех ингредиентов в текущем конструкторе бургера
@@ -54,13 +55,22 @@ export const constructorReducer = (state = initialState, action) => {
             }
         }
 
-        case UPDATE_BURGERCONSTRUCTOR_DATA: {
+        case UPDATE_BURGERCONSTRUCTOR_DATA: { 
+
+            let deleteElement = update(state.ingredientsInBurgerConstructor.other, {$splice: [[action.dragIndex, 1]]});
+            let newArrayConstructor = update(deleteElement, {$splice: [[action.hoverIndex, 0, state.ingredientsInBurgerConstructor.other[action.dragIndex]]]})
+
             return {
                 ...state,
+            
                 ingredientsInBurgerConstructor: {
+                    ...state.ingredientsInBurgerConstructor,
                     bun: [...state.ingredientsInBurgerConstructor.bun],
-                    other: action.item
-                }
+                    other: newArrayConstructor
+                },
+
+               // ...state.ingredientsInBurgerConstructor.other.splice(action.dragIndex, 1),
+               // ...state.ingredientsInBurgerConstructor.other.splice(action.hoverIndex, 0, state.dragItem)
             }
         }
 

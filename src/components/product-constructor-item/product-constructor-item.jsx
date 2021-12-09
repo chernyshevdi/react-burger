@@ -37,7 +37,7 @@ function ProductConstructorItem({handleClose, moveListItem, index, item, type, i
 
   return (
     item.type === 'bun' ?
-    <li className={styleConstructor.item} style={{opacity}}>
+    <li className={styleConstructor.bun} style={{opacity}}>
     <ConstructorElement
       text={type === 'top' ? `${item.name} (верх)` : type === 'bottom' ? `${item.name} (низ)` : item.name }
       price={item.price}
