@@ -25,6 +25,9 @@ export function getItems() {
             }
         })
         .catch((err) => {
+            dispatch({
+                type: GET_INGREDIENTS_FAILED,
+            })
             console.log(err)
         })
     }

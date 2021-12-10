@@ -17,6 +17,7 @@ export const appReducer = (state = initialState, action) => {
 
         case DELETE_MODAL_DATA: {
             return {
+                ...initialState,
                 currentIngredient: {}
             }
         }

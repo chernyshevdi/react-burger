@@ -2,9 +2,9 @@ import {
     GET_ORDER_REQUEST,
     GET_ORDER_SUCCESS,
     GET_ORDER_FAILED,
-    GET_BURGERCONSTRUCTOR_DATA, 
-    DELETE_BURGERCONSTRUCTOR_DATA, 
-    UPDATE_BURGERCONSTRUCTOR_DATA 
+    ADD_INGREDIENT_BURGERCONSTRUCTOR, 
+    DELETE_INGREDIENT_BURGERCONSTRUCTOR, 
+    CHANGE_ORDER_BURGERCONSTRUCTOR 
 } from '../actions/burger-constructor';
 import update from 'immutability-helper';
 
@@ -35,13 +35,13 @@ export const constructorReducer = (state = initialState, action) => {
         
         case GET_ORDER_FAILED: {
             return {
-                ...state,
+                ...initialState,
                 orderRequest: false,
                 orderFailed: true,
             }
         }
 
-        case  GET_BURGERCONSTRUCTOR_DATA: {
+        case  ADD_INGREDIENT_BURGERCONSTRUCTOR: {
             return {
                 ...state,
                 ingredientsInBurgerConstructor: action.item.type === 'bun' ?  {
@@ -55,10 +55,10 @@ export const constructorReducer = (state = initialState, action) => {
             }
         }
 
-        case UPDATE_BURGERCONSTRUCTOR_DATA: { 
+        case CHANGE_ORDER_BURGERCONSTRUCTOR: { 
 
-            let deleteElement = update(state.ingredientsInBurgerConstructor.other, {$splice: [[action.dragIndex, 1]]});
-            let newArrayConstructor = update(deleteElement, {$splice: [[action.hoverIndex, 0, state.ingredientsInBurgerConstructor.other[action.dragIndex]]]})
+            const deleteElement = update(state.ingredientsInBurgerConstructor.other, {$splice: [[action.dragIndex, 1]]});
+            const newArrayConstructor = update(deleteElement, {$splice: [[action.hoverIndex, 0, state.ingredientsInBurgerConstructor.other[action.dragIndex]]]})
 
             return {
                 ...state,
@@ -68,13 +68,10 @@ export const constructorReducer = (state = initialState, action) => {
                     bun: [...state.ingredientsInBurgerConstructor.bun],
                     other: newArrayConstructor
                 },
-
-               // ...state.ingredientsInBurgerConstructor.other.splice(action.dragIndex, 1),
-               // ...state.ingredientsInBurgerConstructor.other.splice(action.hoverIndex, 0, state.dragItem)
             }
         }
 
-        case DELETE_BURGERCONSTRUCTOR_DATA: { 
+        case DELETE_INGREDIENT_BURGERCONSTRUCTOR: { 
             return {
                 ...state,
                 ingredientsInBurgerConstructor: {

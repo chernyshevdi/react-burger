@@ -10,9 +10,9 @@ import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { useDispatch, useSelector } from 'react-redux';
 import { 
-  GET_BURGERCONSTRUCTOR_DATA, 
-  DELETE_BURGERCONSTRUCTOR_DATA, 
-  UPDATE_BURGERCONSTRUCTOR_DATA } 
+  ADD_INGREDIENT_BURGERCONSTRUCTOR, 
+  DELETE_INGREDIENT_BURGERCONSTRUCTOR, 
+  CHANGE_ORDER_BURGERCONSTRUCTOR } 
 from '../../services/actions/burger-constructor';
 import ProductConstructorItem from '../product-constructor-item/product-constructor-item';
 import { useDrop } from 'react-dnd';
@@ -52,7 +52,7 @@ function BurgerConstructor(props) {
     }),
     drop(item) {
       dispatch({
-        type: GET_BURGERCONSTRUCTOR_DATA,
+        type: ADD_INGREDIENT_BURGERCONSTRUCTOR,
         ...item  
       })
     }, 
@@ -60,7 +60,7 @@ function BurgerConstructor(props) {
 
 const deleteIngredient = (id) => {
   dispatch({
-    type: DELETE_BURGERCONSTRUCTOR_DATA,
+    type: DELETE_INGREDIENT_BURGERCONSTRUCTOR,
     id
   })
 }
@@ -93,7 +93,7 @@ function debounce(func, wait, immediate) {
   const moveIngredientsItem = useCallback( (dragIndex, hoverIndex) => {
 
     dispatch({
-      type: UPDATE_BURGERCONSTRUCTOR_DATA,
+      type: CHANGE_ORDER_BURGERCONSTRUCTOR,
       item: ingredientsInBurgerConstructor.other,
       dragIndex, hoverIndex
     })
