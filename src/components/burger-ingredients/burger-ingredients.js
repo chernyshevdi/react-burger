@@ -3,39 +3,35 @@ import styleIngredients from "../burger-ingredients/burger-ingredients.module.cs
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ProductItem from "../product-item/product-item";
 import PropTypes from "prop-types";
-import { ingredientType } from "../../utils/types";
-import { useDispatch, useSelector } from 'react-redux';
-import { getItems } from '../../services/actions/burger-ingredients';
+import { useDispatch, useSelector } from "react-redux";
+import { getItems } from "../../services/actions/burger-ingredients";
 
 function BurgerIngredients(props) {
-
   const dispatch = useDispatch(); // ф-ия отправляет экшены
 
   //данные ингредиентов из хранилища
-  const { ingredients } = useSelector(state => state.ingredientsReducer); 
+  const { ingredients } = useSelector((state) => state.ingredientsReducer);
 
   //отправляем запрос к апи
   useEffect(() => {
-    dispatch(getItems())
-  },[dispatch])
+    dispatch(getItems());
+  }, [dispatch]);
 
-  const [current, setCurrent] = React.useState('bun');
+  const [current, setCurrent] = React.useState("bun");
 
   const bunRef = useRef(null);
   const sauceRef = useRef(null);
   const mainRef = useRef(null);
 
   const handleScroll = (e) => {
-
-    if(e.target.scrollTop >= (bunRef.current.offsetTop / 2)) {
-      setCurrent('bun')
+    if (e.target.scrollTop >= bunRef.current.offsetTop / 2) {
+      setCurrent("bun");
     }
-    if(e.target.scrollTop >= (sauceRef.current.offsetTop / 2)) {
-      setCurrent('sauces')
-      
+    if (e.target.scrollTop >= sauceRef.current.offsetTop / 2) {
+      setCurrent("sauces");
     }
-    if(e.target.scrollTop >= (mainRef.current.offsetTop / 2)) {
-      setCurrent('main')
+    if (e.target.scrollTop >= mainRef.current.offsetTop / 2) {
+      setCurrent("main");
     }
   };
 
@@ -45,7 +41,7 @@ function BurgerIngredients(props) {
         {"Соберите бургер"}
       </h2>
       <nav
-        className={`${styleIngredients.nav} text text_type_main-default mb-10`} 
+        className={`${styleIngredients.nav} text text_type_main-default mb-10`}
       >
         <Tab value="bun" active={current === "bun"} onClick={setCurrent}>
           Булки
@@ -58,14 +54,21 @@ function BurgerIngredients(props) {
         </Tab>
       </nav>
 
-      <section className={styleIngredients.mainMenu} onScroll={handleScroll} >
+      <section className={styleIngredients.mainMenu} onScroll={handleScroll}>
         <div className={styleIngredients.mainMenu2} ref={bunRef}>
           <h2 className="text text_type_main-medium mb-6">Булки</h2>
           <ul className={styleIngredients.item}>
             {ingredients.map((item) => {
-              if (item.type === "bun") { 
-                return <ProductItem  item={item} key={item._id} onOpen={props.openModal}  
-                onClose={props.onClose} id={item._id} />  
+              if (item.type === "bun") {
+                return (
+                  <ProductItem
+                    item={item}
+                    key={item._id}
+                    onOpen={props.openModal}
+                    onClose={props.onClose}
+                    id={item._id}
+                  />
+                );
               }
             })}
           </ul>
@@ -76,7 +79,15 @@ function BurgerIngredients(props) {
           <ul className={styleIngredients.item}>
             {ingredients.map((item) => {
               if (item.type === "sauce") {
-                return <ProductItem card={item} key={item._id} onOpen={props.openModal} id={item._id} item={item}/>
+                return (
+                  <ProductItem
+                    card={item}
+                    key={item._id}
+                    onOpen={props.openModal}
+                    id={item._id}
+                    item={item}
+                  />
+                );
               }
             })}
           </ul>
@@ -87,7 +98,15 @@ function BurgerIngredients(props) {
           <ul className={styleIngredients.item}>
             {ingredients.map((item) => {
               if (item.type === "main") {
-                return <ProductItem card={item} key={item._id} onOpen={props.openModal} id={item._id} item={item}/>;
+                return (
+                  <ProductItem
+                    card={item}
+                    key={item._id}
+                    onOpen={props.openModal}
+                    id={item._id}
+                    item={item}
+                  />
+                );
               }
             })}
           </ul>
@@ -95,14 +114,12 @@ function BurgerIngredients(props) {
       </section>
     </section>
   );
-  
 }
 
 BurgerIngredients.propTypes = {
   openModal: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
   onOpen: PropTypes.bool.isRequired,
-  popup: PropTypes.shape(ingredientType)
 };
 
 export default BurgerIngredients;

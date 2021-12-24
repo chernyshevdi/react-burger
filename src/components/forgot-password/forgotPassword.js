@@ -1,56 +1,57 @@
-import Registration from '../registration/registration';
+import Registration from "../registration/registration";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
-import { postForgotPassword } from '../../services/actions/forgot-password';
-import { useEffect, useState} from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { postForgotPassword } from "../../services/actions/forgot-password";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 function ForgotPassword() {
+  const [email, setEmail] = useState();
+  const dispatch = useDispatch();
+  const { forgotPassword } = useSelector(
+    (state) => state.forgotPasswordReducer
+  );
+  const history = useHistory();
+  let accessToken = localStorage.getItem("access");
 
-    const[email, setEmail] = useState();
-    const dispatch = useDispatch();
-    const { forgotPassword } = useSelector(state => state.forgotPasswordReducer);
-    const history = useHistory();
-    let accessToken = localStorage.getItem('access');
-    
-    function handleChangeEmail(e) {
-        setEmail(e.target.value);
-      }
-    
-      function handleSubmit(e) {
-        e.preventDefault();
-        dispatch(postForgotPassword(email))
-      }
+  function handleChangeEmail(e) {
+    setEmail(e.target.value);
+  }
 
-      useEffect(() => {
-          if(!accessToken && forgotPassword.success) {
-            history.replace({ pathname: '/reset-password' });
-          }
-      },[forgotPassword, accessToken, history])
+  function handleSubmit(e) {
+    e.preventDefault();
+    dispatch(postForgotPassword(email));
+  }
 
-      useEffect(() => {
-        if(accessToken) {
-            history.replace({ pathname: '/' });
-        }
-      },[accessToken, history]) 
+  useEffect(() => {
+    if (!accessToken && forgotPassword.success) {
+      history.replace({ pathname: "/reset-password" });
+    }
+  }, [forgotPassword, accessToken, history]);
 
-    return(
-        <Registration 
-            title='Восстановление пароля' 
-            buttonName='Восстановить' 
-            footerQuestion='Вспомнили пароль?' 
-            footerLink='Войти'
-            link="/login"
-            submit={handleSubmit}
-        >
-            <Input 
-                placeholder='Укажите e-mail' 
-                type='email'
-                onChange={handleChangeEmail}
-                value={email || ""}
-            />
-        </Registration>
-    )
+  useEffect(() => {
+    if (accessToken) {
+      history.replace({ pathname: "/" });
+    }
+  }, [accessToken, history]);
+
+  return (
+    <Registration
+      title="Восстановление пароля"
+      buttonName="Восстановить"
+      footerQuestion="Вспомнили пароль?"
+      footerLink="Войти"
+      link="/login"
+      submit={handleSubmit}
+    >
+      <Input
+        placeholder="Укажите e-mail"
+        type="email"
+        onChange={handleChangeEmail}
+        value={email || ""}
+      />
+    </Registration>
+  );
 }
 
 export default ForgotPassword;

@@ -5,11 +5,10 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 function AppHeader() {
-
   let location = useLocation();
 
   return (
@@ -17,10 +16,16 @@ function AppHeader() {
       <div className={styleHeader.container}>
         <div className={styleHeader.navigationShop}>
           <Link
-            to={{ pathname: '/'}}
-            className={location.pathname === '/' ? styleHeader.button_active : styleHeader.button}     
+            to={{ pathname: "/" }}
+            className={
+              location.pathname === "/"
+                ? styleHeader.button_active
+                : styleHeader.button
+            }
           >
-            <BurgerIcon type={location.pathname === '/' ? 'primary' : 'secondary'} />
+            <BurgerIcon
+              type={location.pathname === "/" ? "primary" : "secondary"}
+            />
             <p
               className={`${styleHeader.buttonName} text text_type_main-default ml-2`}
             >
@@ -28,10 +33,7 @@ function AppHeader() {
             </p>
           </Link>
 
-          <button 
-            className={styleHeader.button} 
-            current="orderList"
-          >
+          <button className={styleHeader.button} current="orderList">
             <ListIcon type="secondary" />
             <p
               className={`${styleHeader.buttonName} text text_type_main-default ml-2`}
@@ -45,12 +47,19 @@ function AppHeader() {
           <Logo />
         </div>
 
-        <NavLink 
-          to={{ pathname: '/profile'}}
-          className={styleHeader.button} 
+        <NavLink
+          to={{ pathname: "/profile" }}
+          className={styleHeader.button}
           activeClassName={styleHeader.button_active}
         >
-          <ProfileIcon type={location.pathname === '/profile' || location.pathname === '/profile/orders' ? 'primary' : 'secondary'} />
+          <ProfileIcon
+            type={
+              location.pathname === "/profile" ||
+              location.pathname === "/profile/orders"
+                ? "primary"
+                : "secondary"
+            }
+          />
           <p
             className={`${styleHeader.buttonName} text text_type_main-default ml-2`}
           >
