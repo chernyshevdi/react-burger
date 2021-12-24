@@ -1,0 +1,58 @@
+.container {
+    width: 100%;
+}
+
+.main {
+    display: flex;
+    justify-content: flex-end;
+    width: 950px;
+    margin-top: 120px;
+}
+
+.nav {
+    width: 320px;
+    margin-top: 20px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.navList {
+    padding: 0;
+}
+
+.list {
+    list-style-type: none;
+    cursor: pointer;
+}
+.list_active {
+    list-style-type: none;
+    color: white;
+    cursor: pointer;
+}
+.link {
+    text-decoration: none;
+}
+.inputs {
+    margin-left: 60px;
+}
+
+.info {
+    margin: 20px 0 0 80px;
+    width: 320px;
+}
+
+.footer {
+    display: flex;
+    width: 950px;
+    justify-content: space-between;
+}
+.orders {
+    min-width: 540px;
+    height: 264px;
+}
+.buttons {
+    display: none;
+}
+.buttons_active {
+    display: block;
+}

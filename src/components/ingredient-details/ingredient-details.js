@@ -3,11 +3,11 @@ import styleIngredient from "../ingredient-details/ingredient-details.module.css
 import { useSelector } from 'react-redux';
 
 function IngredientDetails() {
-
+ 
     const { currentIngredient} = useSelector(state => state.appReducer); //данные полученные из хранилища
 
-    return ((
-        <>
+    return (
+        <div className={styleIngredient.container}>
      <h2 className={`${styleIngredient.name}text text_type_main-large mt-10 ml-10`}>Детали ингредиента</h2>
      <div className={styleIngredient.description}>
          <img className={styleIngredient.img} src={currentIngredient.image_large} alt={currentIngredient.name}/>
@@ -34,8 +34,8 @@ function IngredientDetails() {
              </div>
          </ul>
      </div>
-</>
-    ))
+</div>
+    )
 }
 
 export default IngredientDetails;

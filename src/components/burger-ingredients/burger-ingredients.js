@@ -4,12 +4,8 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ProductItem from "../product-item/product-item";
 import PropTypes from "prop-types";
 import { ingredientType } from "../../utils/types";
-import ModalOverlay from '../modal/modal-overlay';
-import Modal from '../modal/modal';
-import IngredientDetails from '../ingredient-details/ingredient-details';
 import { useDispatch, useSelector } from 'react-redux';
 import { getItems } from '../../services/actions/burger-ingredients';
-
 
 function BurgerIngredients(props) {
 
@@ -68,8 +64,8 @@ function BurgerIngredients(props) {
           <ul className={styleIngredients.item}>
             {ingredients.map((item) => {
               if (item.type === "bun") { 
-                return  <ProductItem  item={item} key={item._id} onOpen={props.openModal}  
-                onClose={props.onClose} id={item._id} />                      
+                return <ProductItem  item={item} key={item._id} onOpen={props.openModal}  
+                onClose={props.onClose} id={item._id} />  
               }
             })}
           </ul>
@@ -97,11 +93,6 @@ function BurgerIngredients(props) {
           </ul>
         </div>
       </section>
-    {
-      <Modal onClose={props.onClose} onOpen={props.onOpen}>
-        <IngredientDetails data={props.popup}/>
-        <ModalOverlay onClose={props.onClose} onOpen={props.onOpen}/>
-      </Modal>}
     </section>
   );
   

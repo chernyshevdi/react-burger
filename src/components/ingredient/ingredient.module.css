@@ -1,0 +1,8 @@
+.container {
+    margin-top: 80px;
+    display: flex;
+    justify-content: center;
+}
+h2 {
+    text-align: center;
+}

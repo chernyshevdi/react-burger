@@ -17,6 +17,7 @@ from '../../services/actions/burger-constructor';
 import ProductConstructorItem from '../product-constructor-item/product-constructor-item';
 import { useDrop } from 'react-dnd';
 import { postOrder } from '../../services/actions/burger-constructor';
+import { useHistory } from "react-router-dom";
 
 function BurgerConstructor(props) {
   
@@ -26,6 +27,7 @@ function BurgerConstructor(props) {
   const { ingredientsInBurgerConstructor } = useSelector(state => state.constructorReducer);
 
   const dispatch = useDispatch();
+  const history = useHistory();
 
   useEffect(()=> {
    const sumResult = ingredientsInBurgerConstructor.other.reduce((cur, item) => { 
@@ -34,15 +36,20 @@ function BurgerConstructor(props) {
     setPrice((ingredientsInBurgerConstructor.bun[0] ? ingredientsInBurgerConstructor.bun[0].price * 2 : 0) + sumResult )
   },[ingredientsInBurgerConstructor]) 
 
-
   function handleSubmit(e) {
     e.preventDefault()
-    const selectedIngredients = ingredientsInBurgerConstructor.other.map((item) => { 
+    if(login) {
+      const selectedIngredients = ingredientsInBurgerConstructor.other.map((item) => { 
         return item._id
       })
     selectedIngredients.push(ingredientsInBurgerConstructor.bun[0]._id) 
       
     dispatch(postOrder(selectedIngredients))
+
+    }
+    else {
+      history.replace({ pathname: '/login' });
+    }
   }  
 
   const [{ isHover } , Refdrop] = useDrop({
@@ -66,7 +73,6 @@ const deleteIngredient = (id) => {
 }
 
 const borderColor = isHover ? 'lightgreen' : 'transparent';
-
 
 function debounce(func, wait, immediate) {
   let timeout;
@@ -100,8 +106,9 @@ function debounce(func, wait, immediate) {
    
   },[ingredientsInBurgerConstructor.other, dispatch])
 
-  const moveIngredientsConstructor = debounce(moveIngredientsItem)
+  const moveIngredientsConstructor = debounce(moveIngredientsItem);
 
+  const { login } = useSelector(state => state.loginReducer);
 
   return (
     <section className={`${styleConstructor.block} mt-25`}>
@@ -152,18 +159,18 @@ function debounce(func, wait, immediate) {
           >{price ? price : 0}</p>
           <CurrencyIcon />
         </div>
-        <form  onSubmit={handleSubmit} > 
-          <Button type="primary" size="large" onClick={props.openModal} disabled={ingredientsInBurgerConstructor.other.length === 0 || ingredientsInBurgerConstructor.bun.length === 0}>
+        <form onSubmit={handleSubmit}> 
+          <Button type="primary" size="large" onClick={props.openModal} disabled={ingredientsInBurgerConstructor.other.length === 0 || ingredientsInBurgerConstructor.bun.length === 0 }>
             Оформить заказ
           </Button>
         </form>
       </div>
-      {
-        <Modal onClose={props.onClose} onOpen={props.onOpen}>
-          <OrderDetails />
-          <ModalOverlay onClose={props.onClose} onOpen={props.onOpen} />
-        </Modal>
-      }
+          {
+            <Modal onClose={props.onClose} onOpen={props.onOpen}>
+              <OrderDetails />
+              <ModalOverlay onClose={props.onClose} onOpen={props.onOpen} />
+            </Modal>
+          }
     </section>
   );
 }

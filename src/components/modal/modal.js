@@ -1,15 +1,21 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import modalStyle from './modal.module.css';
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ReactDOM from 'react-dom';
 import PropTypes from "prop-types";
-import {modalRoot} from "../../utils/constants.js"
+import {modalRoot} from "../../utils/constants.js";
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
-function Modal(props) {
+function Modal({onClose, modal, onOpen, children}) { 
+
+      const { ingredients } = useSelector(state => state.ingredientsReducer); 
+      let { id } = useParams();
+      const [current, setCurrent] = useState(null)
 
       function escClose(event){
         if(event.keyCode === 27) {
-          props.onClose(props.onClose)
+          onClose(onClose)
         }
       }
 
@@ -19,16 +25,28 @@ function Modal(props) {
           document.removeEventListener("keydown", escClose);
         }
       },[escClose])
+
+      useEffect(() => {
+        if(id) {
+        setCurrent(ingredients.find((item) => item._id === id)) 
+        }
+      },[ingredients, id])
+      
+      useEffect(() => {
+        if(current) {
+          modal(current)
+        }
+      },[current, modal])
     
-    if(!props.onOpen) return null;
+    if(!onOpen) return null;
     return ReactDOM.createPortal (
         <div className={modalStyle.popup} >
             <div className={`${modalStyle.container}`}>    
                 <div className={modalStyle.close}>
-                    <CloseIcon type="primary" onClick={props.onClose} onKeyDown={escClose}/>
+                    <CloseIcon type="primary" onClick={onClose} onKeyDown={escClose}/>
                 </div>                 
             </div>
-            {props.children}
+            {children}
         </div>,
         modalRoot
     );

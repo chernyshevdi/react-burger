@@ -6,11 +6,12 @@ import {
 import PropTypes from "prop-types";
 import { useDrag } from 'react-dnd';
 import { useSelector } from 'react-redux';
+import { Link, useLocation } from 'react-router-dom';
 
 function ProductItem({item, onOpen, id}) {
 
   const { ingredientsInBurgerConstructor } = useSelector(state => state.constructorReducer);
-
+  
   function handleClick() {
     onOpen(item);
   }
@@ -32,18 +33,26 @@ function ProductItem({item, onOpen, id}) {
       return ingredientsInBurgerConstructor.other.filter((item) => item._id === id).length
     }
   }
-  
+
+  const location = useLocation();
+
   return (
     <section className={`${styleCard.card} ml-4 mb-10`} style={{opacity}} ref={dragRef}>
       <div className={styleCard.count}>
         <Counter count={count()} size="default" />
       </div>
+      <Link
+        key={item._id}
+        to={{pathname:`/ingredients/${item._id}`,
+        state: { background: location }
+        }}>
       <img
         className={`${styleCard.image} mb-1 ml-4 mr-4`}
         src={item.image}
         onClick={handleClick}
         alt={item.name}
       />
+      </Link>
       <div className={`${styleCard.price} mb-1`}>
         <p className="text text_type_digits-default mr-2">{item.price}</p>
         <CurrencyIcon type="primary" />
