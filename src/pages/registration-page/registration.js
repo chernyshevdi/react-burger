@@ -1,4 +1,4 @@
-import Registration from "../registration/registration";
+import AuthForm from "../../components/auth-form/auth-form";
 import {
   PasswordInput,
   Input,
@@ -48,7 +48,7 @@ function RegistrationPage() {
   }, [accessToken, history]);
 
   return (
-    <Registration
+    <AuthForm
       title="Регистрация"
       buttonName="Регистрация"
       footerQuestion="Уже зарегистрированы?"
@@ -69,7 +69,7 @@ function RegistrationPage() {
         value={email || ""}
       />
       <PasswordInput onChange={handleChangePassword} value={password || ""} />
-    </Registration>
+    </AuthForm>
   );
 }
 

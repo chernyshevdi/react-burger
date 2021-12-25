@@ -8,23 +8,23 @@ import { ADD_MODAL_DATA } from "../../services/actions/app";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { Switch, Route, useLocation, useHistory } from "react-router-dom";
-import SignIn from "../sign-in/signin";
-import RegistrationPage from "../registration-page/registration";
-import ForgotPassword from "../forgot-password/forgotPassword";
-import RecoveryPassword from "../recovery-password/recoveryPassword";
-import Profile from "../profile/profile";
+import SignIn from "../../pages/sign-in/signin";
+import RegistrationPage from "../../pages/registration-page/registration";
+import ForgotPassword from "../../pages/forgot-password/forgotPassword";
+import RecoveryPassword from "../../pages/recovery-password/recoveryPassword";
+import Profile from "../../pages/profile/profile";
 import { ProtectedRoute } from "../protected-route/protected-route";
 import { getUserData } from "../../services/actions/get-user";
 import { getCookie } from "../../utils/constants";
 import { postUpdateToken } from "../../services/actions/update-token";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-import ModalOverlay from "../modal/modal-overlay";
+
 import Modal from "../modal/modal";
 import Ingredient from "../ingredient/ingredient";
+import { getItems } from "../../services/actions/burger-ingredients";
 
 function App() {
-  const [isIngredientModalOpen, setIsIngredientModalOpen] =
-    React.useState(false);
+  const [isIngredientModalOpen, setIsIngredientModalOpen] = React.useState(false);
   const [isOrderModalOpen, setIsOrderModalOpen] = React.useState(false);
 
   function openModalOrder() {
@@ -33,6 +33,14 @@ function App() {
 
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch(getItems());
+  }, [dispatch]);
+
+  const { ingredients } = useSelector((state) => state.ingredientsReducer);
+  const [currentIngredientId, setCurrentIngredientId] = React.useState(null);
+  const [currentIngredientItem, setCurrentIngredientItem] = React.useState(null);
+
   const openModalIgredients = (item) => {
     dispatch({
       type: ADD_MODAL_DATA,
@@ -40,14 +48,28 @@ function App() {
     });
     setIsIngredientModalOpen(true);
   };
-  const ingredient = (item) => {
-    dispatch({
-      type: ADD_MODAL_DATA,
-      item, //отправляем экшен с данными карточки
-    });
-    setIsIngredientModalOpen(true);
-  };
 
+  const ingredient = (id) => {
+    setCurrentIngredientId(id);
+  };
+  
+  useEffect(() => {
+    if(currentIngredientId) {
+      setCurrentIngredientItem(ingredients.find((item) => item._id === currentIngredientId));
+    }
+  },[currentIngredientId, ingredients ])
+
+  useEffect(() => {
+    if(currentIngredientItem) {
+      const item = currentIngredientItem;
+      dispatch({
+        type: ADD_MODAL_DATA,
+        item, //отправляем экшен с данными карточки
+      });
+      setIsIngredientModalOpen(true);
+    }
+  }, [currentIngredientItem, dispatch])
+    
   function closeIngredientModal() {
     setIsIngredientModalOpen(false);
     history.goBack();
@@ -60,6 +82,7 @@ function App() {
 
   const { status } = useSelector((state) => state.getUserReducer);
   let accessToken = localStorage.getItem("access");
+  let refreshToken = localStorage.getItem("refresh");
 
   useEffect(() => {
     //обновляю данные пользователя
@@ -71,7 +94,7 @@ function App() {
   useEffect(() => {
     if (status.success === false) {
       //если токен умер
-      dispatch(postUpdateToken(getCookie("refresh"))); //то отправляем запрос на новый токен
+      dispatch(postUpdateToken(refreshToken)); //то отправляем запрос на новый токен
     }
   }, [status, dispatch]);
 
@@ -130,10 +153,7 @@ function App() {
             modal={ingredient}
           >
             <IngredientDetails />
-            <ModalOverlay
-              onClose={closeIngredientModal}
-              onOpen={isIngredientModalOpen}
-            />
+
           </Modal>
         </Route>
       )}

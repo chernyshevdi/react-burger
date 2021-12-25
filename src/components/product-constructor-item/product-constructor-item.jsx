@@ -5,6 +5,7 @@ import { useRef } from "react";
 import styleConstructor from "../burger-constructor/burger-constructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import PropTypes from "prop-types";
 
 function ProductConstructorItem({
   handleClose,
@@ -14,6 +15,7 @@ function ProductConstructorItem({
   type,
   isLocked,
 }) {
+
   const { ingredientsInBurgerConstructor } = useSelector(
     (state) => state.constructorReducer
   );
@@ -76,4 +78,14 @@ function ProductConstructorItem({
     </li>
   );
 }
+
+ProductConstructorItem.propTypes = {
+  handleClose: PropTypes.func.isRequired,
+  moveListItem: PropTypes.func,
+  index: PropTypes.number,
+  item: PropTypes.object.isRequired,
+  type: PropTypes.string,
+  isLocked: PropTypes.bool,
+};
+
 export default ProductConstructorItem;

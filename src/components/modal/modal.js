@@ -5,15 +5,20 @@ import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { modalRoot } from "../../utils/constants.js";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
+import ModalOverlay from "./modal-overlay";
 
 function Modal({ onClose, modal, onOpen, children }) {
-  const { ingredients } = useSelector((state) => state.ingredientsReducer);
-  let { id } = useParams();
-  const [current, setCurrent] = useState(null);
+  
+  const { id } = useParams();
 
+  useEffect(() => {
+    if(id) {
+      modal(id)
+    }
+  },[id])
+  
   function escClose(event) {
-    if (event.keyCode === 27) {
+    if (event.key === 'Escape') {
       onClose(onClose);
     }
   }
@@ -25,20 +30,13 @@ function Modal({ onClose, modal, onOpen, children }) {
     };
   }, [escClose]);
 
-  useEffect(() => {
-    if (id) {
-      setCurrent(ingredients.find((item) => item._id === id));
-    }
-  }, [ingredients, id]);
-
-  useEffect(() => {
-    if (current) {
-      modal(current);
-    }
-  }, [current, modal]);
-
   if (!onOpen) return null;
   return ReactDOM.createPortal(
+    <>
+    <ModalOverlay
+    onClose={onClose}
+    onOpen={onOpen}
+  />
     <div className={modalStyle.popup}>
       <div className={`${modalStyle.container}`}>
         <div className={modalStyle.close}>
@@ -46,7 +44,8 @@ function Modal({ onClose, modal, onOpen, children }) {
         </div>
       </div>
       {children}
-    </div>,
+    </div>
+    </>,
     modalRoot
   );
 }
@@ -54,7 +53,7 @@ function Modal({ onClose, modal, onOpen, children }) {
 Modal.propTypes = {
   onOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
-  modal: PropTypes.object.isRequired,
+  modal: PropTypes.func,
 };
 
 export default Modal;

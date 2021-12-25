@@ -1,4 +1,4 @@
-import Registration from "../registration/registration";
+import AuthForm from "../../components/auth-form/auth-form";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { postForgotPassword } from "../../services/actions/forgot-password";
 import { useEffect, useState } from "react";
@@ -36,7 +36,7 @@ function ForgotPassword() {
   }, [accessToken, history]);
 
   return (
-    <Registration
+    <AuthForm
       title="Восстановление пароля"
       buttonName="Восстановить"
       footerQuestion="Вспомнили пароль?"
@@ -50,7 +50,7 @@ function ForgotPassword() {
         onChange={handleChangeEmail}
         value={email || ""}
       />
-    </Registration>
+    </AuthForm>
   );
 }
 

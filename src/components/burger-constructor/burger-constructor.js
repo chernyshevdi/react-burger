@@ -183,7 +183,7 @@ function BurgerConstructor(props) {
           <Button
             type="primary"
             size="large"
-            onClick={props.openModal}
+            onClick={login ?  props.openModal : null}
             disabled={
               ingredientsInBurgerConstructor.other.length === 0 ||
               ingredientsInBurgerConstructor.bun.length === 0
@@ -196,7 +196,6 @@ function BurgerConstructor(props) {
       {
         <Modal onClose={props.onClose} onOpen={props.onOpen}>
           <OrderDetails />
-          <ModalOverlay onClose={props.onClose} onOpen={props.onOpen} />
         </Modal>
       }
     </section>

@@ -1,13 +1,7 @@
-import { IngredientsData, orderData } from "../utils/constants.js";
+import { IngredientsData, orderData, authUrl, checkResponse } from "../utils/constants.js";
 
 const getIngredients = () => {
-  return fetch(IngredientsData).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return Promise.reject(`Ошибка: ${res.status}`);
-    }
-  });
+  return fetch(IngredientsData).then(checkResponse)
 };
 
 const order = (id) => {
@@ -19,17 +13,11 @@ const order = (id) => {
     body: JSON.stringify({
       ingredients: id,
     }),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return Promise.reject(`Ошибка: ${res.status}`);
-    }
-  });
+  }).then(checkResponse)
 };
 
 const forgotPassword = (email) => {
-  return fetch("https://norma.nomoreparties.space/api/password-reset", {
+  return fetch(authUrl + '/password-reset', {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -37,17 +25,11 @@ const forgotPassword = (email) => {
     body: JSON.stringify({
       email: email,
     }),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return Promise.reject(`Ошибка: ${res.status}`);
-    }
-  });
+  }).then(checkResponse)
 };
 
 const resetPassword = (password, token) => {
-  return fetch("https://norma.nomoreparties.space/api/password-reset/reset", {
+  return fetch(authUrl + "/password-reset/reset", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -56,17 +38,11 @@ const resetPassword = (password, token) => {
       password: password,
       token: token,
     }),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return Promise.reject(`Ошибка: ${res.status}`);
-    }
-  });
+  }).then(checkResponse)
 };
 
 const register = (email, password, name) => {
-  return fetch("https://norma.nomoreparties.space/api/auth/register", {
+  return fetch(authUrl + "/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -76,17 +52,11 @@ const register = (email, password, name) => {
       password: password,
       name: name,
     }),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return Promise.reject(`Ошибка: ${res.status}`);
-    }
-  });
+  }).then(checkResponse)
 };
 
 const login = (email, password) => {
-  return fetch("https://norma.nomoreparties.space/api/auth/login", {
+  return fetch(authUrl + "/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -95,17 +65,11 @@ const login = (email, password) => {
       email: email,
       password: password,
     }),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return Promise.reject(`Ошибка: ${res.status}`);
-    }
-  });
+  }).then(checkResponse)
 };
 
 const updateToken = (refreshToken) => {
-  return fetch("https://norma.nomoreparties.space/api/auth/token", {
+  return fetch(authUrl + "/auth/token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -119,7 +83,7 @@ const updateToken = (refreshToken) => {
 };
 
 const logout = (token) => {
-  return fetch("https://norma.nomoreparties.space/api/auth/logout", {
+  return fetch(authUrl + "/auth/logout", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -127,17 +91,11 @@ const logout = (token) => {
     body: JSON.stringify({
       token: token,
     }),
-  }).then((res) => {
-    if (res.ok) {
-      return res.json();
-    } else {
-      return Promise.reject(`Ошибка: ${res.status}`);
-    }
-  });
+  }).then(checkResponse) 
 };
 
 const getUser = (token) => {
-  return fetch("https://norma.nomoreparties.space/api/auth/user", {
+  return fetch(authUrl + "/auth/user", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -149,7 +107,7 @@ const getUser = (token) => {
 };
 
 const updateUser = (token, email, password, name) => {
-  return fetch("https://norma.nomoreparties.space/api/auth/user", {
+  return fetch(authUrl + "/auth/user", {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

@@ -1,6 +1,7 @@
 const IngredientsData = "https://norma.nomoreparties.space/api/ingredients";
 const orderData = "https://norma.nomoreparties.space/api/orders";
 const modalRoot = document.getElementById("modals");
+const authUrl = 'https://norma.nomoreparties.space/api';
 
 function setCookie(name, value, props) {
   props = props || {};
@@ -36,4 +37,12 @@ function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export { IngredientsData, modalRoot, orderData, setCookie, getCookie };
+function checkResponse(res) {
+    if (res.ok) {
+      return res.json();
+    } else {
+      return Promise.reject(`Ошибка: ${res.status}`);
+    }
+}
+
+export { IngredientsData, modalRoot, orderData, setCookie, getCookie, authUrl, checkResponse };

@@ -14,7 +14,7 @@ export function postLogin(email, password) {
       .then((res) => {
         if (res.success) {
           localStorage.setItem("access", res.accessToken);
-          setCookie("refresh", res.refreshToken);
+          localStorage.setItem("refresh", res.refreshToken);
           dispatch({
             type: LOGIN_SUCCESS,
             loginData: res, //передаем результат пост запроса

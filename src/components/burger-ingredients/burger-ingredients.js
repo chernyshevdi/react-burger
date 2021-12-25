@@ -3,19 +3,14 @@ import styleIngredients from "../burger-ingredients/burger-ingredients.module.cs
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ProductItem from "../product-item/product-item";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
-import { getItems } from "../../services/actions/burger-ingredients";
+import { useSelector } from "react-redux";
+
 
 function BurgerIngredients(props) {
-  const dispatch = useDispatch(); // ф-ия отправляет экшены
 
   //данные ингредиентов из хранилища
   const { ingredients } = useSelector((state) => state.ingredientsReducer);
 
-  //отправляем запрос к апи
-  useEffect(() => {
-    dispatch(getItems());
-  }, [dispatch]);
 
   const [current, setCurrent] = React.useState("bun");
 

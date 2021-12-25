@@ -53,7 +53,6 @@ function ProductItem({ item, onOpen, id }) {
         <Counter count={count()} size="default" />
       </div>
       <Link
-        key={item._id}
         to={{
           pathname: `/ingredients/${item._id}`,
           state: { background: location },
@@ -78,12 +77,9 @@ function ProductItem({ item, onOpen, id }) {
 }
 
 ProductItem.propTypes = {
-  card: PropTypes.shape({
-    image: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    name: PropTypes.string.isRequired,
-  }),
+  item: PropTypes.object.isRequired,
   onOpen: PropTypes.func.isRequired,
+  id: PropTypes.string.isRequired,
 };
 
 export default ProductItem;

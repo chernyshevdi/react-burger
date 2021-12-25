@@ -26,6 +26,7 @@ function Profile() {
   const { login } = useSelector((state) => state.loginReducer);
 
   let accessToken = localStorage.getItem("access");
+  let refreshToken = localStorage.getItem("refresh");
 
   const history = useHistory();
 
@@ -52,23 +53,31 @@ function Profile() {
     e.preventDefault();
     setName(updateUser.user ? updateUser.user.name : userData.user.name);
     setEmail(updateUser.user ? updateUser.user.email : userData.user.email);
+    setPassword('')
     setInputChange(false);
   };
 
   useEffect(() => {
-    setName(userData.user ? userData.user.name : "");
-    setEmail(userData.user ? userData.user.email : "");
+    setName(updateUser.user ? updateUser.user.name : userData.user ? userData.user.name : '');
+    setEmail(updateUser.user ? updateUser.user.email : userData.user ?  userData.user.name : '');
   }, [userData]);
 
   function handleLogout(e) {
     //хендел выхода из профиля
     e.preventDefault();
-    dispatch(postLogout(getCookie("refresh")));
+    dispatch(postLogout(refreshToken));
   }
 
   useEffect(() => {
+    if (status.success === false) {
+      //если токен умер
+      dispatch(postUpdateToken(refreshToken)); //то отправляем запрос на новый токен
+    }
+  }, [status.success, dispatch]);
+
+  useEffect(() => {
     //обновляю данные пользователя
-    if (accessToken) {
+    if (accessToken && userData.success) {
       dispatch(getUserData(accessToken));
     }
   }, [dispatch, accessToken]);
@@ -81,18 +90,11 @@ function Profile() {
   }, [accessToken, history, login]);
 
   useEffect(() => {
-    if (status.success === false) {
-      //если токен умер
-      dispatch(postUpdateToken(getCookie("refresh"))); //то отправляем запрос на новый токен
-    }
-  }, [status, dispatch]);
-
-  useEffect(() => {
     if (updatestatus.success === false) {
       //если токен умер
       dispatch(getUserData(accessToken)); //то отправляем запрос на новый токен
     }
-  }, [updatestatus, dispatch, accessToken]);
+  }, [updatestatus.success, dispatch, accessToken]);
 
   useEffect(() => {
     if (userData.user && name) {

@@ -1,4 +1,4 @@
-import Registration from "../registration/registration";
+import AuthForm from "../../components/auth-form/auth-form";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -50,7 +50,7 @@ function RecoveryPassword() {
   }, [accessToken, history]);
 
   return (
-    <Registration
+    <AuthForm
       title="Восстановление пароля"
       buttonName="Сохранить"
       footerQuestion="Вспомнили пароль?"
@@ -69,7 +69,7 @@ function RecoveryPassword() {
         onChange={handleChangeToken}
         value={token || ""}
       />
-    </Registration>
+    </AuthForm>
   );
 }
 

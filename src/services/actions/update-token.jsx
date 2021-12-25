@@ -12,9 +12,9 @@ export function postUpdateToken(token) {
     });
     updateToken(token)
       .then((res) => {
-        if (res.success) {
+        if (res) {
           localStorage.setItem("access", res.accessToken);
-          setCookie("refresh", res.refreshToken);
+          localStorage.setItem("refresh", res.refreshToken);
           dispatch({
             type: UPDATE_TOKEN_SUCCESS,
             updateTokenData: res,

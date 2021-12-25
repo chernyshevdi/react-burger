@@ -1,11 +1,11 @@
-import styleRegistration from "./registration.module.css";
+import styleAuthForm from "./auth-form.module.css";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link } from "react-router-dom";
 
-function Registration(props) {
+function AuthForm(props) {
   return (
-    <section className={styleRegistration.container}>
-      <form className={styleRegistration.form} onSubmit={props.submit}>
+    <section className={styleAuthForm.container}>
+      <form className={styleAuthForm.form} onSubmit={props.submit}>
         <h2 className="text text_type_main-medium mb-6">{props.title}</h2>
         {props.children}
         <Button type="primary" size="medium">
@@ -13,17 +13,17 @@ function Registration(props) {
         </Button>
       </form>
       <p
-        className={`${styleRegistration.footer} text text_type_main-default text_color_inactive`}
+        className={`${styleAuthForm.footer} text text_type_main-default text_color_inactive`}
       >
         {props.footerQuestion}{" "}
-        <Link className={styleRegistration.footerLink} to={props.link}>
+        <Link className={styleAuthForm.footerLink} to={props.link}>
           {props.footerLink}
         </Link>
       </p>
       <p className="text text_type_main-default text_color_inactive">
         {" "}
         {props.footerMoreQuestion}
-        <Link className={styleRegistration.footerLink} to={props.moreLink}>
+        <Link className={styleAuthForm.footerLink} to={props.moreLink}>
           {props.footerMoreLink}
         </Link>
       </p>
@@ -31,4 +31,4 @@ function Registration(props) {
   );
 }
 
-export default Registration;
+export default AuthForm;
