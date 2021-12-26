@@ -51,6 +51,7 @@ export const loginReducer = (state = initialState, action) => {
         ...initialState,
         loginRequest: false,
         loginFailed: true,
+        login: false,
       };
     }
 
@@ -76,6 +77,7 @@ export const loginReducer = (state = initialState, action) => {
         ...initialState,
         logoutRequest: false,
         logoutFailed: true,
+        login: true,
       };
     }
 

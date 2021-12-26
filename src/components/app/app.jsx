@@ -8,14 +8,9 @@ import { ADD_MODAL_DATA } from "../../services/actions/app";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { Switch, Route, useLocation, useHistory } from "react-router-dom";
-import SignIn from "../../pages/sign-in/signin";
-import RegistrationPage from "../../pages/registration-page/registration";
-import ForgotPassword from "../../pages/forgot-password/forgotPassword";
-import RecoveryPassword from "../../pages/recovery-password/recoveryPassword";
-import Profile from "../../pages/profile/profile";
+import { SignIn, RegistrationPage, ForgotPassword, RecoveryPassword, Profile} from "../../pages/";
 import { ProtectedRoute } from "../protected-route/protected-route";
 import { getUserData } from "../../services/actions/get-user";
-import { getCookie } from "../../utils/constants";
 import { postUpdateToken } from "../../services/actions/update-token";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 
@@ -79,24 +74,36 @@ function App() {
     setIsIngredientModalOpen(false);
     setIsOrderModalOpen(false);
   }
+  
+  const { updateTokenSuccess } = useSelector((state) => state.updateTokenReducer);
+  const { userFailed } = useSelector((state) => state.getUserReducer);
 
-  const { status } = useSelector((state) => state.getUserReducer);
-  let accessToken = localStorage.getItem("access");
-  let refreshToken = localStorage.getItem("refresh");
+  function checkUser(accessToken) {
+    dispatch(getUserData(accessToken))
+  }
 
   useEffect(() => {
+    const accessToken = localStorage.getItem("access");
     //обновляю данные пользователя
     if (accessToken) {
-      dispatch(getUserData(accessToken));
+      checkUser(accessToken)
     }
-  }, [dispatch, accessToken]);
+  }, []);
 
   useEffect(() => {
-    if (status.success === false) {
+    const accessToken = localStorage.getItem("access");
+    if(updateTokenSuccess) {
+      checkUser(accessToken)
+    }
+  },[updateTokenSuccess])
+
+  useEffect(() => {
+    const refreshToken = localStorage.getItem("refresh");
+    if (userFailed) {
       //если токен умер
       dispatch(postUpdateToken(refreshToken)); //то отправляем запрос на новый токен
     }
-  }, [status, dispatch]);
+  }, [dispatch, userFailed]);
 
   const location = useLocation();
   const history = useHistory();

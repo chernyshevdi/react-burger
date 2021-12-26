@@ -8,6 +8,7 @@ const initialState = {
   updateTokenData: {}, //объект ответа от сервера
   updateTokenRequest: false, // состояние во время вызова
   updateTokenFailed: false, // состояние при отказе
+  updateTokenSuccess: false
 };
 
 export const updateTokenReducer = (state = initialState, action) => {
@@ -25,6 +26,7 @@ export const updateTokenReducer = (state = initialState, action) => {
         updateTokenRequest: false,
         updateTokenFailed: false,
         updateTokenData: action.updateTokenData,
+        updateTokenSuccess: true
       };
     }
 

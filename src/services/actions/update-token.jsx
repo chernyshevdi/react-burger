@@ -12,7 +12,7 @@ export function postUpdateToken(token) {
     });
     updateToken(token)
       .then((res) => {
-        if (res) {
+        if (res.success) {
           localStorage.setItem("access", res.accessToken);
           localStorage.setItem("refresh", res.refreshToken);
           dispatch({

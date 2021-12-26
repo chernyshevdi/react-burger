@@ -16,7 +16,7 @@ function Profile() {
   let location = useLocation();
   const dispatch = useDispatch();
   const { userData } = useSelector((state) => state.getUserReducer);
-  const { status } = useSelector((state) => state.getUserReducer);
+  const { loggedIn } = useSelector((state) => state.getUserReducer);
   const { updatestatus } = useSelector((state) => state.updateUserReducer);
   const { updateUser } = useSelector((state) => state.updateUserReducer);
   const [email, setEmail] = useState("");
@@ -26,7 +26,6 @@ function Profile() {
   const { login } = useSelector((state) => state.loginReducer);
 
   let accessToken = localStorage.getItem("access");
-  let refreshToken = localStorage.getItem("refresh");
 
   const history = useHistory();
 
@@ -59,43 +58,54 @@ function Profile() {
 
   useEffect(() => {
     setName(updateUser.user ? updateUser.user.name : userData.user ? userData.user.name : '');
-    setEmail(updateUser.user ? updateUser.user.email : userData.user ?  userData.user.name : '');
+    setEmail(updateUser.user ? updateUser.user.email : userData.user ?  userData.user.email : '');
   }, [userData]);
 
   function handleLogout(e) {
     //хендел выхода из профиля
     e.preventDefault();
-    dispatch(postLogout(refreshToken));
+    dispatch(postLogout(getCookie("refresh")));
   }
-
+/*
   useEffect(() => {
     if (status.success === false) {
       //если токен умер
-      dispatch(postUpdateToken(refreshToken)); //то отправляем запрос на новый токен
+      dispatch(postUpdateToken(getCookie("refresh"))); //то отправляем запрос на новый токен
     }
   }, [status.success, dispatch]);
 
+  function checkUser(accessToken) {
+    dispatch(getUserData(accessToken))
+  }
+  const { updateTokenSuccess } = useSelector((state) => state.updateTokenReducer);
+
   useEffect(() => {
     //обновляю данные пользователя
-    if (accessToken && userData.success) {
-      dispatch(getUserData(accessToken));
+    if (accessToken) {
+      checkUser(accessToken)
     }
-  }, [dispatch, accessToken]);
+  }, [dispatch, accessToken, ]);
 
+  useEffect(() => {
+    if(updateTokenSuccess) {
+      checkUser(accessToken)
+    }
+  },[updateTokenSuccess])
+*/
   useEffect(() => {
     //переход после выхода из профиля
     if (!accessToken && !login) {
       history.replace({ pathname: "/login" });
     }
   }, [accessToken, history, login]);
-
+/*
   useEffect(() => {
     if (updatestatus.success === false) {
       //если токен умер
       dispatch(getUserData(accessToken)); //то отправляем запрос на новый токен
     }
-  }, [updatestatus.success, dispatch, accessToken]);
-
+  }, [updatestatus.success, dispatch]);
+*/
   useEffect(() => {
     if (userData.user && name) {
       if (
@@ -108,7 +118,7 @@ function Profile() {
         setInputChange(false);
       }
     }
-  }, [name, userData.user, email, password]);
+  }, [name, userData, email, password]);
 
   return (
     <section className={styleProfile.container}>
