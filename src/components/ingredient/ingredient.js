@@ -1,22 +1,26 @@
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import styleIngredient from "../ingredient/ingredient.module.css";
 import { useSelector, useDispatch } from "react-redux";
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { ADD_MODAL_DATA } from "../../services/actions/app";
 
 function Ingredient() {
   const dispatch = useDispatch();
   const { ingredients } = useSelector((state) => state.ingredientsReducer);
-  const { id } = useParams();
   const [item, setItem] = useState(null);
+  const [currentIngredientId, setCurrentIngredientId] = useState(null);
+
+  const ingredient =(id) => {
+    setCurrentIngredientId(id)
+  }
 
   useEffect(() => {
-    if (id) {
-      setItem(ingredients.find((item) => item._id === id));
+    if(currentIngredientId) {
+      setItem(ingredients.find((item) => item._id === currentIngredientId));
     }
-  }, [ingredients, id]);
+  },[setItem, ingredients ])
 
+  
   useEffect(() => {
     if (item) {
       dispatch({
@@ -28,7 +32,7 @@ function Ingredient() {
 
   return (
     <div className={styleIngredient.container}>
-      <IngredientDetails />
+      <IngredientDetails  modal={ingredient}/>
     </div>
   );
 }

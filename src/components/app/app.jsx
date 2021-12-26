@@ -19,14 +19,13 @@ import Ingredient from "../ingredient/ingredient";
 import { getItems } from "../../services/actions/burger-ingredients";
 
 function App() {
-  const [isIngredientModalOpen, setIsIngredientModalOpen] = React.useState(false);
+  const [isIngredientModalOpen, setIsIngredientModalOpen] = React.useState(true);
   const [isOrderModalOpen, setIsOrderModalOpen] = React.useState(false);
+  const dispatch = useDispatch();
 
   function openModalOrder() {
     setIsOrderModalOpen(true);
   }
-
-  const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(getItems());
@@ -45,9 +44,9 @@ function App() {
   };
 
   const ingredient = (id) => {
-    setCurrentIngredientId(id);
+    setCurrentIngredientId(id)
   };
-  
+
   useEffect(() => {
     if(currentIngredientId) {
       setCurrentIngredientItem(ingredients.find((item) => item._id === currentIngredientId));
@@ -57,10 +56,12 @@ function App() {
   useEffect(() => {
     if(currentIngredientItem) {
       const item = currentIngredientItem;
+
       dispatch({
         type: ADD_MODAL_DATA,
         item, //отправляем экшен с данными карточки
       });
+      
       setIsIngredientModalOpen(true);
     }
   }, [currentIngredientItem, dispatch])
@@ -147,7 +148,7 @@ function App() {
         <ProtectedRoute path="/profile/orders" exact={true}>
           <Profile />
         </ProtectedRoute>
-        <Route path="/ingredients/:id" exact={true}>
+        <Route path="/ingredients/:id" >
           <Ingredient />
         </Route>
       </Switch>
@@ -157,9 +158,8 @@ function App() {
           <Modal
             onClose={closeIngredientModal}
             onOpen={isIngredientModalOpen}
-            modal={ingredient}
           >
-            <IngredientDetails />
+            <IngredientDetails modal={ingredient}/>
 
           </Modal>
         </Route>

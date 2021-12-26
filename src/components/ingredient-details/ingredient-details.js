@@ -1,9 +1,17 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styleIngredient from "../ingredient-details/ingredient-details.module.css";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
-function IngredientDetails() {
+function IngredientDetails({modal}) {
   const { currentIngredient } = useSelector((state) => state.appReducer); //данные полученные из хранилища
+  const { id } = useParams();
+
+  useEffect(() => {
+    if(id) {
+      modal(id)
+    }
+  },[id])
 
   return (
     <div className={styleIngredient.container}>

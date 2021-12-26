@@ -1,25 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import modalStyle from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ReactDOM from "react-dom";
 import PropTypes from "prop-types";
 import { modalRoot } from "../../utils/constants.js";
-import { useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import ModalOverlay from "./modal-overlay";
 
-function Modal({ onClose, modal, onOpen, children }) {
-  
-  const { id } = useParams();
+function Modal({ onClose, onOpen, children }) {
 
-  useEffect(() => {
-    if(id) {
-      modal(id)
-    }
-  },[id])
-  
+  const history = useHistory();
+
   function escClose(event) {
     if (event.key === 'Escape') {
       onClose(onClose);
+      history.goBack();
     }
   }
 
