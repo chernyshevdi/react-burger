@@ -33,7 +33,7 @@ function AppHeader() {
             </p>
           </Link>
 
-          <button className={styleHeader.button} current="orderList">
+          <button className={styleHeader.button} data-current="orderList">
             <ListIcon type="secondary" />
             <p
               className={`${styleHeader.buttonName} text text_type_main-default ml-2`}

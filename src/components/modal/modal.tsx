@@ -2,18 +2,21 @@ import React from "react";
 import modalStyle from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ReactDOM from "react-dom";
-import PropTypes from "prop-types";
-import { modalRoot } from "../../utils/constants.js";
+import { modalRoot } from "../../utils/constants";
 import { useHistory } from "react-router-dom";
 import ModalOverlay from "./modal-overlay";
+import { FC } from 'react';
 
-function Modal({ onClose, onOpen, children }) {
+interface IModal {
+  onClose: () => void;
+  onOpen: boolean;
+}
 
+const Modal: FC<IModal> = ({ onClose, onOpen, children }) => {
   const history = useHistory();
 
-  function escClose(event) {
+  function escClose(event: any) {
     if (event.key === 'Escape') {
-      onClose(onClose);
       history.goBack();
     }
   }
@@ -32,10 +35,10 @@ function Modal({ onClose, onOpen, children }) {
     onClose={onClose}
     onOpen={onOpen}
   />
-    <div className={modalStyle.popup}>
+    <div className={modalStyle.popup} onKeyDown={escClose}>
       <div className={`${modalStyle.container}`}>
         <div className={modalStyle.close}>
-          <CloseIcon type="primary" onClick={onClose} onKeyDown={escClose} />
+          <CloseIcon type="primary" onClick={onClose} />
         </div>
       </div>
       {children}
@@ -44,11 +47,5 @@ function Modal({ onClose, onOpen, children }) {
     modalRoot
   );
 }
-
-Modal.propTypes = {
-  onOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-  modal: PropTypes.func,
-};
 
 export default Modal;

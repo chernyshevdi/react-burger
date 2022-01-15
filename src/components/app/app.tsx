@@ -8,7 +8,7 @@ import { ADD_MODAL_DATA } from "../../services/actions/app";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { Switch, Route, useLocation, useHistory } from "react-router-dom";
-import { SignIn, RegistrationPage, ForgotPassword, RecoveryPassword, Profile} from "../../pages/";
+import { SignIn, RegistrationPage, ForgotPassword, RecoveryPassword, Profile} from "../../pages";
 import { ProtectedRoute } from "../protected-route/protected-route";
 import { getUserData } from "../../services/actions/get-user";
 import { postUpdateToken } from "../../services/actions/update-token";
@@ -18,9 +18,23 @@ import Modal from "../modal/modal";
 import Ingredient from "../ingredient/ingredient";
 import { getItems } from "../../services/actions/burger-ingredients";
 
+interface RootState {
+  ingredientsReducer: any;
+  updateTokenReducer: any;
+  getUserReducer: any;
+}
+
+type TItem = { 
+  type: string;
+  _id?: string;
+  image: string;
+  name: string;
+  price: number;
+}
+
 function App() {
-  const [isIngredientModalOpen, setIsIngredientModalOpen] = React.useState(true);
-  const [isOrderModalOpen, setIsOrderModalOpen] = React.useState(false);
+  const [isIngredientModalOpen, setIsIngredientModalOpen] = React.useState<boolean>(true);
+  const [isOrderModalOpen, setIsOrderModalOpen] = React.useState<boolean>(false);
   const dispatch = useDispatch();
 
   function openModalOrder() {
@@ -31,11 +45,11 @@ function App() {
     dispatch(getItems());
   }, [dispatch]);
 
-  const { ingredients } = useSelector((state) => state.ingredientsReducer);
-  const [currentIngredientId, setCurrentIngredientId] = React.useState(null);
+  const { ingredients } = useSelector((state: RootState) => state.ingredientsReducer);
+  const [currentIngredientId, setCurrentIngredientId] = React.useState<string>();
   const [currentIngredientItem, setCurrentIngredientItem] = React.useState(null);
 
-  const openModalIgredients = (item) => {
+  const openModalIgredients = (item?: {}) => {
     dispatch({
       type: ADD_MODAL_DATA,
       item, //отправляем экшен с данными карточки
@@ -43,13 +57,13 @@ function App() {
     setIsIngredientModalOpen(true);
   };
 
-  const ingredient = (id) => {
+  const ingredient = (id: string) => {
     setCurrentIngredientId(id)
   };
 
   useEffect(() => {
     if(currentIngredientId) {
-      setCurrentIngredientItem(ingredients.find((item) => item._id === currentIngredientId));
+      setCurrentIngredientItem(ingredients.find((item: TItem) => item._id === currentIngredientId));
     }
   },[currentIngredientId, ingredients ])
 
@@ -76,15 +90,15 @@ function App() {
     setIsOrderModalOpen(false);
   }
   
-  const { updateTokenSuccess } = useSelector((state) => state.updateTokenReducer);
-  const { userFailed } = useSelector((state) => state.getUserReducer);
+  const { updateTokenSuccess } = useSelector((state: RootState) => state.updateTokenReducer);
+  const { userFailed } = useSelector((state: RootState) => state.getUserReducer);
 
-  function checkUser(accessToken) {
+  function checkUser(accessToken: string | null) {
     dispatch(getUserData(accessToken))
   }
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("access");
+    const accessToken: string | null = localStorage.getItem("access");
     //обновляю данные пользователя
     if (accessToken) {
       checkUser(accessToken)
@@ -92,21 +106,21 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const accessToken = localStorage.getItem("access");
+    const accessToken: string | null = localStorage.getItem("access");
     if(updateTokenSuccess) {
       checkUser(accessToken)
     }
   },[updateTokenSuccess])
 
   useEffect(() => {
-    const refreshToken = localStorage.getItem("refresh");
+    const refreshToken: string | null = localStorage.getItem("refresh");
     if (userFailed) {
       //если токен умер
       dispatch(postUpdateToken(refreshToken)); //то отправляем запрос на новый токен
     }
   }, [dispatch, userFailed]);
 
-  const location = useLocation();
+  const location = useLocation<any>();
   const history = useHistory();
   const background = location.state && location.state.background;
 
@@ -119,7 +133,7 @@ function App() {
             <DndProvider backend={HTML5Backend}>
               <BurgerIngredients
                 onClose={closeModal}
-                onOpen={isIngredientModalOpen}
+                //onOpen={isIngredientModalOpen}
                 openModal={openModalIgredients}
               />
               <BurgerConstructor
@@ -142,12 +156,19 @@ function App() {
         <Route path="/reset-password" exact={true}>
           <RecoveryPassword />
         </Route>
-        <ProtectedRoute path="/profile" exact={true}>
-          <Profile />
-        </ProtectedRoute>
-        <ProtectedRoute path="/profile/orders" exact={true}>
-          <Profile />
-        </ProtectedRoute>
+
+        <Route path="/profile" exact={true}>
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        </Route>
+        
+        <Route path="/profile/orders" exact={true}>
+          <ProtectedRoute>
+            <Profile />
+          </ProtectedRoute>
+        </Route>
+        
         <Route path="/ingredients/:id" >
           <Ingredient />
         </Route>

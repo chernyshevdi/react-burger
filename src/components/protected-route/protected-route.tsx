@@ -1,7 +1,8 @@
 import { Route, Redirect } from "react-router-dom";
+import { FunctionComponent } from 'react';
 
-export function ProtectedRoute({ children, ...rest }) {
-  let accessToken = localStorage.getItem("access");
+export const ProtectedRoute: FunctionComponent  = ({ children, ...rest }) => {
+  let accessToken: string | null = localStorage.getItem("access");
 
   return (
     <Route

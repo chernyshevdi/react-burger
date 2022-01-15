@@ -3,14 +3,32 @@ import {
   CurrencyIcon,
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import { useDrag } from "react-dnd";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
+import { FunctionComponent } from 'react';
 
-function ProductItem({ item, onOpen, id }) {
+interface IProductItem {
+  item: { 
+    type?: string;
+    _id: string;
+    image: string;
+    name: string;
+    price: number;
+  };
+  onOpen: (item?: object) => void;
+  id: string;
+  onClose?: () => void;
+  card?: {}
+}
+
+interface RootState {
+  constructorReducer: any;
+}
+
+const ProductItem: FunctionComponent<IProductItem> = ({ item, onOpen, id }) => {
   const { ingredientsInBurgerConstructor } = useSelector(
-    (state) => state.constructorReducer
+    (state: RootState) => state.constructorReducer
   );
 
   function handleClick() {
@@ -26,22 +44,22 @@ function ProductItem({ item, onOpen, id }) {
     }),
   });
 
-  const count = () => {
+  const count = () => { 
     if (item.type === "bun") {
       return ingredientsInBurgerConstructor.bun.filter(
-        (item) => item._id === id
+        (item: { _id?: string }) => item._id === id
       ).length !== 0
-        ? ingredientsInBurgerConstructor.bun.filter((item) => item._id === id)
+        ? ingredientsInBurgerConstructor.bun.filter((item: { _id?: string }) => item._id === id)
             .length + 1
         : 0;
     } else {
       return ingredientsInBurgerConstructor.other.filter(
-        (item) => item._id === id
+        (item: { _id?: string }) => item._id === id
       ).length;
     }
   };
 
-  const location = useLocation();
+  const location = useLocation(); 
 
   return (
     <section
@@ -75,11 +93,5 @@ function ProductItem({ item, onOpen, id }) {
     </section>
   );
 }
-
-ProductItem.propTypes = {
-  item: PropTypes.object.isRequired,
-  onOpen: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired,
-};
 
 export default ProductItem;

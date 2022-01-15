@@ -1,5 +1,4 @@
 import { login } from "../../utils/api";
-import { setCookie } from "../../utils/constants";
 
 export const LOGIN_REQUEST = "LOGIN_REQUEST";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";

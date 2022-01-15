@@ -6,19 +6,19 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 function ForgotPassword() {
-  const [email, setEmail] = useState();
+  const [email, setEmail] = useState<string>();
   const dispatch = useDispatch();
   const { forgotPassword } = useSelector(
-    (state) => state.forgotPasswordReducer
+    (state: any) => state.forgotPasswordReducer
   );
   const history = useHistory();
-  let accessToken = localStorage.getItem("access");
+  let accessToken: string | null = localStorage.getItem("access");
 
-  function handleChangeEmail(e) {
+  function handleChangeEmail(e: React.ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     dispatch(postForgotPassword(email));
   }

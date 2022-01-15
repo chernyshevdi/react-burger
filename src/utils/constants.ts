@@ -1,9 +1,9 @@
 const IngredientsData = "https://norma.nomoreparties.space/api/ingredients";
 const orderData = "https://norma.nomoreparties.space/api/orders";
-const modalRoot = document.getElementById("modals");
+const modalRoot = document.getElementById("modals")!;
 const authUrl = 'https://norma.nomoreparties.space/api';
 
-function setCookie(name, value, props) {
+function setCookie(name: string, value: string, props: any) {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == "number" && exp) {
@@ -26,7 +26,7 @@ function setCookie(name, value, props) {
   document.cookie = updatedCookie;
 }
 
-function getCookie(name) {
+function getCookie(name: string) {
   const matches = document.cookie.match(
     new RegExp(
       "(?:^|; )" +
@@ -37,7 +37,7 @@ function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-function checkResponse(res) {
+function checkResponse(res: {ok: boolean; status: number; json(): Promise<{}>}) {
     if (res.ok) {
       return res.json();
     } else {

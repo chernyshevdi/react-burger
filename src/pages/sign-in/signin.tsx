@@ -9,26 +9,26 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 
 function SignIn() {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+  const [email, setEmail] = useState<string>();
+  const [password, setPassword] = useState<string>();
   const dispatch = useDispatch();
   const history = useHistory();
-  let accessToken = localStorage.getItem("access");
-  const { loginData } = useSelector((state) => state.loginReducer);
+  let accessToken: string | null = localStorage.getItem("access");
+  const { loginData } = useSelector((state: any) => state.loginReducer);
 
-  function handleChangeEmail(e) {
+  function handleChangeEmail(e: React.ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);
   }
 
-  function handleChangePassword(e) {
+  function handleChangePassword(e: React.ChangeEvent<HTMLInputElement>) {
     setPassword(e.target.value);
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     dispatch(postLogin(email, password));
   }
-  let location = useLocation();
+  let location = useLocation<any>();
 
   useEffect(() => {
     if (accessToken && loginData.success) {
@@ -54,7 +54,7 @@ function SignIn() {
         onChange={handleChangeEmail}
         value={email || ""}
       />
-      <PasswordInput onChange={handleChangePassword} value={password || ""} />
+      <PasswordInput onChange={handleChangePassword} value={password || ""} name="Password" />
     </AuthForm>
   );
 }

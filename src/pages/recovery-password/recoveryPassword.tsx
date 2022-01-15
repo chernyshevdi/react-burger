@@ -5,28 +5,33 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { postRecoveryPassword } from "../../services/actions/recovery-password";
 
+interface RootState {
+  recoveryPasswordReducer: any;
+  forgotPasswordReducer: any;
+}
+
 function RecoveryPassword() {
-  const [password, setPassword] = useState();
-  const [token, setToken] = useState();
+  const [password, setPassword] = useState<string>();
+  const [token, setToken] = useState<string>();
   const dispatch = useDispatch();
   const { recoveryPassword } = useSelector(
-    (state) => state.recoveryPasswordReducer
+    (state: RootState) => state.recoveryPasswordReducer
   );
   const history = useHistory();
-  let accessToken = localStorage.getItem("access");
+  let accessToken: string | null = localStorage.getItem("access");
   const { forgotPassword } = useSelector(
-    (state) => state.forgotPasswordReducer
+    (state: RootState) => state.forgotPasswordReducer
   );
 
-  function handleChangePassword(e) {
+  function handleChangePassword(e: React.ChangeEvent<HTMLInputElement>) {
     setPassword(e.target.value);
   }
 
-  function handleChangeToken(e) {
+  function handleChangeToken(e: React.ChangeEvent<HTMLInputElement>) {
     setToken(e.target.value);
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     dispatch(postRecoveryPassword(password, token));
   }

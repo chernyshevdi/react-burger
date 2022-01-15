@@ -5,51 +5,53 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserData } from "../../services/actions/get-user";
 import { useEffect, useState } from "react";
 import { updateUserData } from "../../services/actions/update-user";
 import { postLogout } from "../../services/actions/logout";
 import { getCookie } from "../../utils/constants";
-import { postUpdateToken } from "../../services/actions/update-token";
+
+interface RootState {
+  getUserReducer: any;
+  updateUserReducer: any;
+  loginReducer: any;
+}
 
 function Profile() {
   let location = useLocation();
   const dispatch = useDispatch();
-  const { userData } = useSelector((state) => state.getUserReducer);
-  const { loggedIn } = useSelector((state) => state.getUserReducer);
-  const { updatestatus } = useSelector((state) => state.updateUserReducer);
-  const { updateUser } = useSelector((state) => state.updateUserReducer);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState();
-  const [name, setName] = useState("");
-  const [inputChange, setInputChange] = useState(false);
-  const { login } = useSelector((state) => state.loginReducer);
+  const { userData } = useSelector((state: RootState) => state.getUserReducer);
+  const { updateUser } = useSelector((state: RootState) => state.updateUserReducer);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>();
+  const [name, setName] = useState<string>("");
+  const [inputChange, setInputChange] = useState<boolean>(false);
+  const { login } = useSelector((state: RootState) => state.loginReducer);
 
-  let accessToken = localStorage.getItem("access");
+  let accessToken: string | null = localStorage.getItem("access");
 
   const history = useHistory();
 
-  function handleChangeEmail(e) {
+  function handleChangeEmail(e: React.ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);
   }
 
-  function handleChangePassword(e) {
+  function handleChangePassword(e: React.ChangeEvent<HTMLInputElement>) {
     setPassword(e.target.value);
   }
 
-  function handleChangeName(e) {
+  function handleChangeName(e: React.ChangeEvent<HTMLInputElement>) {
     setName(e.target.value);
   }
 
-  function handleSubmit(e) {
+  const handleSubmit = (e?: React.MouseEvent<HTMLButtonElement>): void => {
     //хендел обновления данных
-    e.preventDefault();
+    e!.preventDefault();
     dispatch(updateUserData(accessToken, email, password, name));
     setInputChange(false);
   }
 
-  const handleСancelСhanges = (e) => {
-    e.preventDefault();
+  const handleСancelСhanges = (e?: React.MouseEvent<HTMLButtonElement>): void => { //
+    e!.preventDefault();
     setName(updateUser.user ? updateUser.user.name : userData.user.name);
     setEmail(updateUser.user ? updateUser.user.email : userData.user.email);
     setPassword('')
@@ -61,51 +63,19 @@ function Profile() {
     setEmail(updateUser.user ? updateUser.user.email : userData.user ?  userData.user.email : '');
   }, [userData]);
 
-  function handleLogout(e) {
+  function handleLogout(e: React.MouseEvent<HTMLElement>) {
     //хендел выхода из профиля
     e.preventDefault();
     dispatch(postLogout(getCookie("refresh")));
   }
-/*
-  useEffect(() => {
-    if (status.success === false) {
-      //если токен умер
-      dispatch(postUpdateToken(getCookie("refresh"))); //то отправляем запрос на новый токен
-    }
-  }, [status.success, dispatch]);
 
-  function checkUser(accessToken) {
-    dispatch(getUserData(accessToken))
-  }
-  const { updateTokenSuccess } = useSelector((state) => state.updateTokenReducer);
-
-  useEffect(() => {
-    //обновляю данные пользователя
-    if (accessToken) {
-      checkUser(accessToken)
-    }
-  }, [dispatch, accessToken, ]);
-
-  useEffect(() => {
-    if(updateTokenSuccess) {
-      checkUser(accessToken)
-    }
-  },[updateTokenSuccess])
-*/
   useEffect(() => {
     //переход после выхода из профиля
     if (!accessToken && !login) {
       history.replace({ pathname: "/login" });
     }
   }, [accessToken, history, login]);
-/*
-  useEffect(() => {
-    if (updatestatus.success === false) {
-      //если токен умер
-      dispatch(getUserData(accessToken)); //то отправляем запрос на новый токен
-    }
-  }, [updatestatus.success, dispatch]);
-*/
+
   useEffect(() => {
     if (userData.user && name) {
       if (

@@ -5,21 +5,40 @@ import { useRef } from "react";
 import styleConstructor from "../burger-constructor/burger-constructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
+import { FC } from 'react';
 
-function ProductConstructorItem({
-  handleClose,
-  moveListItem,
-  index,
-  item,
-  type,
-  isLocked,
-}) {
+interface IProductConstructorItem {
+  handleClose: () => void | undefined;
+  moveListItem?: (dragIndex?: number, hoverIndex?: number) => void;
+  index?: number | undefined;
+  item: {
+    type: string;
+    _id?: string;
+    image: string;
+    name: string;
+    price: number;
+  }
+  type: "top" | "bottom" | undefined;
+  isLocked?: boolean;
+  key?: string
+}
 
+interface RootState {
+  constructorReducer: any;
+}
+
+const ProductConstructorItem: FC<IProductConstructorItem> = ({
+  handleClose, 
+  moveListItem, 
+  index, 
+  item, 
+  type, 
+  isLocked, 
+}) => {
   const { ingredientsInBurgerConstructor } = useSelector(
-    (state) => state.constructorReducer
+    (state: RootState) => state.constructorReducer
   );
-  const dragDropRef = useRef(null);
+  const dragDropRef = useRef<HTMLLIElement>(null);
 
   const [, drag] = useDrag({
     //добавляю ф-ть перетаскивания
@@ -32,12 +51,12 @@ function ProductConstructorItem({
 
   const [{ opacity }, drop] = useDrop({
     accept: "item",
-    hover: (item) => {
+    hover: (item: {_id: string}) => {
       const dragIndex = ingredientsInBurgerConstructor.other.findIndex(
-        (elem) => elem._id === item._id
+        (elem:{_id: string}) => elem._id === item._id
       );
       const hoverIndex = index;
-      moveListItem(dragIndex, hoverIndex);
+      moveListItem!(dragIndex, hoverIndex);
     },
     collect: (monitor) => ({
       opacity: monitor.isOver() ? 0.2 : 1,
@@ -65,7 +84,7 @@ function ProductConstructorItem({
     </li>
   ) : (
     <li className={styleConstructor.item} style={{ opacity }} ref={dragDropRef}>
-      <DragIcon />
+      <DragIcon type="secondary" />
       <ConstructorElement
         text={item.name}
         price={item.price}
@@ -73,19 +92,9 @@ function ProductConstructorItem({
         handleClose={handleClose}
         type={type}
         isLocked={isLocked}
-        moveListItem={moveListItem}
       />
     </li>
   );
 }
-
-ProductConstructorItem.propTypes = {
-  handleClose: PropTypes.func.isRequired,
-  moveListItem: PropTypes.func,
-  index: PropTypes.number,
-  item: PropTypes.object.isRequired,
-  type: PropTypes.string,
-  isLocked: PropTypes.bool,
-};
 
 export default ProductConstructorItem;

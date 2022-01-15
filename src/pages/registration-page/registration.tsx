@@ -9,27 +9,27 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 
 function RegistrationPage() {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
-  const [name, setName] = useState();
+  const [email, setEmail] = useState<string>();
+  const [password, setPassword] = useState<string>();
+  const [name, setName] = useState<string>();
   const dispatch = useDispatch();
-  const { registerData } = useSelector((state) => state.registerReducer);
+  const { registerData } = useSelector((state: any) => state.registerReducer);
   const history = useHistory();
-  let accessToken = localStorage.getItem("access");
+  let accessToken: string | null = localStorage.getItem("access");
 
-  function handleChangeEmail(e) {
+  function handleChangeEmail(e: React.ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);
   }
 
-  function handleChangePassword(e) {
+  function handleChangePassword(e: React.ChangeEvent<HTMLInputElement>) {
     setPassword(e.target.value);
   }
 
-  function handleChangeName(e) {
+  function handleChangeName(e: React.ChangeEvent<HTMLInputElement>) {
     setName(e.target.value);
   }
 
-  function handleSubmit(e) {
+  function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
     dispatch(postRegister(email, password, name));
@@ -68,7 +68,7 @@ function RegistrationPage() {
         onChange={handleChangeEmail}
         value={email || ""}
       />
-      <PasswordInput onChange={handleChangePassword} value={password || ""} />
+      <PasswordInput onChange={handleChangePassword} value={password || ""} name="Password" />
     </AuthForm>
   );
 }

@@ -1,5 +1,4 @@
 import { updateToken } from "../../utils/api";
-import { setCookie } from "../../utils/constants";
 
 export const UPDATE_TOKEN_REQUEST = "UPDATE_TOKEN_REQUEST";
 export const UPDATE_TOKEN_SUCCESS = "UPDATE_TOKEN_SUCCESS";

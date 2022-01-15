@@ -1,9 +1,14 @@
 import React from "react";
 import styleOrder from "../order-details/order-details.module.css";
 import { useSelector } from "react-redux";
+import { FC } from 'react';
 
-function OrderDetails() {
-  const { createdOrder } = useSelector((state) => state.constructorReducer);
+interface RootState {
+  constructorReducer: any;
+}
+
+const OrderDetails: FC = () => {
+  const { createdOrder } = useSelector((state: RootState) => state.constructorReducer);
 
   return (
     <div className={styleOrder.container}>

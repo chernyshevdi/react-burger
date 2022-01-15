@@ -3,7 +3,6 @@ import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import ModalOverlay from "../modal/modal-overlay";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
 import { useDispatch, useSelector } from "react-redux";
@@ -16,13 +15,32 @@ import ProductConstructorItem from "../product-constructor-item/product-construc
 import { useDrop } from "react-dnd";
 import { postOrder } from "../../services/actions/burger-constructor";
 import { useHistory } from "react-router-dom";
+import { FC } from 'react';
 
-function BurgerConstructor(props) {
-  const [price, setPrice] = React.useState(0);
+interface IBurgerConstructor {
+  openModal: () => void;  
+  onClose: () => void;
+  onOpen: boolean;
+}
+
+interface RootState {
+  constructorReducer: any;
+}
+
+type TItem = { 
+  type: string;
+  _id?: string;
+  image: string;
+  name: string;
+  price: number;
+}
+
+const BurgerConstructor: FC<IBurgerConstructor> =({openModal, onClose, onOpen}) => {
+  const [price, setPrice] = React.useState<number>(0);
 
   //список ингредиентов для конструктора бургера
   const { ingredientsInBurgerConstructor } = useSelector(
-    (state) => state.constructorReducer
+    (state: RootState) => state.constructorReducer
   );
 
   const dispatch = useDispatch();
@@ -30,7 +48,7 @@ function BurgerConstructor(props) {
 
   useEffect(() => {
     const sumResult = ingredientsInBurgerConstructor.other.reduce(
-      (cur, item) => {
+      (cur: number, item:{price: number}) => {
         return item.price + cur;
       },
       0
@@ -42,17 +60,22 @@ function BurgerConstructor(props) {
     );
   }, [ingredientsInBurgerConstructor]);
 
-  function handleSubmit(e) {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>): void =>  {
     e.preventDefault();
     if (login) {
-      const selectedIngredients = ingredientsInBurgerConstructor.other.map(
-        (item) => {
-          return item._id;
+      
+        if(ingredientsInBurgerConstructor.other.length !== 0 && ingredientsInBurgerConstructor.bun.length !== 0) {
+          const selectedIngredients = ingredientsInBurgerConstructor.other.map(
+            (item: {_id: string}) => {
+              return item._id;
+            }
+          );
+          selectedIngredients.push(ingredientsInBurgerConstructor.bun[0]._id);
+          dispatch(postOrder(selectedIngredients));
         }
-      );
-      selectedIngredients.push(ingredientsInBurgerConstructor.bun[0]._id);
-
-      dispatch(postOrder(selectedIngredients));
+        else {
+          history.replace({ pathname: "/" });
+        }
     } else {
       history.replace({ pathname: "/login" });
     }
@@ -61,9 +84,9 @@ function BurgerConstructor(props) {
   const [{ isHover }, Refdrop] = useDrop({
     accept: "items",
     collect: (monitor) => ({
-      isHover: monitor.isOver(),
+      isHover: monitor.isOver(), 
     }),
-    drop(item) {
+    drop(item:{}) {
       dispatch({
         type: ADD_INGREDIENT_BURGERCONSTRUCTOR,
         ...item,
@@ -71,7 +94,7 @@ function BurgerConstructor(props) {
     },
   });
 
-  const deleteIngredient = (id) => {
+  const deleteIngredient = (id: string) => {
     dispatch({
       type: DELETE_INGREDIENT_BURGERCONSTRUCTOR,
       id,
@@ -80,12 +103,11 @@ function BurgerConstructor(props) {
 
   const borderColor = isHover ? "lightgreen" : "transparent";
 
-  function debounce(func, wait, immediate) {
-    let timeout;
+  function debounce(func: () => void, wait?:number, immediate?: string) { 
+    let timeout: any;
 
-    return function executedFunction() {
+    return function executedFunction(this:any, ...args: []) {
       const context = this;
-      const args = arguments;
 
       const later = function () {
         timeout = null;
@@ -102,7 +124,7 @@ function BurgerConstructor(props) {
     };
   }
 
-  const moveIngredientsItem = useCallback(
+  const moveIngredientsItem: (dragIndex?: number, hoverIndex?: number) => void  = useCallback(
     (dragIndex, hoverIndex) => {
       dispatch({
         type: CHANGE_ORDER_BURGERCONSTRUCTOR,
@@ -116,7 +138,7 @@ function BurgerConstructor(props) {
 
   const moveIngredientsConstructor = debounce(moveIngredientsItem);
 
-  const { login } = useSelector((state) => state.loginReducer);
+  const { login } = useSelector((state: any) => state.loginReducer);
 
   return (
     <section className={`${styleConstructor.block} mt-25`}>
@@ -125,7 +147,7 @@ function BurgerConstructor(props) {
         style={{ borderColor }}
         ref={Refdrop}
       >
-        {ingredientsInBurgerConstructor.bun.map((item, index) => {
+        {ingredientsInBurgerConstructor.bun.map((item: TItem, index: number) => {
           return (
             <ProductConstructorItem
               key={String(item._id) + index}
@@ -140,7 +162,7 @@ function BurgerConstructor(props) {
         })}
 
         <div className={styleConstructor.container}>
-          {ingredientsInBurgerConstructor.other.map((item, index) => {
+          {ingredientsInBurgerConstructor.other.map((item: TItem, index: number) => {
             return (
               <ProductConstructorItem
                 key={String(item._id) + index}
@@ -150,12 +172,13 @@ function BurgerConstructor(props) {
                 index={index}
                 moveListItem={moveIngredientsConstructor}
                 item={item}
+                type={undefined}
               />
             );
           })}
         </div>
 
-        {ingredientsInBurgerConstructor.bun.map((item, index) => {
+        {ingredientsInBurgerConstructor.bun.map((item: TItem, index: number) => {
           return (
             <ProductConstructorItem
               key={String(item._id) + index}
@@ -177,24 +200,20 @@ function BurgerConstructor(props) {
           >
             {price ? price : 0}
           </p>
-          <CurrencyIcon />
+          <CurrencyIcon type="primary" />
         </div>
         <form onSubmit={handleSubmit}>
           <Button
             type="primary"
             size="large"
-            onClick={login ?  props.openModal : null}
-            disabled={
-              ingredientsInBurgerConstructor.other.length === 0 ||
-              ingredientsInBurgerConstructor.bun.length === 0
-            }
+            onClick={login && ingredientsInBurgerConstructor.other.length !== 0 && ingredientsInBurgerConstructor.bun.length !== 0 ? openModal : undefined}
           >
             Оформить заказ
           </Button>
         </form>
       </div>
       {
-        <Modal onClose={props.onClose} onOpen={props.onOpen}>
+        <Modal onClose={onClose} onOpen={onOpen}>
           <OrderDetails />
         </Modal>
       }

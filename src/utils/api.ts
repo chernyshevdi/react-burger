@@ -1,10 +1,10 @@
-import { IngredientsData, orderData, authUrl, checkResponse } from "../utils/constants.js";
+import { IngredientsData, orderData, authUrl, checkResponse } from "./constants";
 
 const getIngredients = () => {
   return fetch(IngredientsData).then(checkResponse)
 };
 
-const order = (id) => {
+const order = (id: string) => {
   return fetch(orderData, {
     method: "POST",
     headers: {
@@ -16,7 +16,7 @@ const order = (id) => {
   }).then(checkResponse)
 };
 
-const forgotPassword = (email) => {
+const forgotPassword = (email: string) => {
   return fetch(authUrl + '/password-reset', {
     method: "POST",
     headers: {
@@ -28,7 +28,7 @@ const forgotPassword = (email) => {
   }).then(checkResponse)
 };
 
-const resetPassword = (password, token) => {
+const resetPassword = (password: string, token: string) => {
   return fetch(authUrl + "/password-reset/reset", {
     method: "POST",
     headers: {
@@ -41,7 +41,7 @@ const resetPassword = (password, token) => {
   }).then(checkResponse)
 };
 
-const register = (email, password, name) => {
+const register = (email: string, password: string, name: string) => {
   return fetch(authUrl + "/auth/register", {
     method: "POST",
     headers: {
@@ -55,7 +55,7 @@ const register = (email, password, name) => {
   }).then(checkResponse)
 };
 
-const login = (email, password) => {
+const login = (email: string, password: string) => {
   return fetch(authUrl + "/auth/login", {
     method: "POST",
     headers: {
@@ -68,7 +68,7 @@ const login = (email, password) => {
   }).then(checkResponse)
 };
 
-const updateToken = (refreshToken) => {
+const updateToken = (refreshToken: string) => {
   return fetch(authUrl + "/auth/token", {
     method: "POST",
     headers: {
@@ -82,7 +82,7 @@ const updateToken = (refreshToken) => {
   });
 };
 
-const logout = (token) => {
+const logout = (token: string) => {
   return fetch(authUrl + "/auth/logout", {
     method: "POST",
     headers: {
@@ -94,7 +94,7 @@ const logout = (token) => {
   }).then(checkResponse) 
 };
 
-const getUser = (token) => {
+const getUser = (token: string) => {
   return fetch(authUrl + "/auth/user", {
     method: "GET",
     headers: {
@@ -106,7 +106,7 @@ const getUser = (token) => {
   });
 };
 
-const updateUser = (token, email, password, name) => {
+const updateUser = (token: string, email: string, password: string, name: string) => {
   return fetch(authUrl + "/auth/user", {
     method: "PATCH",
     headers: {
