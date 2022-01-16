@@ -3,30 +3,28 @@ import modalStyle from "./modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ReactDOM from "react-dom";
 import { modalRoot } from "../../utils/constants";
-import { useHistory } from "react-router-dom";
 import ModalOverlay from "./modal-overlay";
 import { FC } from 'react';
 
 interface IModal {
-  onClose: () => void;
+  onClose: (OnClose?: () => void) => void;
   onOpen: boolean;
 }
 
 const Modal: FC<IModal> = ({ onClose, onOpen, children }) => {
-  const history = useHistory();
 
-  function escClose(event: any) {
+  function escClose(event: KeyboardEvent | React.KeyboardEvent): void {
     if (event.key === 'Escape') {
-      history.goBack();
+      onClose(onClose)
     }
   }
 
   React.useEffect(() => {
     document.addEventListener("keydown", escClose);
     return () => {
-      document.removeEventListener("keydown", escClose);
+       document.removeEventListener("keydown", escClose);
     };
-  }, [escClose]);
+  }, []);
 
   if (!onOpen) return null;
   return ReactDOM.createPortal(

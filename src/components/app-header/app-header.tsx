@@ -44,7 +44,12 @@ function AppHeader() {
         </div>
 
         <div className={styleHeader.logo}>
-          <Logo />
+          
+          <Link
+            to={{ pathname: "/" }}
+          >
+            <Logo />
+          </Link>
         </div>
 
         <NavLink

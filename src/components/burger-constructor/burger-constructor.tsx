@@ -72,6 +72,8 @@ const BurgerConstructor: FC<IBurgerConstructor> =({openModal, onClose, onOpen}) 
           );
           selectedIngredients.push(ingredientsInBurgerConstructor.bun[0]._id);
           dispatch(postOrder(selectedIngredients));
+          ingredientsInBurgerConstructor.other.splice(0,)
+          ingredientsInBurgerConstructor.bun.splice(0,)
         }
         else {
           history.replace({ pathname: "/" });

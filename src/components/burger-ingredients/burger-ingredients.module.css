@@ -22,4 +22,7 @@
 .mainMenu::-webkit-scrollbar {
     background-color: #2F2F37;
 }
+.tab {
+    list-style-type: none;
+}
 

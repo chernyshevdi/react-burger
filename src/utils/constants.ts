@@ -37,7 +37,7 @@ function getCookie(name: string) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-function checkResponse(res: {ok: boolean; status: number; json(): Promise<{}>}) {
+function checkResponse(res: Response) {
     if (res.ok) {
       return res.json();
     } else {

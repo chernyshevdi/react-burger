@@ -26,11 +26,9 @@ const BurgerIngredients: FC<IBurgerIngredients> = ({openModal, onClose}) => {
 
   //данные ингредиентов из хранилища
   const { ingredients } = useSelector((state: RootState) => state.ingredientsReducer);
-
-
+  
   const [current, setCurrent] = React.useState<string>("bun");
   
-
   const bunRef = useRef<HTMLDivElement>(null);
   const sauceRef = useRef<HTMLDivElement>(null);
   const mainRef = useRef<HTMLDivElement>(null);
@@ -53,6 +51,27 @@ const BurgerIngredients: FC<IBurgerIngredients> = ({openModal, onClose}) => {
     }
   };
 
+  const hanldeScrollTab = () => {
+    if(bunRef.current) {
+      setCurrent("bun");
+      bunRef.current.scrollIntoView({behavior: "smooth"})
+    }
+  }
+
+  const hanldeScrollSauce = () => {
+    if(sauceRef.current) {
+      setCurrent("sauces");
+      sauceRef.current.scrollIntoView({behavior: "smooth"})
+    }
+  }
+
+  const hanldeScrollMain = () => {
+    if(mainRef.current) {
+      setCurrent("main");
+      mainRef.current.scrollIntoView({behavior: "smooth"})
+    }
+  }
+
   return (
     <section className={styleIngredients.block}>
       <h2 className="text text_type_main-large mb-5 mt-10">
@@ -61,13 +80,13 @@ const BurgerIngredients: FC<IBurgerIngredients> = ({openModal, onClose}) => {
       <nav
         className={`${styleIngredients.nav} text text_type_main-default mb-10`}
       >
-        <Tab value="bun" active={current === "bun"} onClick={setCurrent}>
+        <Tab value="bun" active={current === "bun"} onClick={hanldeScrollTab}>
           Булки
         </Tab>
-        <Tab value="sauces" active={current === "sauces"} onClick={setCurrent}>
+        <Tab value="sauces" active={current === "sauces"} onClick={hanldeScrollSauce}>
           Соусы
         </Tab>
-        <Tab value="main" active={current === "main"} onClick={setCurrent}>
+        <Tab value="main" active={current === "main"} onClick={hanldeScrollMain}>
           Начинки
         </Tab>
       </nav>
