@@ -1,17 +1,22 @@
-import {
-  UPDATE_TOKEN_REQUEST,
-  UPDATE_TOKEN_SUCCESS,
-  UPDATE_TOKEN_FAILED,
-} from "../actions/update-token";
+import {TUpdateTokenActions} from "../actions/update-token";
+import {UPDATE_TOKEN_REQUEST, UPDATE_TOKEN_SUCCESS, UPDATE_TOKEN_FAILED}
+from '../constants/update-token';
 
-const initialState = {
+export type TUpdateTokenState = {
+  updateTokenData: {};
+  updateTokenRequest: boolean;
+  updateTokenFailed: boolean;
+  updateTokenSuccess: boolean;
+}
+
+const initialState: TUpdateTokenState = {
   updateTokenData: {}, //объект ответа от сервера
   updateTokenRequest: false, // состояние во время вызова
   updateTokenFailed: false, // состояние при отказе
   updateTokenSuccess: false
 };
 
-export const updateTokenReducer = (state = initialState, action) => {
+export const updateTokenReducer = (state = initialState, action: TUpdateTokenActions): TUpdateTokenState => {
   switch (action.type) {
     case UPDATE_TOKEN_REQUEST: {
       return {

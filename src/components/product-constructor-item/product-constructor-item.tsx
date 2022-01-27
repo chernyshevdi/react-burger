@@ -1,6 +1,6 @@
 import { useDrag } from "react-dnd";
 import { useDrop } from "react-dnd";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/types/hooks";
 import { useRef } from "react";
 import styleConstructor from "../burger-constructor/burger-constructor.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -23,10 +23,6 @@ interface IProductConstructorItem {
   key?: string
 }
 
-interface RootState {
-  constructorReducer: any;
-}
-
 const ProductConstructorItem: FC<IProductConstructorItem> = ({
   handleClose, 
   moveListItem, 
@@ -35,8 +31,7 @@ const ProductConstructorItem: FC<IProductConstructorItem> = ({
   type, 
   isLocked, 
 }) => {
-  const { ingredientsInBurgerConstructor } = useSelector(
-    (state: RootState) => state.constructorReducer
+  const { ingredientsInBurgerConstructor } = useSelector(state => state.constructorReducer
   );
   const dragDropRef = useRef<HTMLLIElement>(null);
 

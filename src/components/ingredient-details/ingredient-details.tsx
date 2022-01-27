@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import styleIngredient from "../ingredient-details/ingredient-details.module.css";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/types/hooks";
 import { useParams } from "react-router-dom";
 import { FC } from 'react';
 
@@ -8,12 +8,8 @@ interface IIngredientDetails {
   modal: (id: string) => void;
 }
 
-interface RootState {
-  appReducer: any;
-}
-
 const IngredientDetails: FC<IIngredientDetails> = ({modal}) => {
-  const { currentIngredient } = useSelector((state: RootState) => state.appReducer); //данные полученные из хранилища
+  const { currentIngredient } = useSelector(state => state.appReducer); //данные полученные из хранилища
   const { id } = useParams<{id?: string}>();
 
   useEffect(() => {

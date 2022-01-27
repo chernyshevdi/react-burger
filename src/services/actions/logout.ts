@@ -1,13 +1,26 @@
 import { logout } from '../../utils/api'; 
 
+import {LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILED} from '../constants/logout';
 
-export const LOGOUT_REQUEST = 'LOGOUT_REQUEST';
-export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
-export const LOGOUT_FAILED = 'LOGOUT_FAILED';
+export interface ILogoutRequest {
+    readonly type: typeof LOGOUT_REQUEST;
+  }
 
-export function postLogout(token) {
+  export interface ILogoutSuccess {
+    readonly type: typeof LOGOUT_SUCCESS;
+  }
 
-    return function(dispatch) {
+  export interface ILogoutFailed {
+    readonly type: typeof LOGOUT_FAILED;
+  }
+
+  export type TLogoutActions =
+  | ILogoutRequest
+  | ILogoutSuccess
+  | ILogoutFailed;
+
+export function postLogout(token: string) {
+    return function(dispatch: any) {
         dispatch({
             type: LOGOUT_REQUEST
         });

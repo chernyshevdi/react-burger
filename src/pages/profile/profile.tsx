@@ -4,14 +4,13 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/types/hooks";
 import { useEffect, useState } from "react";
 import { updateUserData } from "../../services/actions/update-user";
 import { postLogout } from "../../services/actions/logout";
 import { getCookie } from "../../utils/constants";
 
 interface RootState {
-  getUserReducer: any;
   updateUserReducer: any;
   loginReducer: any;
 }
@@ -19,8 +18,8 @@ interface RootState {
 function Profile() {
   let location = useLocation();
   const dispatch = useDispatch();
-  const { userData } = useSelector((state: RootState) => state.getUserReducer);
-  const { updateUser } = useSelector((state: RootState) => state.updateUserReducer);
+  const { userData } = useSelector(state => state.loginReducer);
+  const { updateUser } = useSelector(state => state.updateUserReducer);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>();
   const [name, setName] = useState<string>("");
@@ -66,7 +65,7 @@ function Profile() {
   function handleLogout(e: React.MouseEvent<HTMLElement>) {
     //хендел выхода из профиля
     e.preventDefault();
-    dispatch(postLogout(getCookie("refresh")));
+    dispatch(postLogout(getCookie("refresh")!));
   }
 
   useEffect(() => {

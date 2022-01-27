@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { postLogin } from "../../services/actions/login";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/types/hooks";
 import { useHistory, useLocation } from "react-router-dom";
 
 function SignIn() {
@@ -14,7 +14,7 @@ function SignIn() {
   const dispatch = useDispatch();
   const history = useHistory();
   let accessToken: string | null = localStorage.getItem("access");
-  const { loginData } = useSelector((state: any) => state.loginReducer);
+  const { loginData } = useSelector(state => state.loginReducer);
 
   function handleChangeEmail(e: React.ChangeEvent<HTMLInputElement>) {
     setEmail(e.target.value);

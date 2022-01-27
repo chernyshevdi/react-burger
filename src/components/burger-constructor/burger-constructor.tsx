@@ -5,26 +5,18 @@ import React, { useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import Modal from "../modal/modal";
 import OrderDetails from "../order-details/order-details";
-import { useDispatch, useSelector } from "react-redux";
-import {
-  ADD_INGREDIENT_BURGERCONSTRUCTOR,
-  DELETE_INGREDIENT_BURGERCONSTRUCTOR,
-  CHANGE_ORDER_BURGERCONSTRUCTOR,
-} from "../../services/actions/burger-constructor";
+import { useDispatch, useSelector } from "../../services/types/hooks";
 import ProductConstructorItem from "../product-constructor-item/product-constructor-item";
 import { useDrop } from "react-dnd";
-import { postOrder } from "../../services/actions/burger-constructor";
+import { AddIngredientConstructorAction, ChangeIngredientConstructorAction, DeleteIngredientConstructorAction, postOrder } from "../../services/actions/burger-constructor";
 import { useHistory } from "react-router-dom";
 import { FC } from 'react';
+import {TIngredient} from '../../services/types/data';
 
 interface IBurgerConstructor {
   openModal: () => void;  
   onClose: () => void;
   onOpen: boolean;
-}
-
-interface RootState {
-  constructorReducer: any;
 }
 
 type TItem = { 
@@ -39,9 +31,7 @@ const BurgerConstructor: FC<IBurgerConstructor> =({openModal, onClose, onOpen}) 
   const [price, setPrice] = React.useState<number>(0);
 
   //список ингредиентов для конструктора бургера
-  const { ingredientsInBurgerConstructor } = useSelector(
-    (state: RootState) => state.constructorReducer
-  );
+  const { ingredientsInBurgerConstructor } = useSelector(state => state.constructorReducer);
 
   const dispatch = useDispatch();
   const history = useHistory();
@@ -88,19 +78,13 @@ const BurgerConstructor: FC<IBurgerConstructor> =({openModal, onClose, onOpen}) 
     collect: (monitor) => ({
       isHover: monitor.isOver(), 
     }),
-    drop(item:{}) {
-      dispatch({
-        type: ADD_INGREDIENT_BURGERCONSTRUCTOR,
-        ...item,
-      });
+    drop(item: TIngredient) {
+      dispatch(AddIngredientConstructorAction(item)); 
     },
   });
 
   const deleteIngredient = (id: string) => {
-    dispatch({
-      type: DELETE_INGREDIENT_BURGERCONSTRUCTOR,
-      id,
-    });
+    dispatch(DeleteIngredientConstructorAction(id));
   };
 
   const borderColor = isHover ? "lightgreen" : "transparent";
@@ -128,19 +112,14 @@ const BurgerConstructor: FC<IBurgerConstructor> =({openModal, onClose, onOpen}) 
 
   const moveIngredientsItem: (dragIndex?: number, hoverIndex?: number) => void  = useCallback(
     (dragIndex, hoverIndex) => {
-      dispatch({
-        type: CHANGE_ORDER_BURGERCONSTRUCTOR,
-        item: ingredientsInBurgerConstructor.other,
-        dragIndex,
-        hoverIndex,
-      });
+      dispatch(ChangeIngredientConstructorAction(ingredientsInBurgerConstructor.other, dragIndex!, hoverIndex!))
     },
     [ingredientsInBurgerConstructor.other, dispatch]
   );
 
   const moveIngredientsConstructor = debounce(moveIngredientsItem);
 
-  const { login } = useSelector((state: any) => state.loginReducer);
+  const { login } = useSelector(state => state.loginReducer);
 
   return (
     <section className={`${styleConstructor.block} mt-25`}>

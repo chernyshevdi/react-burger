@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './components/app/app.tsx';
+import App from './components/app/app';
 import reportWebVitals from './reportWebVitals';
 import './fonts/fonts.css';
 import { createStore, applyMiddleware, compose } from 'redux';
@@ -10,13 +10,22 @@ import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import { BrowserRouter } from 'react-router-dom';
 
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
+/*
 const composeEnhancers = typeof window === 'object' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
     ? window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
     : compose; 
+*/
 
-const enhancer = composeEnhancers(applyMiddleware(thunk));
+export const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(rootReducer, enhancer); 
+export const enhancer = composeEnhancers(applyMiddleware(thunk));
+
+export const store = createStore(rootReducer, enhancer); 
 
 ReactDOM.render(
   <React.StrictMode>

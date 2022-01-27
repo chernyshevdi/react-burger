@@ -3,8 +3,7 @@ import styleApp from "./app.module.css";
 import AppHeader from "../app-header/app-header";
 import BurgerIngredients from "../burger-ingredients/burger-ingredients";
 import BurgerConstructor from "../burger-constructor/burger-constructor";
-import { useDispatch, useSelector } from "react-redux";
-import { ADD_MODAL_DATA } from "../../services/actions/app";
+import { useDispatch, useSelector } from "../../services/types/hooks";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import { Switch, Route, useLocation, useHistory } from "react-router-dom";
@@ -13,16 +12,11 @@ import { ProtectedRoute } from "../protected-route/protected-route";
 import { getUserData } from "../../services/actions/get-user";
 import { postUpdateToken } from "../../services/actions/update-token";
 import IngredientDetails from "../ingredient-details/ingredient-details";
-
+import {TIngredient} from '../../services/types/data';
 import Modal from "../modal/modal";
 import Ingredient from "../ingredient/ingredient";
 import { getItems } from "../../services/actions/burger-ingredients";
-
-interface RootState {
-  ingredientsReducer: any;
-  updateTokenReducer: any;
-  getUserReducer: any;
-}
+import { AddModalDataAction } from "../../services/actions/app";
 
 type TItem = { 
   type: string;
@@ -45,15 +39,12 @@ function App() {
     dispatch(getItems());
   }, [dispatch]);
 
-  const { ingredients } = useSelector((state: RootState) => state.ingredientsReducer);
+  const { ingredients } = useSelector(state => state.ingredientsReducer);
   const [currentIngredientId, setCurrentIngredientId] = React.useState<string>();
-  const [currentIngredientItem, setCurrentIngredientItem] = React.useState(null);
+  const [currentIngredientItem, setCurrentIngredientItem] = React.useState<TIngredient>();
 
-  const openModalIgredients = (item?: {}) => {
-    dispatch({
-      type: ADD_MODAL_DATA,
-      item, //отправляем экшен с данными карточки
-    });
+  const openModalIgredients = (item?: TIngredient) => {
+    dispatch(AddModalDataAction(item!));
     setIsIngredientModalOpen(true);
   };
 
@@ -71,10 +62,7 @@ function App() {
     if(currentIngredientItem) {
       const item = currentIngredientItem;
 
-      dispatch({
-        type: ADD_MODAL_DATA,
-        item, //отправляем экшен с данными карточки
-      });
+      dispatch(AddModalDataAction(item!));
       
       setIsIngredientModalOpen(true);
     }
@@ -90,10 +78,10 @@ function App() {
     setIsOrderModalOpen(false);
   }
   
-  const { updateTokenSuccess } = useSelector((state: RootState) => state.updateTokenReducer);
-  const { userFailed } = useSelector((state: RootState) => state.getUserReducer);
+  const { updateTokenSuccess } = useSelector(state => state.updateTokenReducer);
+  const { userFailed } = useSelector(state => state.loginReducer);
 
-  function checkUser(accessToken: string | null) {
+  function checkUser(accessToken: string) {
     dispatch(getUserData(accessToken))
   }
 
@@ -108,7 +96,7 @@ function App() {
   useEffect(() => {
     const accessToken: string | null = localStorage.getItem("access");
     if(updateTokenSuccess) {
-      checkUser(accessToken)
+      checkUser(accessToken!)
     }
   },[updateTokenSuccess])
 

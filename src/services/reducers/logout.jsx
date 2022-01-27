@@ -1,4 +1,4 @@
-import {
+/*import {
   LOGOUT_REQUEST,
   LOGOUT_SUCCESS,
   LOGOUT_FAILED,
@@ -41,3 +41,4 @@ export const logoutReducer = (state = initialState, action) => {
     }
   }
 };
+*/

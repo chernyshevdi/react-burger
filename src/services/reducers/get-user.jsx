@@ -1,4 +1,4 @@
-import {
+/*import {
   GET_USER_REQUEST,
   GET_USER_SUCCESS,
   GET_USER_FAILED,
@@ -46,3 +46,4 @@ export const getUserReducer = (state = initialState, action) => {
     }
   }
 };
+*/

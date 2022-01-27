@@ -1,7 +1,7 @@
 import AuthForm from "../../components/auth-form/auth-form";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/types/hooks";
 import { useHistory } from "react-router-dom";
 import { postRecoveryPassword } from "../../services/actions/recovery-password";
 
@@ -14,13 +14,11 @@ function RecoveryPassword() {
   const [password, setPassword] = useState<string>();
   const [token, setToken] = useState<string>();
   const dispatch = useDispatch();
-  const { recoveryPassword } = useSelector(
-    (state: RootState) => state.recoveryPasswordReducer
+  const { recoveryPassword } = useSelector(state => state.recoveryPasswordReducer
   );
   const history = useHistory();
   let accessToken: string | null = localStorage.getItem("access");
-  const { forgotPassword } = useSelector(
-    (state: RootState) => state.forgotPasswordReducer
+  const { forgotPassword } = useSelector(state => state.forgotPasswordReducer
   );
 
   function handleChangePassword(e: React.ChangeEvent<HTMLInputElement>) {

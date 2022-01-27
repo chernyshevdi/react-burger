@@ -1,16 +1,21 @@
-import {
-  FORGOT_PASSWORD_REQUEST,
-  FORGOT_PASSWORD_SUCCESS,
-  FORGOT_PASSWORD_FAILED,
-} from "../actions/forgot-password";
+import {TForgotPasswordActions} from "../actions/forgot-password";
+import {FORGOT_PASSWORD_REQUEST, FORGOT_PASSWORD_SUCCESS, FORGOT_PASSWORD_FAILED}
+  from '../constants/forgot-password';
+  import {TForgotPassword} from '../types/data';
 
-const initialState = {
-  forgotPassword: {}, //объект ответа от сервера
+export type TForgotPasswordState = {
+  forgotPassword: TForgotPassword; 
+  forgotPasswordRequest: boolean;
+  forgotPasswordFailed: boolean;
+}
+
+const initialState: TForgotPasswordState = {
+  forgotPassword: {} as TForgotPassword, //объект ответа от сервера
   forgotPasswordRequest: false, // состояние во время вызова
   forgotPasswordFailed: false, // состояние при отказе
 };
 
-export const forgotPasswordReducer = (state = initialState, action) => {
+export const forgotPasswordReducer = (state = initialState, action: TForgotPasswordActions): TForgotPasswordState => {
   switch (action.type) {
     case FORGOT_PASSWORD_REQUEST: {
       return {

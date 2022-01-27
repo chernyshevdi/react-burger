@@ -1,18 +1,27 @@
-import { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED } from "../actions/login";
-import {
-  LOGOUT_REQUEST,
-  LOGOUT_SUCCESS,
-  LOGOUT_FAILED,
-} from "../actions/logout";
+import { TLoginActions } from "../actions/login";
+import {LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED} from '../constants/login';
+import {LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILED} from '../constants/logout';
+import {GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILED} from '../constants/get-user';
+import {TAuth, TUserData} from '../types/data';
 
-import {
-  GET_USER_REQUEST,
-  GET_USER_SUCCESS,
-  GET_USER_FAILED,
-} from "../actions/get-user";
+export type TAuthInitialState = {
+  loginData: TAuth; 
+  loginRequest: boolean;
+  loginFailed: boolean;
 
-const initialState = {
-  loginData: {}, //объект ответа от сервера
+  logoutData: {}; 
+  logoutRequest: boolean;
+  logoutFailed: boolean;
+  login: boolean;
+
+  userData: TUserData; 
+  userRequest: boolean;
+  userFailed: boolean;
+  status: {}; 
+}
+
+const initialState: TAuthInitialState = {
+  loginData: {} as TAuth, //объект ответа от сервера
   loginRequest: false, // состояние во время вызова
   loginFailed: false, // состояние при отказе
 
@@ -21,13 +30,13 @@ const initialState = {
   logoutFailed: false, // состояние при отказе
   login: false,
 
-  userData: {},
+  userData: {} as TUserData,
   userRequest: false, // состояние во время вызова
   userFailed: false, // состояние при отказе
   status: {},
 };
 
-export const loginReducer = (state = initialState, action) => {
+export const loginReducer = (state = initialState, action: TLoginActions): TAuthInitialState => {
   switch (action.type) {
     case LOGIN_REQUEST: {
       return {

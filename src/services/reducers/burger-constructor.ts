@@ -1,21 +1,26 @@
-import {
-  GET_ORDER_REQUEST,
-  GET_ORDER_SUCCESS,
-  GET_ORDER_FAILED,
-  ADD_INGREDIENT_BURGERCONSTRUCTOR,
-  DELETE_INGREDIENT_BURGERCONSTRUCTOR,
-  CHANGE_ORDER_BURGERCONSTRUCTOR,
-} from "../actions/burger-constructor";
+import { TBurgerConstructorActions } from "../actions/burger-constructor";
+import {ADD_INGREDIENT_BURGERCONSTRUCTOR, DELETE_INGREDIENT_BURGERCONSTRUCTOR,
+  CHANGE_ORDER_BURGERCONSTRUCTOR, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED}
+  from '../constants/burger-constructor';
 import update from "immutability-helper";
+import {TIngredient, TOrder} from '../types/data';
 
-const initialState = {
+export type TBurgerConstructorState = {
+  ingredientsInBurgerConstructor: { bun: TIngredient[], other: TIngredient[] } 
+  createdOrder: TOrder;
+  orderRequest: boolean;
+  orderFailed: boolean;
+}
+
+const initialState: TBurgerConstructorState = {
   ingredientsInBurgerConstructor: { bun: [], other: [] }, //список всех ингредиентов в текущем конструкторе бургера
-  createdOrder: {}, //объект созданного заказа
+  createdOrder: {} as TOrder, //объект созданного заказа
   orderRequest: false, // состояние во время вызова
   orderFailed: false, // состояние при отказе
 };
 
-export const constructorReducer = (state = initialState, action) => {
+export const constructorReducer = (state = initialState, action: TBurgerConstructorActions):
+ TBurgerConstructorState => {
   switch (action.type) {
     case GET_ORDER_REQUEST: {
       return {
@@ -92,7 +97,7 @@ export const constructorReducer = (state = initialState, action) => {
           bun: [...state.ingredientsInBurgerConstructor.bun],
           other: [
             ...state.ingredientsInBurgerConstructor.other.filter(
-              (item, index) => item._id + index !== action.id
+              (item: {_id: string}, index) => item._id + index !== action.id
             ),
           ],
         },

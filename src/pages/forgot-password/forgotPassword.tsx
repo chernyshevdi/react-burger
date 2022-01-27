@@ -2,15 +2,13 @@ import AuthForm from "../../components/auth-form/auth-form";
 import { Input } from "@ya.praktikum/react-developer-burger-ui-components";
 import { postForgotPassword } from "../../services/actions/forgot-password";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/types/hooks";
 import { useHistory } from "react-router-dom";
 
 function ForgotPassword() {
   const [email, setEmail] = useState<string>();
   const dispatch = useDispatch();
-  const { forgotPassword } = useSelector(
-    (state: any) => state.forgotPasswordReducer
-  );
+  const { forgotPassword } = useSelector(state => state.forgotPasswordReducer);
   const history = useHistory();
   let accessToken: string | null = localStorage.getItem("access");
 

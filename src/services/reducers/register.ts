@@ -1,16 +1,20 @@
-import {
-  REGISTER_REQUEST,
-  REGISTER_SUCCESS,
-  REGISTER_FAILED,
-} from "../actions/register";
+import {TRegisterActions} from "../actions/register";
+import {REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_FAILED} from '../constants/register';
+import {TAuth} from '../types/data';
 
-const initialState = {
-  registerData: {}, //объект ответа от сервера
+export type TRegisterState = {
+  registerData: TAuth; 
+  registerRequest: boolean;
+  registerFailed: boolean;
+}
+
+const initialState: TRegisterState = {
+  registerData: {} as TAuth, //объект ответа от сервера
   registerRequest: false, // состояние во время вызова
   registerFailed: false, // состояние при отказе
 };
 
-export const registerReducer = (state = initialState, action) => {
+export const registerReducer = (state = initialState, action: TRegisterActions): TRegisterState => {
   switch (action.type) {
     case REGISTER_REQUEST: {
       return {

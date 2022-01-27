@@ -4,7 +4,7 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/types/hooks";
 import { Link, useLocation } from "react-router-dom";
 import { FunctionComponent } from 'react';
 
@@ -22,13 +22,8 @@ interface IProductItem {
   card?: {}
 }
 
-interface RootState {
-  constructorReducer: any;
-}
-
 const ProductItem: FunctionComponent<IProductItem> = ({ item, onOpen, id }) => {
-  const { ingredientsInBurgerConstructor } = useSelector(
-    (state: RootState) => state.constructorReducer
+  const { ingredientsInBurgerConstructor } = useSelector(state => state.constructorReducer
   );
 
   function handleClick() {
@@ -38,7 +33,7 @@ const ProductItem: FunctionComponent<IProductItem> = ({ item, onOpen, id }) => {
   const [{ opacity }, dragRef] = useDrag({
     //добавляю ф-ть перетаскивания
     type: "items", //Это строка, благодаря которой целевой элемент понимает, какие элементы в него можно перетащить
-    item: { item }, //Это данные о перетаскиваемом элементе.
+    item: item, //Это данные о перетаскиваемом элементе.
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
     }),

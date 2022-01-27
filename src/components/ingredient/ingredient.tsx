@@ -1,18 +1,16 @@
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import styleIngredient from "../ingredient/ingredient.module.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "../../services/types/hooks";
 import { useEffect, useState } from "react";
-import { ADD_MODAL_DATA } from "../../services/actions/app";
+import { ADD_MODAL_DATA } from "../../services/constants/app";
 import { FC } from 'react';
-
-interface RootState {
-  ingredientsReducer: any;
-}
+import { AddModalDataAction } from "../../services/actions/app";
+import {TIngredient} from '../../services/types/data';
 
 const Ingredient: FC = () => {
   const dispatch = useDispatch();
-  const { ingredients } = useSelector((state: RootState) => state.ingredientsReducer);
-  const [item, setItem] = useState<object>();
+  const { ingredients } = useSelector(state => state.ingredientsReducer);
+  const [item, setItem] = useState<TIngredient>();
   const [currentIngredientId, setCurrentIngredientId] = useState<string>();
 
   const ingredient =(id: string) => {
@@ -28,10 +26,7 @@ const Ingredient: FC = () => {
   
   useEffect(() => {
     if (item) {
-      dispatch({
-        type: ADD_MODAL_DATA,
-        item, //отправляем экшен с данными карточки
-      });
+      dispatch(AddModalDataAction(item));
     }
   }, [item, dispatch]);
 
