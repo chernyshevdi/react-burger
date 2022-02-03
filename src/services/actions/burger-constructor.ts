@@ -1,7 +1,7 @@
 import { order } from "../../utils/api"; //вызов данных из апи
 
 import {ADD_INGREDIENT_BURGERCONSTRUCTOR, DELETE_INGREDIENT_BURGERCONSTRUCTOR,
-  CHANGE_ORDER_BURGERCONSTRUCTOR, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED}
+  CHANGE_ORDER_BURGERCONSTRUCTOR, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED, GET_ORDER_CLOSE}
   from '../constants/burger-constructor';
 
 import { AppDispatch, AppThunk } from '../types';
@@ -37,13 +37,18 @@ export interface IGetOrderFailed {
   readonly type: typeof GET_ORDER_FAILED;
 }
 
+export interface IGetOrderClose{
+  readonly type: typeof GET_ORDER_CLOSE;
+}
+
 export type TBurgerConstructorActions =
 | IAddIngredientConstructor
 | IDeleteIngredientConstructor
 | IChangeIngredientConstructor
 | IGetOrderRequest
 | IGetOrderSuccess
-|IGetOrderFailed;
+|IGetOrderFailed
+| IGetOrderClose;
 
 export const AddIngredientConstructorAction = (item: TIngredient): IAddIngredientConstructor => ({
   type: ADD_INGREDIENT_BURGERCONSTRUCTOR,
@@ -75,11 +80,17 @@ export const GetOrderFailedAction = (): IGetOrderFailed => ({
   type: GET_ORDER_FAILED
 });
 
-export const postOrder: AppThunk = (id: string) => {
+export const GetOrderCloseAction = (): IGetOrderClose => ({
+  type: GET_ORDER_CLOSE
+});
+
+
+export const postOrder: AppThunk = (id: string, token: string) => {
   return function (dispatch: AppDispatch) {
     dispatch(GetOrderRequestAction());
-    order(id)
+    order(id, token)
       .then((res) => {
+        console.log(res)
         if (res.success) {
           dispatch(GetOrderSuccessAction(res.order));
         } else {

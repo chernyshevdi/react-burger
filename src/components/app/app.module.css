@@ -4,10 +4,11 @@
   flex-direction: column;
   margin: 0 auto;
   position: relative;
+  align-items: center;
 }
 .menu  {
   margin: 0 auto;
-  max-width: 1240px;
+  min-width: 1240px;
   display: flex;
   justify-content: space-between;
 }

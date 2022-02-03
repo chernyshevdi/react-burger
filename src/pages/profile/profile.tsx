@@ -7,15 +7,18 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "../../services/types/hooks";
 import { useEffect, useState } from "react";
 import { updateUserData } from "../../services/actions/update-user";
-import { postLogout } from "../../services/actions/logout";
+import { postLogout } from "../../services/actions/login";
 import { getCookie } from "../../utils/constants";
+import CardOrder from '../../components/card-order/cardOrder';
+import { FC } from 'react';
+import {TOrders} from '../../services/types/data';
 
-interface RootState {
-  updateUserReducer: any;
-  loginReducer: any;
+interface IProfile {
+  openModal: () => void;
+  onClose: () => void;
 }
 
-function Profile() {
+const Profile: FC<IProfile> = ({openModal, onClose}) => {
   let location = useLocation();
   const dispatch = useDispatch();
   const { userData } = useSelector(state => state.loginReducer);
@@ -24,7 +27,7 @@ function Profile() {
   const [password, setPassword] = useState<string>();
   const [name, setName] = useState<string>("");
   const [inputChange, setInputChange] = useState<boolean>(false);
-  const { login } = useSelector((state: RootState) => state.loginReducer);
+  const { login } = useSelector(state => state.loginReducer);
 
   let accessToken: string | null = localStorage.getItem("access");
 
@@ -89,6 +92,17 @@ function Profile() {
     }
   }, [name, userData, email, password]);
 
+  const { messages } = useSelector(state => state.wsReducer);
+  const [isOrder, setIsOrder] = useState<TOrders[]>()
+
+    useEffect(() => {
+      if(messages) {
+          if(messages.orders) {
+              setIsOrder(messages.orders.reverse())
+          }
+      }
+    },[messages])
+
   return (
     <section className={styleProfile.container}>
       <div className={styleProfile.main}>
@@ -152,16 +166,29 @@ function Profile() {
           </div>
         )}
         {location.pathname === "/profile/orders" && (
-          <div className={styleProfile.orders}></div>
+          <div className={styleProfile.orders}>
+            {isOrder ? isOrder.map((item) => {
+              return(
+              <CardOrder
+                order={item}
+                key={item._id}
+                status={true}
+                onOpen={openModal}
+                onClose={onClose}
+              />
+              )
+            }) : null}
+          </div>
         )}
       </div>
+      {location.pathname !== "/profile/orders" ?
       <div className={styleProfile.footer}>
         <p
           className={`${styleProfile.info} text text_type_main-default text_color_inactive`}
         >
           В этом разделе вы можете изменить свои персональные данные
         </p>
-
+        
         <div
           className={
             inputChange ? styleProfile.buttons_active : styleProfile.buttons
@@ -175,7 +202,11 @@ function Profile() {
             Сохранить
           </Button>
         </div>
+        
       </div>
+      : 
+      <p className={styleProfile.orderListInfo}>В этом разделе вы можете просмотреть свою историю заказов</p>
+      }
     </section>
   );
 }

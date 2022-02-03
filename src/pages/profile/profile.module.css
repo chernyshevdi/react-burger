@@ -1,19 +1,21 @@
 .container {
-    width: 100%;
+    width: 1240px;
+    overflow: hidden;
+    position: relative;
 }
 
 .main {
     display: flex;
-    justify-content: flex-end;
-    width: 950px;
     margin-top: 120px;
 }
 
 .nav {
-    width: 320px;
+    min-width: 320px;
     margin-top: 20px;
     display: flex;
     justify-content: flex-start;
+    padding-right: 60px;
+    max-height: 200px;
 }
 
 .navList {
@@ -32,27 +34,46 @@
 .link {
     text-decoration: none;
 }
-.inputs {
-    margin-left: 60px;
-}
-
 .info {
-    margin: 20px 0 0 80px;
-    width: 320px;
+    margin: 20px 0 0 0;
+    max-width: 320px;
+    border: 1px solid white;
 }
 
 .footer {
     display: flex;
-    width: 950px;
+    min-width: 220px;
+    max-width: 950px;
     justify-content: space-between;
+    border: 1px solid red;
 }
 .orders {
-    min-width: 540px;
-    height: 264px;
+    width: 100%;
+    max-height: 800px;
+    overflow-y: scroll;
+    position: relative;
 }
 .buttons {
     display: none;
 }
 .buttons_active {
     display: block;
+}
+.orders::-webkit-scrollbar-thumb {
+    background-color: #8585AD;
+}
+.orders::-webkit-scrollbar {
+    background-color: #2F2F37;
+}
+.orderListInfo {
+    display: inline-block;
+    position: absolute;
+    top: 330px;
+    font-family: 'Jet Brains Mono', 'Droid Sans', 'Helvetica Neue';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    color: #8585AD;
+    max-width: 320px;
 }

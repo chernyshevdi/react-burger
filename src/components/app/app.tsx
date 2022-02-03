@@ -9,14 +9,19 @@ import { DndProvider } from "react-dnd";
 import { Switch, Route, useLocation, useHistory } from "react-router-dom";
 import { SignIn, RegistrationPage, ForgotPassword, RecoveryPassword, Profile} from "../../pages";
 import { ProtectedRoute } from "../protected-route/protected-route";
-import { getUserData } from "../../services/actions/get-user";
 import { postUpdateToken } from "../../services/actions/update-token";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import {TIngredient} from '../../services/types/data';
 import Modal from "../modal/modal";
 import Ingredient from "../ingredient/ingredient";
 import { getItems } from "../../services/actions/burger-ingredients";
-import { AddModalDataAction } from "../../services/actions/app";
+import { AddModalDataAction, AddModalProfileAction } from "../../services/actions/app";
+import OrderFeed from '../../pages/order-feed/orderFeedPage';
+import OrderInformation from '../order-information/orderInformation';
+import {TOrders} from '../../services/types/data';
+import OrderPage from '../order-page/order-page';
+import {wsConnectionStartAction, wsConnectionClosedAction, wsConnectionStartProfileAction} from '../../services/actions/wsAction';
+import {getUserData} from '../../services/actions/login';
 
 type TItem = { 
   type: string;
@@ -29,6 +34,7 @@ type TItem = {
 function App() {
   const [isIngredientModalOpen, setIsIngredientModalOpen] = React.useState<boolean>(true);
   const [isOrderModalOpen, setIsOrderModalOpen] = React.useState<boolean>(false);
+  const [isProfileOrderModalOpen, setProfileIsOrderModalOpen] = React.useState<boolean>(true);
   const dispatch = useDispatch();
 
   function openModalOrder() {
@@ -48,6 +54,12 @@ function App() {
     setIsIngredientModalOpen(true);
   };
 
+  const openModalProfileOrder = (order?: TOrders) => {
+    dispatch(AddModalProfileAction(order!));
+    setProfileIsOrderModalOpen(true)
+  }
+
+  //передаем карточку ингредиента модальному окну
   const ingredient = (id: string) => {
     setCurrentIngredientId(id)
   };
@@ -70,12 +82,14 @@ function App() {
     
   function closeIngredientModal() {
     setIsIngredientModalOpen(false);
+    setProfileIsOrderModalOpen(false);
     history.goBack();
   }
 
   function closeModal() {
     setIsIngredientModalOpen(false);
     setIsOrderModalOpen(false);
+    setProfileIsOrderModalOpen(false);
   }
   
   const { updateTokenSuccess } = useSelector(state => state.updateTokenReducer);
@@ -112,6 +126,52 @@ function App() {
   const history = useHistory();
   const background = location.state && location.state.background;
 
+  const [currentProfileOrderId, setCurrentProfileOrderId] = React.useState<string>();
+  const [currentProfileOrderItem, setCurrentProfileOrderItem] = React.useState<TOrders>();
+  const { messages } = useSelector((state: any) => state.wsReducer);
+  const [isOrder, setIsOrder] = React.useState<any>()
+
+  useEffect(() => {
+      if(messages) {
+        if(messages.orders) {
+          setIsOrder(messages.orders)
+        }
+      }
+  }, [dispatch, messages])
+
+  const order = (id: string) => {
+    setCurrentProfileOrderId(id)
+  };
+
+  useEffect(() => {
+    if(currentProfileOrderId) {
+      
+      if(isOrder) {
+        setCurrentProfileOrderItem(isOrder.find((order:any) => order.number.toString() === currentProfileOrderId));
+      }
+    }
+  },[dispatch, currentProfileOrderId, isOrder])
+
+  useEffect(() => {
+    if(currentProfileOrderItem) {
+      const order = currentProfileOrderItem;
+      dispatch(AddModalProfileAction(order));
+      setProfileIsOrderModalOpen(true)
+    }
+  }, [currentProfileOrderItem, dispatch])
+
+  useEffect(() => {
+    if(location.pathname === "/feed") {
+        dispatch(wsConnectionStartAction())
+    }
+    else if(location.pathname === "/profile/orders") {
+      dispatch(wsConnectionStartProfileAction())
+    }
+    else {
+      dispatch(wsConnectionClosedAction())
+    }
+  },[location.pathname, dispatch])
+
   return (
     <div className={styleApp.page}>
       <AppHeader />
@@ -121,7 +181,6 @@ function App() {
             <DndProvider backend={HTML5Backend}>
               <BurgerIngredients
                 onClose={closeModal}
-                //onOpen={isIngredientModalOpen}
                 openModal={openModalIgredients}
               />
               <BurgerConstructor
@@ -145,15 +204,38 @@ function App() {
           <RecoveryPassword />
         </Route>
 
+        <Route path="/feed" exact={true}>
+          <OrderFeed
+            openModal={openModalProfileOrder}
+            onClose={closeModal}
+          />
+        </Route>
+
+        <Route path="/feed/:id" exact={true}>
+          <OrderPage />
+        </Route>
+
         <Route path="/profile" exact={true}>
           <ProtectedRoute>
-            <Profile />
+            <Profile 
+              openModal={openModalProfileOrder}
+              onClose={closeModal}
+            />
           </ProtectedRoute>
         </Route>
         
         <Route path="/profile/orders" exact={true}>
           <ProtectedRoute>
-            <Profile />
+            <Profile 
+              openModal={openModalProfileOrder}
+              onClose={closeModal}
+            />
+          </ProtectedRoute>
+        </Route>
+
+        <Route path="/profile/orders/:id" exact={true}>
+          <ProtectedRoute>
+            <OrderPage />
           </ProtectedRoute>
         </Route>
         
@@ -169,6 +251,30 @@ function App() {
             onOpen={isIngredientModalOpen}
           >
             <IngredientDetails modal={ingredient}/>
+
+          </Modal>
+        </Route>
+      )}
+
+      {background && (
+        <Route path="/feed/:id">
+          <Modal
+            onClose={closeIngredientModal}
+            onOpen={isProfileOrderModalOpen}
+          >
+            <OrderInformation modal={order}/>
+
+          </Modal>
+        </Route>
+      )}
+
+      {background && (
+        <Route path="/profile/orders/:id">
+          <Modal
+            onClose={closeIngredientModal}
+            onOpen={isProfileOrderModalOpen}
+          >
+            <OrderInformation modal={order}/>
 
           </Modal>
         </Route>

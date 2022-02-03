@@ -88,7 +88,7 @@ const BurgerIngredients: FC<IBurgerIngredients> = ({openModal, onClose}) => {
       </nav>
 
       <section className={styleIngredients.mainMenu} onScroll={handleScroll}>
-        <div className={styleIngredients.mainMenu2} ref={bunRef}>
+        <div ref={bunRef}>
           <h2 className="text text_type_main-medium mb-6">Булки</h2>
           <ul className={styleIngredients.item}>
             {ingredients.map((item: TItem) => {

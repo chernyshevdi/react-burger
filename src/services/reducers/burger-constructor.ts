@@ -1,6 +1,6 @@
 import { TBurgerConstructorActions } from "../actions/burger-constructor";
 import {ADD_INGREDIENT_BURGERCONSTRUCTOR, DELETE_INGREDIENT_BURGERCONSTRUCTOR,
-  CHANGE_ORDER_BURGERCONSTRUCTOR, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED}
+  CHANGE_ORDER_BURGERCONSTRUCTOR, GET_ORDER_REQUEST, GET_ORDER_SUCCESS, GET_ORDER_FAILED, GET_ORDER_CLOSE}
   from '../constants/burger-constructor';
 import update from "immutability-helper";
 import {TIngredient, TOrder} from '../types/data';
@@ -43,6 +43,15 @@ export const constructorReducer = (state = initialState, action: TBurgerConstruc
         ...initialState,
         orderRequest: false,
         orderFailed: true,
+      };
+    }
+
+    case GET_ORDER_CLOSE: {
+      return {
+        ...state,
+        orderRequest: false,
+        orderFailed: false,
+        createdOrder: {} as TOrder
       };
     }
 

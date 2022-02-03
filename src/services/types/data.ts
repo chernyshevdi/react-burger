@@ -53,3 +53,42 @@ export type TUpdateToken = {
 export type TOrder = {
   number: number;
 }
+
+export type TOrderList = {
+  success: boolean;
+  orders: [
+    {
+      ingredients: string[];
+      _id: string;
+      status: string;
+      number: number;
+      createdAt: string;
+      updatedAt: string;
+    }
+  ],
+  total: number;
+  totalToday: number;
+}
+
+export type TOrders = {
+  createdAt: string;
+  ingredients: string[];
+  name?: string;
+  number: number;
+  status: string;
+  updatedAt: string;
+  _id: string;
+}
+export type TMessage = {
+  orders: TOrders[];
+  total: number;
+  totalToday: number;
+}
+export type TWsActions = {
+  wsInit: string;
+  wsInitProfile: string;
+  onOpen: string;
+  onClose: string;
+  onError: string;
+  onMessage: string;
+}

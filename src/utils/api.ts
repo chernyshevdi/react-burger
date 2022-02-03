@@ -1,14 +1,15 @@
-import { IngredientsData, orderData, authUrl, checkResponse } from "./constants";
+import { IngredientsData, orderData, authUrl, checkResponse, orderList } from "./constants";
 
 const getIngredients = () => {
   return fetch(IngredientsData).then(checkResponse)
 };
 
-const order = (id: string) => {
+const order = (id: string, token: string) => {
   return fetch(orderData, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      authorization: token,
     },
     body: JSON.stringify({
       ingredients: id,
@@ -111,7 +112,7 @@ const updateUser = (token: string, email: string, password: string, name: string
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
-      Authorization: token,
+      authorization: token,
     },
     body: JSON.stringify({
       email: email,
@@ -121,6 +122,10 @@ const updateUser = (token: string, email: string, password: string, name: string
   }).then((res) => {
     return res.json();
   });
+};
+
+const getOrderList = () => {
+  return fetch(orderList).then(checkResponse)
 };
 
 export {
@@ -134,4 +139,5 @@ export {
   logout,
   getUser,
   updateUser,
+  getOrderList,
 };

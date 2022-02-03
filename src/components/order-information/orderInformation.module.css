@@ -1,0 +1,109 @@
+.container {
+    width: 640px;
+    min-height: 390px;
+    max-height: 550px;
+    overflow: hidden;
+    padding: 50px 0 30px 40px;
+}
+.id {
+    font-family: Iceland;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 24px;
+    color: #F2F2F3;
+    margin: 0;
+    padding-bottom: 40px;
+}
+.status {
+    font-family: JetBrains Mono;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    color: #00CCCC;
+    margin: 0;
+    padding: 10px 0 60px 0;
+}
+.orderList {
+    max-height: 200px;
+    overflow-y: scroll;
+    position: relative;
+    margin: 0 0 40px 0;
+}
+.list{
+    margin: 0;
+    padding: 0;
+}
+.ingredient {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding-bottom: 16px;
+}
+.icon {
+    height: 60px;
+    width: 60px;
+    background: 
+     linear-gradient(#131316,#131316) padding-box, /*this is your grey background*/
+     linear-gradient(to top right, #801AB2 , #4C4CFF) border-box;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    display: flex;
+    justify-content: center;
+}
+.img {
+    width: 90px;
+    height: 60px;
+}
+.name {
+    font-family: 'Jet Brains Mono', 'Droid Sans', 'Helvetica Neue';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    color: #F2F2F3;
+    width: 300px;
+    padding-left: 16px;
+    margin: 0;
+}
+.price {
+    display: flex;
+    position: absolute;
+    right: 25px;
+    min-width: 60px;
+    align-items: center;
+}
+.priceValue {
+    font-family: Iceland;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 24px;
+    color: #F2F2F3;
+    padding-right: 10px;
+}
+.footer {
+    display: flex;
+    justify-content: space-between;
+    max-height: 25px;
+}
+.date {
+    margin: 0;
+    font-family: 'Jet Brains Mono', 'Droid Sans', 'Helvetica Neue';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 24px;
+    color: #8585AD;
+}
+.resultPrice {
+    display: flex;
+}
+.orderList::-webkit-scrollbar-thumb {
+    background-color: #8585AD
+}
+.orderList::-webkit-scrollbar {
+    background-color: #2F2F37;
+}

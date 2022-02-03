@@ -12,6 +12,7 @@ import { AddIngredientConstructorAction, ChangeIngredientConstructorAction, Dele
 import { useHistory } from "react-router-dom";
 import { FC } from 'react';
 import {TIngredient} from '../../services/types/data';
+import {GetOrderCloseAction} from '../../services/actions/burger-constructor';
 
 interface IBurgerConstructor {
   openModal: () => void;  
@@ -55,13 +56,16 @@ const BurgerConstructor: FC<IBurgerConstructor> =({openModal, onClose, onOpen}) 
     if (login) {
       
         if(ingredientsInBurgerConstructor.other.length !== 0 && ingredientsInBurgerConstructor.bun.length !== 0) {
-          const selectedIngredients = ingredientsInBurgerConstructor.other.map(
+          let selectedIngredients = ingredientsInBurgerConstructor.other.map(
             (item: {_id: string}) => {
               return item._id;
             }
           );
           selectedIngredients.push(ingredientsInBurgerConstructor.bun[0]._id);
-          dispatch(postOrder(selectedIngredients));
+          selectedIngredients.unshift(ingredientsInBurgerConstructor.bun[0]._id);
+          dispatch(postOrder(selectedIngredients, localStorage.getItem("access")));
+          console.log(selectedIngredients)
+          dispatch(GetOrderCloseAction())
           ingredientsInBurgerConstructor.other.splice(0,)
           ingredientsInBurgerConstructor.bun.splice(0,)
         }

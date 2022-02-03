@@ -6,10 +6,11 @@ import { forgotPasswordReducer } from './forgot-password';
 import { recoveryPasswordReducer } from './recovery-password';
 import { registerReducer } from './register';
 import { loginReducer } from './auth';
-//import { getUserReducer } from './get-user';
 import { updateUserReducer } from './update-user';
 import { updateTokenReducer } from './update-token';
-//import { logoutReducer } from './logout';
+import { orderListReducer } from './order-list';
+//import { profileOrderListReducer } from './profile-order-list';
+import { wsReducer } from './wsReducer';
 
 //хранилище
 export const rootReducer = combineReducers({
@@ -20,8 +21,9 @@ export const rootReducer = combineReducers({
     recoveryPasswordReducer,
     registerReducer,
     loginReducer,
-    //getUserReducer,
     updateUserReducer,
     updateTokenReducer,
-    //logoutReducer,
+    orderListReducer,
+    //profileOrderListReducer,
+    wsReducer
 })

@@ -2,7 +2,6 @@ import IngredientDetails from "../ingredient-details/ingredient-details";
 import styleIngredient from "../ingredient/ingredient.module.css";
 import { useDispatch, useSelector } from "../../services/types/hooks";
 import { useEffect, useState } from "react";
-import { ADD_MODAL_DATA } from "../../services/constants/app";
 import { FC } from 'react';
 import { AddModalDataAction } from "../../services/actions/app";
 import {TIngredient} from '../../services/types/data';
