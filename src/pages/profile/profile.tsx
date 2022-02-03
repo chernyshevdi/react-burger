@@ -12,6 +12,7 @@ import { getCookie } from "../../utils/constants";
 import CardOrder from '../../components/card-order/cardOrder';
 import { FC } from 'react';
 import {TOrders} from '../../services/types/data';
+import {wsConnectionClosedAction, wsConnectionStartProfileAction} from '../../services/actions/wsAction';
 
 interface IProfile {
   openModal: () => void;
@@ -82,15 +83,14 @@ const Profile: FC<IProfile> = ({openModal, onClose}) => {
     if (userData.user && name) {
       if (
         userData.user.name !== name ||
-        userData.user.email !== email ||
-        password
+        userData.user.email !== email 
       ) {
         setInputChange(true);
       } else {
         setInputChange(false);
       }
     }
-  }, [name, userData, email, password]);
+  }, [name, userData, email]);
 
   const { messages } = useSelector(state => state.wsReducer);
   const [isOrder, setIsOrder] = useState<TOrders[]>()
@@ -102,6 +102,15 @@ const Profile: FC<IProfile> = ({openModal, onClose}) => {
           }
       }
     },[messages])
+
+    useEffect(() => {
+      if(location.pathname === '/profile/orders') {
+        dispatch(wsConnectionStartProfileAction())
+        }
+        return () => {
+          dispatch(wsConnectionClosedAction())
+      } 
+    },[dispatch, location.pathname])
 
   return (
     <section className={styleProfile.container}>

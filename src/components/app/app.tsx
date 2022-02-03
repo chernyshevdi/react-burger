@@ -20,7 +20,6 @@ import OrderFeed from '../../pages/order-feed/orderFeedPage';
 import OrderInformation from '../order-information/orderInformation';
 import {TOrders} from '../../services/types/data';
 import OrderPage from '../order-page/order-page';
-import {wsConnectionStartAction, wsConnectionClosedAction, wsConnectionStartProfileAction} from '../../services/actions/wsAction';
 import {getUserData} from '../../services/actions/login';
 
 type TItem = { 
@@ -159,18 +158,6 @@ function App() {
       setProfileIsOrderModalOpen(true)
     }
   }, [currentProfileOrderItem, dispatch])
-
-  useEffect(() => {
-    if(location.pathname === "/feed") {
-        dispatch(wsConnectionStartAction())
-    }
-    else if(location.pathname === "/profile/orders") {
-      dispatch(wsConnectionStartProfileAction())
-    }
-    else {
-      dispatch(wsConnectionClosedAction())
-    }
-  },[location.pathname, dispatch])
 
   return (
     <div className={styleApp.page}>

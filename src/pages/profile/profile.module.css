@@ -37,7 +37,6 @@
 .info {
     margin: 20px 0 0 0;
     max-width: 320px;
-    border: 1px solid white;
 }
 
 .footer {
@@ -45,7 +44,6 @@
     min-width: 220px;
     max-width: 950px;
     justify-content: space-between;
-    border: 1px solid red;
 }
 .orders {
     width: 100%;

@@ -1,11 +1,11 @@
-import { IngredientsData, orderData, authUrl, checkResponse, orderList } from "./constants";
+import { baseUrl, checkResponse } from "./constants";
 
 const getIngredients = () => {
-  return fetch(IngredientsData).then(checkResponse)
+  return fetch(`${baseUrl}/ingredients`).then(checkResponse)
 };
 
 const order = (id: string, token: string) => {
-  return fetch(orderData, {
+  return fetch(`${baseUrl}/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -18,7 +18,7 @@ const order = (id: string, token: string) => {
 };
 
 const forgotPassword = (email: string) => {
-  return fetch(authUrl + '/password-reset', {
+  return fetch(baseUrl + '/password-reset', {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -30,7 +30,7 @@ const forgotPassword = (email: string) => {
 };
 
 const resetPassword = (password: string, token: string) => {
-  return fetch(authUrl + "/password-reset/reset", {
+  return fetch(baseUrl + "/password-reset/reset", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -43,7 +43,7 @@ const resetPassword = (password: string, token: string) => {
 };
 
 const register = (email: string, password: string, name: string) => {
-  return fetch(authUrl + "/auth/register", {
+  return fetch(baseUrl + "/auth/register", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -57,7 +57,7 @@ const register = (email: string, password: string, name: string) => {
 };
 
 const login = (email: string, password: string) => {
-  return fetch(authUrl + "/auth/login", {
+  return fetch(baseUrl + "/auth/login", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -70,7 +70,7 @@ const login = (email: string, password: string) => {
 };
 
 const updateToken = (refreshToken: string) => {
-  return fetch(authUrl + "/auth/token", {
+  return fetch(baseUrl + "/auth/token", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -84,7 +84,7 @@ const updateToken = (refreshToken: string) => {
 };
 
 const logout = (token: string) => {
-  return fetch(authUrl + "/auth/logout", {
+  return fetch(baseUrl + "/auth/logout", {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -96,7 +96,7 @@ const logout = (token: string) => {
 };
 
 const getUser = (token: string) => {
-  return fetch(authUrl + "/auth/user", {
+  return fetch(baseUrl + "/auth/user", {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
@@ -108,7 +108,7 @@ const getUser = (token: string) => {
 };
 
 const updateUser = (token: string, email: string, password: string, name: string) => {
-  return fetch(authUrl + "/auth/user", {
+  return fetch(baseUrl + "/auth/user", {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
@@ -124,10 +124,6 @@ const updateUser = (token: string, email: string, password: string, name: string
   });
 };
 
-const getOrderList = () => {
-  return fetch(orderList).then(checkResponse)
-};
-
 export {
   getIngredients,
   order,
@@ -139,5 +135,4 @@ export {
   logout,
   getUser,
   updateUser,
-  getOrderList,
 };
