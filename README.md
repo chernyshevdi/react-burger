@@ -1,6 +1,6 @@
 **React-burger**
 
-https://chernyshevdi.github.io/
+https://chernyshevdi.github.io/react-burger
 
 Космическая бургерная. Учебный проект курса React-разработчик. В этом проекте учусь правильно и красиво разрабатывать на React.
 В проекте исспользуются технологии CSS, JavaScript, React, Webpack.
