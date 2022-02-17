@@ -33,14 +33,22 @@ function AppHeader() {
             </p>
           </Link>
 
-          <button className={styleHeader.button} data-current="orderList">
-            <ListIcon type="secondary" />
+         
+            <Link
+            to={{pathname:'/feed'}}
+            className={
+              location.pathname === '/feed'
+              ? styleHeader.button_active
+              : styleHeader.button
+            }
+            >
+            <ListIcon type={location.pathname === "/feed" ? "primary" : "secondary"} />
             <p
               className={`${styleHeader.buttonName} text text_type_main-default ml-2`}
             >
               Лента заказов
             </p>
-          </button>
+            </Link>
         </div>
 
         <div className={styleHeader.logo}>

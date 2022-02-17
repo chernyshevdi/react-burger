@@ -4,28 +4,31 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useHistory, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/types/hooks";
 import { useEffect, useState } from "react";
 import { updateUserData } from "../../services/actions/update-user";
-import { postLogout } from "../../services/actions/logout";
+import { postLogout } from "../../services/actions/login";
 import { getCookie } from "../../utils/constants";
+import CardOrder from '../../components/card-order/cardOrder';
+import { FC } from 'react';
+import {TOrders} from '../../services/types/data';
+import {wsConnectionClosedAction, wsConnectionStartProfileAction} from '../../services/actions/wsAction';
 
-interface RootState {
-  getUserReducer: any;
-  updateUserReducer: any;
-  loginReducer: any;
+interface IProfile {
+  openModal: () => void;
+  onClose: () => void;
 }
 
-function Profile() {
+const Profile: FC<IProfile> = ({openModal, onClose}) => {
   let location = useLocation();
   const dispatch = useDispatch();
-  const { userData } = useSelector((state: RootState) => state.getUserReducer);
-  const { updateUser } = useSelector((state: RootState) => state.updateUserReducer);
+  const { userData } = useSelector(state => state.loginReducer);
+  const { updateUser } = useSelector(state => state.updateUserReducer);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>();
   const [name, setName] = useState<string>("");
   const [inputChange, setInputChange] = useState<boolean>(false);
-  const { login } = useSelector((state: RootState) => state.loginReducer);
+  const { login } = useSelector(state => state.loginReducer);
 
   let accessToken: string | null = localStorage.getItem("access");
 
@@ -66,7 +69,7 @@ function Profile() {
   function handleLogout(e: React.MouseEvent<HTMLElement>) {
     //хендел выхода из профиля
     e.preventDefault();
-    dispatch(postLogout(getCookie("refresh")));
+    dispatch(postLogout(getCookie("refresh")!));
   }
 
   useEffect(() => {
@@ -80,15 +83,34 @@ function Profile() {
     if (userData.user && name) {
       if (
         userData.user.name !== name ||
-        userData.user.email !== email ||
-        password
+        userData.user.email !== email 
       ) {
         setInputChange(true);
       } else {
         setInputChange(false);
       }
     }
-  }, [name, userData, email, password]);
+  }, [name, userData, email]);
+
+  const { messages } = useSelector(state => state.wsReducer);
+  const [isOrder, setIsOrder] = useState<TOrders[]>()
+
+    useEffect(() => {
+      if(messages) {
+          if(messages.orders) {
+              setIsOrder(messages.orders.reverse())
+          }
+      }
+    },[messages])
+
+    useEffect(() => {
+      if(location.pathname === '/profile/orders') {
+        dispatch(wsConnectionStartProfileAction())
+        }
+        return () => {
+          dispatch(wsConnectionClosedAction())
+      } 
+    },[dispatch, location.pathname])
 
   return (
     <section className={styleProfile.container}>
@@ -153,16 +175,29 @@ function Profile() {
           </div>
         )}
         {location.pathname === "/profile/orders" && (
-          <div className={styleProfile.orders}></div>
+          <div className={styleProfile.orders}>
+            {isOrder ? isOrder.map((item) => {
+              return(
+              <CardOrder
+                order={item}
+                key={item._id}
+                status={true}
+                onOpen={openModal}
+                onClose={onClose}
+              />
+              )
+            }) : null}
+          </div>
         )}
       </div>
+      {location.pathname !== "/profile/orders" ?
       <div className={styleProfile.footer}>
         <p
           className={`${styleProfile.info} text text_type_main-default text_color_inactive`}
         >
           В этом разделе вы можете изменить свои персональные данные
         </p>
-
+        
         <div
           className={
             inputChange ? styleProfile.buttons_active : styleProfile.buttons
@@ -176,7 +211,11 @@ function Profile() {
             Сохранить
           </Button>
         </div>
+        
       </div>
+      : 
+      <p className={styleProfile.orderListInfo}>В этом разделе вы можете просмотреть свою историю заказов</p>
+      }
     </section>
   );
 }

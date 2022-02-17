@@ -5,7 +5,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { postRegister } from "../../services/actions/register";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/types/hooks";
 import { useHistory } from "react-router-dom";
 
 function RegistrationPage() {
@@ -13,7 +13,7 @@ function RegistrationPage() {
   const [password, setPassword] = useState<string>();
   const [name, setName] = useState<string>();
   const dispatch = useDispatch();
-  const { registerData } = useSelector((state: any) => state.registerReducer);
+  const { registerData } = useSelector(state => state.registerReducer);
   const history = useHistory();
   let accessToken: string | null = localStorage.getItem("access");
 

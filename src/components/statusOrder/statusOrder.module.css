@@ -1,0 +1,41 @@
+.container {
+    width: 580px;
+    padding-top: 100px;
+    padding-left: 5%;
+}
+.readiness {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 60px;
+}
+.statusBlock {
+    min-width: 250px;
+    max-height: 370px;
+    overflow: hidden;
+}
+.statusList {
+    margin: 0;
+    padding: 24px 0 0 0;
+    column-count: 2;
+}
+.idReady{
+    list-style-type: none;
+    font-family: Iceland;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 24px;
+    color: #00CCCC;
+    padding-bottom: 8px;
+    max-width: 80px;
+}
+.idWork{
+    list-style-type: none;
+    font-family: Iceland;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 28px;
+    line-height: 24px;
+    color: #F2F2F3;
+    padding-bottom: 8px;
+}

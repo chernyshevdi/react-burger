@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import styleIngredient from "../ingredient-details/ingredient-details.module.css";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/types/hooks";
 import { useParams } from "react-router-dom";
 import { FC } from 'react';
 
@@ -8,12 +8,8 @@ interface IIngredientDetails {
   modal: (id: string) => void;
 }
 
-interface RootState {
-  appReducer: any;
-}
-
 const IngredientDetails: FC<IIngredientDetails> = ({modal}) => {
-  const { currentIngredient } = useSelector((state: RootState) => state.appReducer); //данные полученные из хранилища
+  const { currentIngredient } = useSelector(state => state.appReducer); //данные полученные из хранилища
   const { id } = useParams<{id?: string}>();
 
   useEffect(() => {
@@ -32,11 +28,11 @@ const IngredientDetails: FC<IIngredientDetails> = ({modal}) => {
       <div className={styleIngredient.description}>
         <img
           className={styleIngredient.img}
-          src={currentIngredient.image_large}
-          alt={currentIngredient.name}
+          src={currentIngredient!.image_large}
+          alt={currentIngredient!.name}
         />
         <p className="text text_type_main-medium mt-4 mb-8">
-          {currentIngredient.name}
+          {currentIngredient!.name}
         </p>
         <ul className={`${styleIngredient.stat} mb-15`}>
           <div className={`${styleIngredient.list} mr-5`}>
@@ -44,7 +40,7 @@ const IngredientDetails: FC<IIngredientDetails> = ({modal}) => {
               Калории,ккал
             </p>
             <p className="text text_type_main-default text_color_inactive">
-              {currentIngredient.calories}
+              {currentIngredient!.calories}
             </p>
           </div>
 
@@ -53,7 +49,7 @@ const IngredientDetails: FC<IIngredientDetails> = ({modal}) => {
               Белки, г
             </p>
             <p className="text text_type_main-default text_color_inactive">
-              {currentIngredient.proteins}
+              {currentIngredient!.proteins}
             </p>
           </div>
 
@@ -62,7 +58,7 @@ const IngredientDetails: FC<IIngredientDetails> = ({modal}) => {
               Жиры, г
             </p>
             <p className="text text_type_main-default text_color_inactive">
-              {currentIngredient.fat}
+              {currentIngredient!.fat}
             </p>
           </div>
 
@@ -71,7 +67,7 @@ const IngredientDetails: FC<IIngredientDetails> = ({modal}) => {
               Углеводы, г
             </p>
             <p className="text text_type_main-default text_color_inactive">
-              {currentIngredient.carbohydrates}
+              {currentIngredient!.carbohydrates}
             </p>
           </div>
         </ul>

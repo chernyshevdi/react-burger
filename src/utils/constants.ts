@@ -1,7 +1,5 @@
-const IngredientsData = "https://norma.nomoreparties.space/api/ingredients";
-const orderData = "https://norma.nomoreparties.space/api/orders";
+const baseUrl = 'https://norma.nomoreparties.space/api';
 const modalRoot = document.getElementById("modals")!;
-const authUrl = 'https://norma.nomoreparties.space/api';
 
 function setCookie(name: string, value: string, props: any) {
   props = props || {};
@@ -45,4 +43,4 @@ function checkResponse(res: Response) {
     }
 }
 
-export { IngredientsData, modalRoot, orderData, setCookie, getCookie, authUrl, checkResponse };
+export { modalRoot, setCookie, getCookie, baseUrl, checkResponse };

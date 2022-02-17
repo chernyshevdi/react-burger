@@ -2,16 +2,12 @@ import React, { useRef } from "react";
 import styleIngredients from "../burger-ingredients/burger-ingredients.module.css";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import ProductItem from "../product-item/product-item";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../services/types/hooks";
 import { FC } from 'react';
 
 interface IBurgerIngredients {
   openModal: () => void;
   onClose: () => void;
-}
-
-interface RootState {
-  ingredientsReducer: any;
 }
 
 type TItem = { 
@@ -25,7 +21,7 @@ type TItem = {
 const BurgerIngredients: FC<IBurgerIngredients> = ({openModal, onClose}) => {
 
   //данные ингредиентов из хранилища
-  const { ingredients } = useSelector((state: RootState) => state.ingredientsReducer);
+  const { ingredients } = useSelector(state => state.ingredientsReducer);
   
   const [current, setCurrent] = React.useState<string>("bun");
   
@@ -92,7 +88,7 @@ const BurgerIngredients: FC<IBurgerIngredients> = ({openModal, onClose}) => {
       </nav>
 
       <section className={styleIngredients.mainMenu} onScroll={handleScroll}>
-        <div className={styleIngredients.mainMenu2} ref={bunRef}>
+        <div ref={bunRef}>
           <h2 className="text text_type_main-medium mb-6">Булки</h2>
           <ul className={styleIngredients.item}>
             {ingredients.map((item: TItem) => {
