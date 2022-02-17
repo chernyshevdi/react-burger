@@ -33,21 +33,3 @@ export const GetProfileOrderListSuccesAction = (profileOrderList: {}): IGetProfi
 export const GetProfileOrderListFailedAction = (): IGetProfileOrderListFailed => ({
     type: GET_PROFILE_ORDERLIST_FAILED
 });
-/*
-export const getProfileOrders: AppThunk = (token: string) => 
-(dispatch: AppDispatch) => {
- dispatch(GetProfileOrderListRequestAction()); //!!!!!
- getProfileOrder(token)
-   .then((res) => {
-     if (res.success) {
-       dispatch(GetProfileOrderListSuccesAction(res));
-     } else {
-       dispatch(GetProfileOrderListFailedAction());
-     }
-   })
-   .catch((err) => {
-     dispatch(GetProfileOrderListFailedAction());
-     console.log(err);
-   });
-};
-*/

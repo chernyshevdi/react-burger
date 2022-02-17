@@ -34,21 +34,3 @@ export const GetOrderListRequestAction = (): IGetOrderListRequest => ({
   export const GetOrderListFailedAction = (): IGetOrderListFailed => ({
     type: GET_ORDERLIST_FAILED
   });
-/*
-  export const getOrders: AppThunk = () => 
-  (dispatch: AppDispatch) => {
-   dispatch(GetOrderListRequestAction());
-   getOrderList()
-     .then((res) => {
-       if (res.success) {
-         dispatch(GetOrderListSuccesAction(res));
-       } else {
-         dispatch(GetOrderListFailedAction());
-       }
-     })
-     .catch((err) => {
-       dispatch(GetOrderListFailedAction());
-       console.log(err);
-     });
- };
-*/

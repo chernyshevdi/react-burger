@@ -27,7 +27,7 @@ export type TForgotPassword = {
 }
 
 export type TAuth = {
-  accessToken: string;
+    accessToken: string;
     refreshToken: string;
     success: boolean;
     user: {

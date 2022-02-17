@@ -8,7 +8,7 @@ const OrderDetails: FC = () => {
 
   return (
     <div className={styleOrder.container}>
-      <p className="text text_type_digits-large mt-30 mb-8">
+      <p className="text text_type_digits-large mt-30 mb-8" id="orderNumber">
         {createdOrder.number ? createdOrder.number : "Load..."}
       </p>
       <p className="text text_type_main-medium mb-15">идентификатор заказа</p>

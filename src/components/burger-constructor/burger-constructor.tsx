@@ -131,6 +131,7 @@ const BurgerConstructor: FC<IBurgerConstructor> =({openModal, onClose, onOpen}) 
         className={`${styleConstructor.list}`}
         style={{ borderColor }}
         ref={Refdrop}
+        id="orderPlace"
       >
         {ingredientsInBurgerConstructor.bun.map((item: TItem, index: number) => {
           return (

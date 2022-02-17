@@ -9,7 +9,6 @@ import { loginReducer } from './auth';
 import { updateUserReducer } from './update-user';
 import { updateTokenReducer } from './update-token';
 import { orderListReducer } from './order-list';
-//import { profileOrderListReducer } from './profile-order-list';
 import { wsReducer } from './wsReducer';
 
 //хранилище
@@ -24,6 +23,5 @@ export const rootReducer = combineReducers({
     updateUserReducer,
     updateTokenReducer,
     orderListReducer,
-    //profileOrderListReducer,
     wsReducer
 })
