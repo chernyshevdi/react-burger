@@ -1,12 +1,8 @@
-**React-burger**
+**React-burger**=
 
-https://chernyshevdi.github.io/react-burger
+Web-сайт ресторана Stellar burgers, с возможностью конструировать собственные бургеры, заказать их и следить за статусом приготовления, посмотреть историю заказов.
 
-Космическая бургерная. Учебный проект курса React-разработчик. В этом проекте учусь правильно и красиво разрабатывать на React.
-В проекте исспользуются технологии CSS, JavaScript, React, Webpack.
-
-В данный момент проект на начальной стадии разработки. 
-В будущем планируется использование Redux, Typescript и создание динамических маршрутов.
+Технологий: CSS, JS, React/React Router/React DnD, Redux, TypeScript, Webpack, Jest/Cypress
 
 Для локального развёртывания проекта: 
 
@@ -15,5 +11,4 @@ https://chernyshevdi.github.io/react-burger
 - Запустить в development режиме - npm run dev
 - Запустить сборку production-билда - npm run start
 
-
-
+https://chernyshevdi.github.io/react-burger
