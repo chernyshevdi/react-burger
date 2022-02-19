@@ -22,7 +22,7 @@ const BurgerIngredients: FC<IBurgerIngredients> = ({openModal, onClose}) => {
 
   //данные ингредиентов из хранилища
   const { ingredients } = useSelector(state => state.ingredientsReducer);
-  
+
   const [current, setCurrent] = React.useState<string>("bun");
   
   const bunRef = useRef<HTMLDivElement>(null);

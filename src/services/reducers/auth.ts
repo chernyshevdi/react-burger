@@ -1,7 +1,5 @@
 import { TLoginActions } from "../actions/login";
-import {LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED} from '../constants/login';
-import {LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILED} from '../constants/logout';
-import {GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILED} from '../constants/get-user';
+import {LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILED} from '../constants/login';
 import {TAuth, TUserData} from '../types/data';
 
 export type TAuthInitialState = {

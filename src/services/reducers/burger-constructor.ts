@@ -90,7 +90,6 @@ export const constructorReducer = (state = initialState, action: TBurgerConstruc
 
       return {
         ...state,
-
         ingredientsInBurgerConstructor: {
           ...state.ingredientsInBurgerConstructor,
           bun: [...state.ingredientsInBurgerConstructor.bun],

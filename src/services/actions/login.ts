@@ -3,9 +3,7 @@ import { logout } from '../../utils/api';
 import { getUser } from "../../utils/api";
 import { AppDispatch, AppThunk } from '../types';
 
-import {LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED} from '../constants/login';
-import {LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILED} from '../constants/logout';
-import {GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILED} from '../constants/get-user';
+import {LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILED, LOGOUT_REQUEST, LOGOUT_SUCCESS, LOGOUT_FAILED, GET_USER_REQUEST, GET_USER_SUCCESS, GET_USER_FAILED} from '../constants/login';
 import {TAuth, TUserData} from '../types/data';
 
 export interface ILoginRequest {
@@ -62,16 +60,16 @@ export type TLoginActions =
 | IGetUserFailed;
 
 export const LoginRequestAction = (): ILoginRequest => ({
-  type: LOGIN_REQUEST
+  type: LOGIN_REQUEST,
 });
 
 export const LoginSuccessAction = (loginData: TAuth): ILoginSuccess => ({
   type: LOGIN_SUCCESS,
-  loginData
+  loginData,
 });
 
 export const LoginFailedAction = (): ILoginFailed => ({
-  type: LOGIN_FAILED
+  type: LOGIN_FAILED,
 });
 
 export const LogoutRequestAction = (): ILogoutRequest => ({
@@ -104,7 +102,7 @@ export const GetUserFailedAction = (status: {}): IGetUserFailed => ({
 export const postLogin: AppThunk = (email: string, password: string) => {
   return function (dispatch: AppDispatch) {
     dispatch(LoginRequestAction());
-    login(email, password)
+    return login(email, password)
       .then((res) => {
         if (res.success) {
           localStorage.setItem("access", res.accessToken);

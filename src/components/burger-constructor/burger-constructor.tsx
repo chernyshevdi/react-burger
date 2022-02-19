@@ -64,10 +64,10 @@ const BurgerConstructor: FC<IBurgerConstructor> =({openModal, onClose, onOpen}) 
           selectedIngredients.push(ingredientsInBurgerConstructor.bun[0]._id);
           selectedIngredients.unshift(ingredientsInBurgerConstructor.bun[0]._id);
           dispatch(postOrder(selectedIngredients, localStorage.getItem("access")));
-          console.log(selectedIngredients)
           dispatch(GetOrderCloseAction())
           ingredientsInBurgerConstructor.other.splice(0,)
           ingredientsInBurgerConstructor.bun.splice(0,)
+          setPrice(0)
         }
         else {
           history.replace({ pathname: "/" });
@@ -131,6 +131,7 @@ const BurgerConstructor: FC<IBurgerConstructor> =({openModal, onClose, onOpen}) 
         className={`${styleConstructor.list}`}
         style={{ borderColor }}
         ref={Refdrop}
+        id="orderPlace"
       >
         {ingredientsInBurgerConstructor.bun.map((item: TItem, index: number) => {
           return (
@@ -205,11 +206,5 @@ const BurgerConstructor: FC<IBurgerConstructor> =({openModal, onClose, onOpen}) 
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  openModal: PropTypes.func.isRequired,
-  onOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-};
 
 export default BurgerConstructor;

@@ -7,8 +7,8 @@ export type TAppInitialState =  {
   currentOrder?: TOrders;
 }
 
-const initialState: TAppInitialState = {
-  currentIngredient: {} as TIngredient,   //объект текущего просматриваемого ингредиента
+export const initialState: TAppInitialState = {
+  currentIngredient: {} as TIngredient, 
   currentOrder: {} as TOrders
 };
 

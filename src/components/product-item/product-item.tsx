@@ -72,7 +72,7 @@ const ProductItem: FunctionComponent<IProductItem> = ({ item, onOpen, id }) => {
         }}
       >
         <img
-          className={`${styleCard.image} mb-1 ml-4 mr-4`}
+          className={`${styleCard.image} mb-1 ml-4 mr-4`} //product-item_image__308nZ mb-1 ml-4 mr-4
           src={item.image}
           onClick={handleClick}
           alt={item.name}
